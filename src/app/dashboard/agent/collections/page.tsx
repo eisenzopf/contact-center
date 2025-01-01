@@ -4,38 +4,39 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Phone, Clock, User, DollarSign, Calendar, AlertTriangle, FileText } from 'lucide-react';
 import { useState } from 'react';
+import { themeClasses } from '@/lib/theme';
 
 export default function CollectionsAgentPage() {
   const [status, setStatus] = useState('available');
   
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-[var(--background)]">
       {/* Top Navigation Bar */}
-      <div className="bg-white border-b p-4">
+      <div className="bg-[var(--card-background)] border-b border-[var(--card-border)]">
         <div className="max-w-screen-xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-4">
             <div className="bg-blue-100 p-2 rounded-full">
               <User className="h-6 w-6 text-blue-600" />
             </div>
             <div>
-              <h2 className="font-semibold text-lg text-gray-900">Maria Garcia</h2>
-              <p className="text-sm text-gray-700">Collections Agent • ID: CA-1234</p>
+              <h2 className={`font-semibold text-lg ${themeClasses.textPrimary}`}>Sarah Johnson</h2>
+              <p className={themeClasses.textSecondary}>Collections Agent • ID: CA-1234</p>
             </div>
           </div>
           
           <div className="flex items-center space-x-6">
             <div className="bg-green-50 p-2 rounded-lg flex items-center">
-              <DollarSign className="h-5 w-5 text-green-600 mr-2" />
-              <span className="text-gray-900 font-medium">Collections Today: $8,450</span>
+              <DollarSign className="h-5 w-5 text-green-500 mr-2" />
+              <span className={themeClasses.textPrimary}>Recovery Rate: 82%</span>
             </div>
             <div className="flex items-center space-x-2">
-              <Clock className="h-5 w-5 text-gray-600" />
-              <span className="text-sm font-medium text-gray-900">4:23:15</span>
+              <Clock className="h-5 w-5 text-gray-400" />
+              <span className={themeClasses.textSecondary}>4:23:15</span>
             </div>
             <select 
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="border rounded-full px-4 py-1.5 text-sm bg-white text-gray-900 font-medium"
+              className="border rounded-full px-4 py-1.5 text-sm bg-[var(--card-background)]"
             >
               <option value="available">🟢 Available</option>
               <option value="busy">🔴 On Call</option>
@@ -50,16 +51,16 @@ export default function CollectionsAgentPage() {
         <div className="grid grid-cols-3 gap-6">
           <div className="col-span-2">
             <Tabs defaultValue="current" className="space-y-4">
-              <TabsList className="bg-white">
-                <TabsTrigger value="current" className="flex items-center data-[state=active]:text-gray-900">
+              <TabsList className="bg-[var(--card-background)]">
+                <TabsTrigger value="current" className={`flex items-center ${themeClasses.textPrimary}`}>
                   <Phone className="h-4 w-4 mr-2" />
                   Current
                 </TabsTrigger>
-                <TabsTrigger value="promises" className="flex items-center data-[state=active]:text-gray-900">
+                <TabsTrigger value="promises" className={`flex items-center ${themeClasses.textPrimary}`}>
                   <Calendar className="h-4 w-4 mr-2" />
                   Promises
                 </TabsTrigger>
-                <TabsTrigger value="compliance" className="flex items-center data-[state=active]:text-gray-900">
+                <TabsTrigger value="compliance" className={`flex items-center ${themeClasses.textPrimary}`}>
                   <FileText className="h-4 w-4 mr-2" />
                   Compliance
                 </TabsTrigger>
@@ -68,63 +69,63 @@ export default function CollectionsAgentPage() {
               <TabsContent value="current">
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-gray-900">Current Collection Call</CardTitle>
+                    <CardTitle className={themeClasses.textPrimary}>Current Collection Case</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
                       {/* Timer and Controls */}
-                      <div className="flex justify-between items-center p-4 bg-white border rounded-lg">
+                      <div className="flex justify-between items-center p-4 bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg">
                         <div>
-                          <p className="text-lg font-semibold text-gray-900">05:23</p>
-                          <p className="text-sm text-gray-700">Call Duration</p>
+                          <p className={`text-lg font-semibold ${themeClasses.textPrimary}`}>05:23</p>
+                          <p className={themeClasses.textSecondary}>Call Duration</p>
                         </div>
                         <div className="flex space-x-2">
                           <button className="bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700">
                             End Call
                           </button>
-                          <button className="bg-gray-100 text-gray-900 px-4 py-2 rounded-lg font-medium hover:bg-gray-200">
+                          <button className="bg-[var(--card-background)] text-[var(--foreground)] px-4 py-2 rounded-lg font-medium hover:bg-[var(--card-background-hover)] border border-[var(--card-border)]">
                             Hold
                           </button>
                         </div>
                       </div>
 
                       {/* Compliance Checklist */}
-                      <div className="p-4 bg-white border rounded-lg">
-                        <h3 className="font-semibold text-gray-900 mb-3">Required Disclosures</h3>
+                      <div className="p-4 bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg">
+                        <h3 className={`font-semibold ${themeClasses.textPrimary} mb-3`}>Required Disclosures</h3>
                         <div className="space-y-3">
                           <div className="flex items-center">
-                            <input type="checkbox" className="h-4 w-4 mr-3 border-2 border-gray-300" />
-                            <span className="text-gray-900">Mini-Miranda Warning</span>
+                            <input type="checkbox" className="h-4 w-4 mr-3 border-2 border-[var(--card-border)]" />
+                            <span className={themeClasses.textPrimary}>Mini-Miranda Warning</span>
                           </div>
                           <div className="flex items-center">
-                            <input type="checkbox" className="h-4 w-4 mr-3 border-2 border-gray-300" />
-                            <span className="text-gray-900">Recording Disclosure</span>
+                            <input type="checkbox" className="h-4 w-4 mr-3 border-2 border-[var(--card-border)]" />
+                            <span className={themeClasses.textPrimary}>Recording Disclosure</span>
                           </div>
                           <div className="flex items-center">
-                            <input type="checkbox" className="h-4 w-4 mr-3 border-2 border-gray-300" />
-                            <span className="text-gray-900">Payment Authorization</span>
+                            <input type="checkbox" className="h-4 w-4 mr-3 border-2 border-[var(--card-border)]" />
+                            <span className={themeClasses.textPrimary}>Payment Authorization</span>
                           </div>
                         </div>
                       </div>
                       
                       {/* Quick Actions */}
                       <div className="grid grid-cols-3 gap-4">
-                        <button className="p-3 bg-blue-50 text-blue-700 rounded-lg text-center font-medium hover:bg-blue-100">
+                        <button className="p-3 bg-[var(--primary)] text-white rounded-lg text-center font-medium hover:bg-[var(--primary-hover)]">
                           Take Payment
                         </button>
-                        <button className="p-3 bg-blue-50 text-blue-700 rounded-lg text-center font-medium hover:bg-blue-100">
+                        <button className="p-3 bg-[var(--primary)] text-white rounded-lg text-center font-medium hover:bg-[var(--primary-hover)]">
                           Payment Plan
                         </button>
-                        <button className="p-3 bg-blue-50 text-blue-700 rounded-lg text-center font-medium hover:bg-blue-100">
+                        <button className="p-3 bg-[var(--primary)] text-white rounded-lg text-center font-medium hover:bg-[var(--primary-hover)]">
                           Settlement
                         </button>
                       </div>
 
                       {/* Notes Section */}
                       <div>
-                        <h3 className="font-semibold text-gray-900 mb-2">Call Notes</h3>
+                        <h3 className={`font-semibold ${themeClasses.textPrimary} mb-2`}>Call Notes</h3>
                         <textarea 
-                          className="w-full h-32 p-3 border rounded-lg text-gray-900 placeholder-gray-500"
+                          className="w-full h-32 p-3 border border-[var(--card-border)] rounded-lg bg-[var(--card-background)] text-[var(--foreground)]"
                           placeholder="Enter call notes and payment commitments..."
                         />
                       </div>
@@ -138,25 +139,25 @@ export default function CollectionsAgentPage() {
           <div className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle className="text-gray-900">Account Information</CardTitle>
+                <CardTitle className={themeClasses.textPrimary}>Account Information</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Account Number</label>
-                    <p className="font-semibold text-gray-900">#12345-6789</p>
+                    <label className={themeClasses.textSecondary}>Account Number</label>
+                    <p className={`font-semibold ${themeClasses.textPrimary}`}>#12345-6789</p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Balance Due</label>
+                    <label className={themeClasses.textSecondary}>Balance Due</label>
                     <p className="font-semibold text-red-600 text-lg">$2,450.00</p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Past Due</label>
-                    <p className="font-semibold text-gray-900">60 days</p>
+                    <label className={themeClasses.textSecondary}>Past Due</label>
+                    <p className={`font-semibold ${themeClasses.textPrimary}`}>60 days</p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Last Payment</label>
-                    <p className="font-semibold text-gray-900">$500 on Dec 15, 2024</p>
+                    <label className={themeClasses.textSecondary}>Last Payment</label>
+                    <p className={`font-semibold ${themeClasses.textPrimary}`}>$500 on Dec 15, 2024</p>
                   </div>
                 </div>
               </CardContent>
@@ -164,30 +165,26 @@ export default function CollectionsAgentPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-gray-900">Payment History</CardTitle>
+                <CardTitle className={themeClasses.textPrimary}>Payment History</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <div className="p-3 bg-white border rounded-lg">
+                  <div className="p-3 bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="font-semibold text-gray-900">$500</p>
-                        <p className="text-sm text-gray-700">Dec 15, 2024</p>
+                        <p className={`font-semibold ${themeClasses.textPrimary}`}>$500</p>
+                        <p className={themeClasses.textSecondary}>Dec 15, 2024</p>
                       </div>
-                      <span className="text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full font-medium">
-                        Completed
-                      </span>
+                      <span className={themeClasses.success}>Completed</span>
                     </div>
                   </div>
-                  <div className="p-3 bg-white border rounded-lg">
+                  <div className="p-3 bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="font-semibold text-gray-900">$750</p>
-                        <p className="text-sm text-gray-700">Dec 01, 2024</p>
+                        <p className={`font-semibold ${themeClasses.textPrimary}`}>$750</p>
+                        <p className={themeClasses.textSecondary}>Dec 01, 2024</p>
                       </div>
-                      <span className="text-sm bg-red-100 text-red-700 px-3 py-1 rounded-full font-medium">
-                        Failed
-                      </span>
+                      <span className={themeClasses.error}>Failed</span>
                     </div>
                   </div>
                 </div>
@@ -196,17 +193,17 @@ export default function CollectionsAgentPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-gray-900">Payment Options</CardTitle>
+                <CardTitle className={themeClasses.textPrimary}>Payment Options</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  <button className="w-full p-3 text-left bg-blue-50 text-blue-700 rounded-lg font-medium hover:bg-blue-100">
+                  <button className={`w-full p-3 text-left bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg font-medium hover:bg-[var(--card-background-hover)] ${themeClasses.textPrimary}`}>
                     Payment Plans
                   </button>
-                  <button className="w-full p-3 text-left bg-blue-50 text-blue-700 rounded-lg font-medium hover:bg-blue-100">
+                  <button className={`w-full p-3 text-left bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg font-medium hover:bg-[var(--card-background-hover)] ${themeClasses.textPrimary}`}>
                     Settlement Options
                   </button>
-                  <button className="w-full p-3 text-left bg-blue-50 text-blue-700 rounded-lg font-medium hover:bg-blue-100">
+                  <button className={`w-full p-3 text-left bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg font-medium hover:bg-[var(--card-background-hover)] ${themeClasses.textPrimary}`}>
                     Hardship Programs
                   </button>
                 </div>

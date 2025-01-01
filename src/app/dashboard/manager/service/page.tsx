@@ -1,9 +1,11 @@
 'use client';
 
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Users, Star, Clock, MessageSquare, BadgeCheck, AlertCircle } from 'lucide-react';
+import { themeClasses } from '@/lib/theme';
 
 export default function ServiceManagerDashboard() {
   // Sample data for the performance chart
@@ -17,30 +19,30 @@ export default function ServiceManagerDashboard() {
 
   // Case distribution data
   const caseTypes = [
-    { name: 'Account', value: 35, color: '#2563eb' },
-    { name: 'Billing', value: 25, color: '#16a34a' },
-    { name: 'Product', value: 20, color: '#9333ea' },
-    { name: 'General', value: 20, color: '#ea580c' },
+    { name: 'Account', value: 35, color: 'var(--primary)' },
+    { name: 'Billing', value: 25, color: 'var(--success)' },
+    { name: 'Product', value: 20, color: 'var(--secondary)' },
+    { name: 'General', value: 20, color: 'var(--warning)' },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-[var(--background)]">
       {/* Header */}
-      <div className="bg-white border-b">
+      <div className="bg-[var(--card-background)] border-b border-[var(--card-border)]">
         <div className="max-w-screen-xl mx-auto p-4">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Service Team Dashboard</h1>
-              <p className="text-gray-600">Customer Service Performance</p>
+              <h1 className={`text-2xl font-bold ${themeClasses.textPrimary}`}>Service Team Dashboard</h1>
+              <p className={themeClasses.textSecondary}>Customer Service Performance</p>
             </div>
             <div className="flex space-x-4">
               <div className="bg-blue-50 p-2 rounded-lg flex items-center">
                 <Users className="h-5 w-5 text-blue-600 mr-2" />
-                <span className="text-gray-900 font-medium">18/20 Service Agents Active</span>
+                <span className={themeClasses.textPrimary}>18/20 Service Agents Active</span>
               </div>
               <div className="bg-green-50 p-2 rounded-lg flex items-center">
                 <MessageSquare className="h-5 w-5 text-green-600 mr-2" />
-                <span className="text-gray-900 font-medium">Queue Status: Normal</span>
+                <span className={themeClasses.textPrimary}>Queue Status: Normal</span>
               </div>
             </div>
           </div>
@@ -55,9 +57,9 @@ export default function ServiceManagerDashboard() {
             <CardContent className="pt-4">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-gray-600 text-sm">CSAT Score</p>
-                  <p className="text-2xl font-bold text-gray-900">4.8/5.0</p>
-                  <p className="text-green-600 text-sm font-medium">↑ 0.2 vs target</p>
+                  <p className={`text-sm ${themeClasses.textSecondary}`}>CSAT Score</p>
+                  <p className={`text-2xl font-bold ${themeClasses.textPrimary}`}>4.8/5.0</p>
+                  <p className={themeClasses.success}>↑ 0.2 vs target</p>
                 </div>
                 <Star className="h-8 w-8 text-blue-600" />
               </div>
@@ -68,9 +70,9 @@ export default function ServiceManagerDashboard() {
             <CardContent className="pt-4">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-gray-600 text-sm">First Response Time</p>
-                  <p className="text-2xl font-bold text-gray-900">2:45</p>
-                  <p className="text-red-600 text-sm font-medium">↑ 15s vs target</p>
+                  <p className={`text-sm ${themeClasses.textSecondary}`}>First Response Time</p>
+                  <p className={`text-2xl font-bold ${themeClasses.textPrimary}`}>2:45</p>
+                  <p className={themeClasses.error}>↑ 15s vs target</p>
                 </div>
                 <Clock className="h-8 w-8 text-blue-600" />
               </div>
@@ -81,9 +83,9 @@ export default function ServiceManagerDashboard() {
             <CardContent className="pt-4">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-gray-600 text-sm">Resolution Rate</p>
-                  <p className="text-2xl font-bold text-gray-900">92%</p>
-                  <p className="text-green-600 text-sm font-medium">↑ 3% vs target</p>
+                  <p className={`text-sm ${themeClasses.textSecondary}`}>Resolution Rate</p>
+                  <p className={`text-2xl font-bold ${themeClasses.textPrimary}`}>92%</p>
+                  <p className={themeClasses.success}>↑ 3% vs target</p>
                 </div>
                 <BadgeCheck className="h-8 w-8 text-blue-600" />
               </div>
@@ -94,9 +96,9 @@ export default function ServiceManagerDashboard() {
             <CardContent className="pt-4">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-gray-600 text-sm">Open Cases</p>
-                  <p className="text-2xl font-bold text-gray-900">127</p>
-                  <p className="text-yellow-600 text-sm font-medium">↑ 5 vs average</p>
+                  <p className={`text-sm ${themeClasses.textSecondary}`}>Open Cases</p>
+                  <p className={`text-2xl font-bold ${themeClasses.textPrimary}`}>127</p>
+                  <p className={themeClasses.warning}>↑ 5 vs average</p>
                 </div>
                 <MessageSquare className="h-8 w-8 text-blue-600" />
               </div>
@@ -109,7 +111,7 @@ export default function ServiceManagerDashboard() {
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="text-gray-900">Active Service Agents</CardTitle>
+                <CardTitle className={themeClasses.textPrimary}>Active Service Agents</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -119,10 +121,10 @@ export default function ServiceManagerDashboard() {
                     { name: 'Lisa Wong', status: 'In Chat', csat: '4.8', cases: '7/12' },
                     { name: 'Mark Brown', status: 'On Break', csat: '4.6', cases: '5/12' },
                   ].map((agent, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-white border rounded-lg hover:bg-gray-50">
+                    <div key={index} className="flex items-center justify-between p-3 bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg hover:bg-gray-50">
                       <div>
-                        <p className="font-medium text-gray-900">{agent.name}</p>
-                        <div className="flex items-center text-sm text-gray-600">
+                        <p className={`font-medium ${themeClasses.textPrimary}`}>{agent.name}</p>
+                        <div className={`flex items-center text-sm ${themeClasses.textSecondary}`}>
                           <span className={`w-2 h-2 rounded-full mr-2 ${
                             agent.status === 'Available' ? 'bg-green-500' :
                             agent.status === 'On Break' ? 'bg-yellow-500' :
@@ -134,9 +136,9 @@ export default function ServiceManagerDashboard() {
                       <div className="text-right">
                         <div className="flex items-center justify-end mb-1">
                           <Star className="h-4 w-4 text-yellow-400 mr-1" />
-                          <span className="font-medium text-gray-900">{agent.csat}</span>
+                          <span className={`font-medium ${themeClasses.textPrimary}`}>{agent.csat}</span>
                         </div>
-                        <p className="text-sm text-gray-600">
+                        <p className={`text-sm ${themeClasses.textSecondary}`}>
                           Cases: {agent.cases}
                         </p>
                       </div>
@@ -153,7 +155,7 @@ export default function ServiceManagerDashboard() {
               <CardContent>
                 <div className="h-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
+                    <PieChart aria-label="Case Distribution Chart">
                       <Pie
                         data={caseTypes}
                         cx="50%"
@@ -213,31 +215,31 @@ export default function ServiceManagerDashboard() {
                 </div>
 
                 <div className="grid grid-cols-3 gap-4 mt-6">
-                  <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="p-4 bg-[var(--card-background)] rounded-lg">
                     <div className="flex items-center justify-between">
                       <MessageSquare className="h-5 w-5 text-blue-600" />
-                      <span className="text-sm text-gray-600">Avg Handle Time</span>
+                      <span className={themeClasses.textSecondary}>Avg Handle Time</span>
                     </div>
-                    <p className="text-2xl font-bold text-gray-900 mt-2">12:45</p>
-                    <p className="text-sm text-green-600 font-medium">↓ 30s vs target</p>
+                    <p className={`text-2xl font-bold ${themeClasses.textPrimary} mt-2`}>12:45</p>
+                    <p className={`text-sm ${themeClasses.success} font-medium`}>↓ 30s vs target</p>
                   </div>
                   
-                  <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="p-4 bg-[var(--card-background)] rounded-lg">
                     <div className="flex items-center justify-between">
                       <Clock className="h-5 w-5 text-green-600" />
-                      <span className="text-sm text-gray-600">Queue Time</span>
+                      <span className={themeClasses.textSecondary}>Queue Time</span>
                     </div>
-                    <p className="text-2xl font-bold text-gray-900 mt-2">1:30</p>
-                    <p className="text-sm text-green-600 font-medium">↓ 15s vs target</p>
+                    <p className={`text-2xl font-bold ${themeClasses.textPrimary} mt-2`}>1:30</p>
+                    <p className={`text-sm ${themeClasses.success} font-medium`}>↓ 15s vs target</p>
                   </div>
                   
-                  <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="p-4 bg-[var(--card-background)] rounded-lg">
                     <div className="flex items-center justify-between">
                       <BadgeCheck className="h-5 w-5 text-purple-600" />
-                      <span className="text-sm text-gray-600">First Contact Resolution</span>
+                      <span className={themeClasses.textSecondary}>First Contact Resolution</span>
                     </div>
-                    <p className="text-2xl font-bold text-gray-900 mt-2">85%</p>
-                    <p className="text-sm text-green-600 font-medium">↑ 2% vs target</p>
+                    <p className={`text-2xl font-bold ${themeClasses.textPrimary} mt-2`}>85%</p>
+                    <p className={`text-sm ${themeClasses.success} font-medium`}>↑ 2% vs target</p>
                   </div>
                 </div>
               </CardContent>

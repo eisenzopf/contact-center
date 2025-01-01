@@ -57,8 +57,8 @@ const ExecutiveDashboard = () => {
             <CardContent className="pt-6">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <p className="text-gray-700">Sales</p>
-                  <p className="text-2xl font-bold text-gray-900">$1.2M</p>
+                  <p className={themeClasses.textSecondary}>Sales</p>
+                  <p className={`text-2xl font-bold ${themeClasses.textPrimary}`}>$1.2M</p>
                 </div>
                 <div className="bg-blue-100 p-2 rounded-lg">
                   <DollarSign className="h-6 w-6 text-blue-600" />
@@ -66,10 +66,10 @@ const ExecutiveDashboard = () => {
               </div>
               <div className="flex justify-between items-center">
                 <div className="space-y-1">
-                  <p className="text-sm text-gray-700">Conversion Rate</p>
-                  <p className="font-medium text-gray-800">32%</p>
+                  <p className={`text-sm ${themeClasses.textSecondary}`}>Conversion Rate</p>
+                  <p className={`font-medium ${themeClasses.textPrimary}`}>32%</p>
                 </div>
-                <p className="text-green-500 text-sm">↑ 8%</p>
+                <p className={themeClasses.success}>↑ 8%</p>
               </div>
             </CardContent>
           </Card>
@@ -78,8 +78,8 @@ const ExecutiveDashboard = () => {
             <CardContent className="pt-6">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <p className="text-gray-700">Service</p>
-                  <p className="text-2xl font-bold text-gray-900">4.8/5.0</p>
+                  <p className={themeClasses.textSecondary}>Service</p>
+                  <p className={`text-2xl font-bold ${themeClasses.textPrimary}`}>4.8/5.0</p>
                 </div>
                 <div className="bg-green-100 p-2 rounded-lg">
                   <BadgeCheck className="h-6 w-6 text-green-600" />
@@ -87,10 +87,10 @@ const ExecutiveDashboard = () => {
               </div>
               <div className="flex justify-between items-center">
                 <div className="space-y-1">
-                  <p className="text-sm text-gray-700">Resolution Rate</p>
-                  <p className="font-medium text-gray-800">92%</p>
+                  <p className={`text-sm ${themeClasses.textSecondary}`}>Resolution Rate</p>
+                  <p className={`font-medium ${themeClasses.textPrimary}`}>92%</p>
                 </div>
-                <p className="text-green-500 text-sm">↑ 3%</p>
+                <p className={themeClasses.success}>↑ 3%</p>
               </div>
             </CardContent>
           </Card>
@@ -99,8 +99,8 @@ const ExecutiveDashboard = () => {
             <CardContent className="pt-6">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <p className="text-gray-700">Tech Support</p>
-                  <p className="text-2xl font-bold text-gray-900">3:45</p>
+                  <p className={themeClasses.textSecondary}>Tech Support</p>
+                  <p className={`text-2xl font-bold ${themeClasses.textPrimary}`}>3:45</p>
                 </div>
                 <div className="bg-purple-100 p-2 rounded-lg">
                   <Clock className="h-6 w-6 text-purple-600" />
@@ -108,10 +108,10 @@ const ExecutiveDashboard = () => {
               </div>
               <div className="flex justify-between items-center">
                 <div className="space-y-1">
-                  <p className="text-sm text-gray-700">First Response</p>
-                  <p className="font-medium text-gray-800">85%</p>
+                  <p className={`text-sm ${themeClasses.textSecondary}`}>First Response</p>
+                  <p className={`font-medium ${themeClasses.textPrimary}`}>85%</p>
                 </div>
-                <p className="text-red-500 text-sm">↓ 2%</p>
+                <p className={themeClasses.error}>↓ 2%</p>
               </div>
             </CardContent>
           </Card>
@@ -142,7 +142,7 @@ const ExecutiveDashboard = () => {
         <div className="grid grid-cols-2 gap-6 mb-6">
           <Card>
             <CardHeader>
-              <CardTitle className="text-gray-900">Department Performance Trends</CardTitle>
+              <CardTitle className={themeClasses.textPrimary}>Department Performance Trends</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -163,7 +163,7 @@ const ExecutiveDashboard = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-gray-900">Resource Utilization</CardTitle>
+              <CardTitle className={themeClasses.textPrimary}>Resource Utilization</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -199,7 +199,7 @@ const ExecutiveDashboard = () => {
         <div className="grid grid-cols-3 gap-6">
           <Card>
             <CardHeader>
-              <CardTitle className="text-gray-900">Customer Satisfaction by Department</CardTitle>
+              <CardTitle className={themeClasses.textPrimary}>Customer Satisfaction by Department</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -211,14 +211,12 @@ const ExecutiveDashboard = () => {
                 ].map((item, index) => (
                   <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                     <div>
-                      <p className="font-medium">{item.dept}</p>
-                      <p className="text-sm text-gray-700">CSAT Score</p>
+                      <p className={`font-medium ${themeClasses.textPrimary}`}>{item.dept}</p>
+                      <p className={`text-sm ${themeClasses.textSecondary}`}>CSAT Score</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-bold text-gray-800">{item.score}</p>
-                      <p className={`text-sm ${
-                        item.change.startsWith('+') ? 'text-green-500' : 'text-red-500'
-                      }`}>
+                      <p className={`text-lg font-bold ${themeClasses.textPrimary}`}>{item.score}</p>
+                      <p className={item.change.startsWith('+') ? themeClasses.success : themeClasses.error}>
                         {item.change} vs last period
                       </p>
                     </div>
@@ -230,7 +228,7 @@ const ExecutiveDashboard = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-gray-900">Operational Costs</CardTitle>
+              <CardTitle className={themeClasses.textPrimary}>Operational Costs</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -242,14 +240,12 @@ const ExecutiveDashboard = () => {
                 ].map((item, index) => (
                   <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                     <div>
-                      <p className="font-medium">{item.dept}</p>
-                      <p className="text-sm text-gray-700">Monthly Cost</p>
+                      <p className={`font-medium ${themeClasses.textPrimary}`}>{item.dept}</p>
+                      <p className={`text-sm ${themeClasses.textSecondary}`}>Monthly Cost</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-bold text-gray-800">{item.cost}</p>
-                      <p className="text-sm text-gray-700">
-                        {item.perContact} per contact
-                      </p>
+                      <p className={`text-lg font-bold ${themeClasses.textPrimary}`}>{item.cost}</p>
+                      <p className={themeClasses.textSecondary}>{item.perContact} per contact</p>
                     </div>
                   </div>
                 ))}
@@ -259,15 +255,13 @@ const ExecutiveDashboard = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-gray-900">Strategic Insights</CardTitle>
+              <CardTitle className={themeClasses.textPrimary}>Strategic Insights</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="p-3 border-l-4 border-blue-500 bg-blue-50 rounded">
-                  <p className="font-medium">Sales Opportunity</p>
-                  <p className="text-sm text-gray-700">
-                    Cross-sell success rate increased by 15% in tech support calls
-                  </p>
+                  <p className={`font-medium ${themeClasses.textPrimary}`}>Sales Opportunity</p>
+                  <p className={themeClasses.textSecondary}>Cross-sell success rate increased by 15% in tech support calls</p>
                 </div>
                 <div className="p-3 border-l-4 border-red-500 bg-red-50 rounded">
                   <p className="font-medium">Risk Alert</p>

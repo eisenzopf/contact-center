@@ -1,9 +1,9 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { DollarSign, Users, Target, TrendingUp, AlertCircle } from 'lucide-react';
+import { Users, DollarSign, Target, AlertCircle, TrendingUp } from 'lucide-react';
+import { themeClasses } from '@/lib/theme';
 
 export default function SalesManagerDashboard() {
   // Sample data for the performance chart
@@ -16,23 +16,23 @@ export default function SalesManagerDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-[var(--background)]">
       {/* Header */}
-      <div className="bg-white border-b">
+      <div className="bg-[var(--card-background)] border-b border-[var(--card-border)]">
         <div className="max-w-screen-xl mx-auto p-4">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Sales Team Dashboard</h1>
-              <p className="text-gray-600">Inside Sales Performance</p>
+              <h1 className={`text-2xl font-bold ${themeClasses.textPrimary}`}>Sales Team Dashboard</h1>
+              <p className={themeClasses.textSecondary}>Inside Sales Performance</p>
             </div>
             <div className="flex space-x-4">
               <div className="bg-blue-50 p-2 rounded-lg flex items-center">
                 <Users className="h-5 w-5 text-blue-600 mr-2" />
-                <span className="text-gray-900 font-medium">12/15 Sales Agents Active</span>
+                <span className={themeClasses.textPrimary}>12/15 Sales Agents Active</span>
               </div>
               <div className="bg-green-50 p-2 rounded-lg flex items-center">
                 <Target className="h-5 w-5 text-green-600 mr-2" />
-                <span className="text-gray-900 font-medium">Daily Target: 82% Achieved</span>
+                <span className={themeClasses.textPrimary}>Daily Target: 82% Achieved</span>
               </div>
             </div>
           </div>
@@ -47,9 +47,9 @@ export default function SalesManagerDashboard() {
             <CardContent className="pt-4">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-gray-600 text-sm">Daily Revenue</p>
-                  <p className="text-2xl font-bold text-gray-900">$67,890</p>
-                  <p className="text-green-600 text-sm font-medium">↑ 12% vs target</p>
+                  <p className={`text-sm ${themeClasses.textSecondary}`}>Daily Revenue</p>
+                  <p className={`text-2xl font-bold ${themeClasses.textPrimary}`}>$67,890</p>
+                  <p className={themeClasses.success}>↑ 12% vs target</p>
                 </div>
                 <DollarSign className="h-8 w-8 text-blue-600" />
               </div>
@@ -60,9 +60,9 @@ export default function SalesManagerDashboard() {
             <CardContent className="pt-4">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-gray-600 text-sm">Conversion Rate</p>
-                  <p className="text-2xl font-bold text-gray-900">32%</p>
-                  <p className="text-green-600 text-sm font-medium">↑ 5% vs last week</p>
+                  <p className={`text-sm ${themeClasses.textSecondary}`}>Conversion Rate</p>
+                  <p className={`text-2xl font-bold ${themeClasses.textPrimary}`}>32%</p>
+                  <p className={themeClasses.success}>↑ 5% vs last week</p>
                 </div>
                 <Target className="h-8 w-8 text-blue-600" />
               </div>
@@ -73,9 +73,9 @@ export default function SalesManagerDashboard() {
             <CardContent className="pt-4">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-gray-600 text-sm">Avg Deal Size</p>
-                  <p className="text-2xl font-bold text-gray-900">$2,450</p>
-                  <p className="text-red-600 text-sm font-medium">↓ 3% vs target</p>
+                  <p className={`text-sm ${themeClasses.textSecondary}`}>Avg Deal Size</p>
+                  <p className={`text-2xl font-bold ${themeClasses.textPrimary}`}>$2,450</p>
+                  <p className={themeClasses.error}>↓ 3% vs target</p>
                 </div>
                 <DollarSign className="h-8 w-8 text-blue-600" />
               </div>
@@ -86,9 +86,9 @@ export default function SalesManagerDashboard() {
             <CardContent className="pt-4">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-gray-600 text-sm">Pipeline Value</p>
-                  <p className="text-2xl font-bold text-gray-900">$125K</p>
-                  <p className="text-green-600 text-sm font-medium">↑ 8% vs last week</p>
+                  <p className={`text-sm ${themeClasses.textSecondary}`}>Pipeline Value</p>
+                  <p className={`text-2xl font-bold ${themeClasses.textPrimary}`}>$125K</p>
+                  <p className={themeClasses.success}>↑ 8% vs last week</p>
                 </div>
                 <TrendingUp className="h-8 w-8 text-blue-600" />
               </div>
@@ -101,7 +101,7 @@ export default function SalesManagerDashboard() {
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="text-gray-900">Active Sales Agents</CardTitle>
+                <CardTitle className={themeClasses.textPrimary}>Active Sales Agents</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -111,10 +111,10 @@ export default function SalesManagerDashboard() {
                     { name: 'Chris Lee', status: 'In Meeting', revenue: '$2,100', quota: '88%' },
                     { name: 'Emma Davis', status: 'On Break', revenue: '$1,950', quota: '82%' },
                   ].map((agent, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-white border rounded-lg hover:bg-gray-50">
+                    <div key={index} className="flex items-center justify-between p-3 bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg hover:bg-gray-50">
                       <div>
-                        <p className="font-medium text-gray-900">{agent.name}</p>
-                        <div className="flex items-center text-sm text-gray-600">
+                        <p className={`font-medium ${themeClasses.textPrimary}`}>{agent.name}</p>
+                        <div className={`flex items-center text-sm ${themeClasses.textSecondary}`}>
                           <span className={`w-2 h-2 rounded-full mr-2 ${
                             agent.status === 'Available' ? 'bg-green-500' :
                             agent.status === 'On Break' ? 'bg-yellow-500' :
@@ -124,10 +124,8 @@ export default function SalesManagerDashboard() {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium text-gray-900">{agent.revenue}</p>
-                        <p className={`text-sm font-medium ${
-                          parseInt(agent.quota) >= 100 ? 'text-green-600' : 'text-yellow-600'
-                        }`}>
+                        <p className={`font-medium ${themeClasses.textPrimary}`}>{agent.revenue}</p>
+                        <p className={parseInt(agent.quota) >= 100 ? themeClasses.success : themeClasses.warning}>
                           {agent.quota} of Quota
                         </p>
                       </div>
@@ -139,23 +137,23 @@ export default function SalesManagerDashboard() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-gray-900">Performance Alerts</CardTitle>
+                <CardTitle className={themeClasses.textPrimary}>Performance Alerts</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div className="p-3 bg-yellow-50 border-l-4 border-yellow-500 rounded">
                     <div className="flex items-center">
                       <AlertCircle className="h-5 w-5 text-yellow-600 mr-2" />
-                      <p className="font-medium text-gray-900">Conversion Rate Drop</p>
+                      <p className={`font-medium ${themeClasses.textPrimary}`}>Conversion Rate Drop</p>
                     </div>
-                    <p className="text-sm text-gray-600 mt-1">Team B below target by 5%</p>
+                    <p className={`text-sm ${themeClasses.textSecondary} mt-1`}>Team B below target by 5%</p>
                   </div>
                   <div className="p-3 bg-green-50 border-l-4 border-green-500 rounded">
                     <div className="flex items-center">
                       <TrendingUp className="h-5 w-5 text-green-600 mr-2" />
-                      <p className="font-medium text-gray-900">Top Performer</p>
+                      <p className={`font-medium ${themeClasses.textPrimary}`}>Top Performer</p>
                     </div>
-                    <p className="text-sm text-gray-600 mt-1">Mike J. exceeded daily target</p>
+                    <p className={`text-sm ${themeClasses.textSecondary} mt-1`}>Mike J. exceeded daily target</p>
                   </div>
                 </div>
               </CardContent>
@@ -166,12 +164,12 @@ export default function SalesManagerDashboard() {
           <div className="col-span-2">
             <Card className="h-full">
               <CardHeader>
-                <CardTitle className="text-gray-900">Today's Sales Performance</CardTitle>
+                <CardTitle className={themeClasses.textPrimary}>Today's Sales Performance</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="h-[400px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={performanceData}>
+                    <LineChart data={performanceData} aria-label="Service Performance Trends Chart">
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="hour" />
                       <YAxis yAxisId="left" />
@@ -199,31 +197,31 @@ export default function SalesManagerDashboard() {
                 </div>
 
                 <div className="grid grid-cols-3 gap-4 mt-6">
-                  <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="p-4 bg-[var(--card-background)] rounded-lg">
                     <div className="flex items-center justify-between">
                       <DollarSign className="h-5 w-5 text-blue-600" />
-                      <span className="text-sm text-gray-600">Avg Revenue/Hour</span>
+                      <span className={themeClasses.textSecondary}>Avg Revenue/Hour</span>
                     </div>
-                    <p className="text-2xl font-bold text-gray-900 mt-2">$13.4K</p>
-                    <p className="text-sm text-green-600 font-medium">↑ 8% vs target</p>
+                    <p className={`text-2xl font-bold ${themeClasses.textPrimary} mt-2`}>$13.4K</p>
+                    <p className={themeClasses.success}>↑ 8% vs target</p>
                   </div>
                   
-                  <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="p-4 bg-[var(--card-background)] rounded-lg">
                     <div className="flex items-center justify-between">
                       <Target className="h-5 w-5 text-green-600" />
-                      <span className="text-sm text-gray-600">Conversion/Hour</span>
+                      <span className={themeClasses.textSecondary}>Conversion/Hour</span>
                     </div>
-                    <p className="text-2xl font-bold text-gray-900 mt-2">28.8%</p>
-                    <p className="text-sm text-red-600 font-medium">↓ 2% vs target</p>
+                    <p className={`text-2xl font-bold ${themeClasses.textPrimary} mt-2`}>28.8%</p>
+                    <p className={themeClasses.error}>↓ 2% vs target</p>
                   </div>
                   
-                  <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="p-4 bg-[var(--card-background)] rounded-lg">
                     <div className="flex items-center justify-between">
                       <TrendingUp className="h-5 w-5 text-purple-600" />
-                      <span className="text-sm text-gray-600">Deals Closed</span>
+                      <span className={themeClasses.textSecondary}>Deals Closed</span>
                     </div>
-                    <p className="text-2xl font-bold text-gray-900 mt-2">45</p>
-                    <p className="text-sm text-green-600 font-medium">↑ 5% vs target</p>
+                    <p className={`text-2xl font-bold ${themeClasses.textPrimary} mt-2`}>45</p>
+                    <p className={themeClasses.success}>↑ 5% vs target</p>
                   </div>
                 </div>
               </CardContent>
