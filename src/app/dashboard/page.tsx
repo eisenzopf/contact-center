@@ -21,7 +21,7 @@ export default function DashboardPage() {
           
           <h2 className="text-xl font-semibold">Executive View</h2>
           <div className="grid grid-cols-2 gap-4">
-            <a href="/dashboard/executive/dashboard" className="p-4 border rounded-lg hover:bg-gray-50">Executive Dashboard</a>
+            <a href="/dashboard/executive" className="p-4 border rounded-lg hover:bg-gray-50">Executive Dashboard</a>
           </div>
         </div>
       </div>

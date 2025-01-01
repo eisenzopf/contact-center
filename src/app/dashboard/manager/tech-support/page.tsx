@@ -76,7 +76,7 @@ export default function TechSupportManagerDashboard() {
                 <div>
                   <p className={`text-sm ${themeClasses.textSecondary}`}>Open Tickets</p>
                   <p className={`text-2xl font-bold ${themeClasses.textPrimary}`}>127</p>
-                  <p className={themeClasses.warning}>↑ 12 vs average</p>
+                  <p className={themeClasses.error}>↑ 12 vs average</p>
                 </div>
                 <Wrench className="h-8 w-8 text-blue-600" />
               </div>
@@ -202,7 +202,7 @@ export default function TechSupportManagerDashboard() {
                       <span className={themeClasses.textSecondary}>Ticket Volume</span>
                     </div>
                     <p className={`text-2xl font-bold ${themeClasses.textPrimary} mt-2`}>245</p>
-                    <p className={themeClasses.warning}>↑ 15 vs avg</p>
+                    <p className={themeClasses.error}>↑ 15 vs avg</p>
                   </div>
                   
                   <div className="p-4 bg-[var(--card-background)] rounded-lg">

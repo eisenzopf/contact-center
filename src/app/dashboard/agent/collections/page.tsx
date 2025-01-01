@@ -133,6 +133,159 @@ export default function CollectionsAgentPage() {
                   </CardContent>
                 </Card>
               </TabsContent>
+
+              <TabsContent value="promises">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className={themeClasses.textPrimary}>Payment Promises</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {/* Promise List */}
+                      <div className="space-y-3">
+                        <div className="p-4 bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg">
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <p className={`font-semibold ${themeClasses.textPrimary}`}>John Smith - #AC-5678</p>
+                              <p className={themeClasses.textSecondary}>Promise Amount: $750</p>
+                              <p className={themeClasses.textSecondary}>Due Date: Jan 15, 2024</p>
+                            </div>
+                            <div className="flex flex-col items-end">
+                              <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm">Pending</span>
+                              <button className="mt-2 text-sm text-blue-600 hover:text-blue-800">Follow Up</button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="p-4 bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg">
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <p className={`font-semibold ${themeClasses.textPrimary}`}>Mary Johnson - #AC-5679</p>
+                              <p className={themeClasses.textSecondary}>Promise Amount: $500</p>
+                              <p className={themeClasses.textSecondary}>Due Date: Jan 20, 2024</p>
+                            </div>
+                            <div className="flex flex-col items-end">
+                              <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">Confirmed</span>
+                              <button className="mt-2 text-sm text-blue-600 hover:text-blue-800">View Details</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Add New Promise */}
+                      <div className="p-4 bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg">
+                        <h3 className={`font-semibold ${themeClasses.textPrimary} mb-3`}>Record New Promise</h3>
+                        <div className="space-y-3">
+                          <div>
+                            <label className={`block text-sm ${themeClasses.textSecondary} mb-1`}>Amount</label>
+                            <input 
+                              type="text" 
+                              placeholder="Enter amount" 
+                              className="w-full p-2 border border-[var(--card-border)] rounded-lg bg-[var(--card-background)] text-[var(--foreground)]"
+                            />
+                          </div>
+                          <div>
+                            <label className={`block text-sm ${themeClasses.textSecondary} mb-1`}>Due Date</label>
+                            <input 
+                              type="date" 
+                              className="w-full p-2 border border-[var(--card-border)] rounded-lg bg-[var(--card-background)] text-[var(--foreground)]"
+                            />
+                          </div>
+                          <button className="w-full p-3 bg-[var(--primary)] text-white rounded-lg text-center font-medium hover:bg-[var(--primary-hover)]">
+                            Record Promise
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="compliance">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className={themeClasses.textPrimary}>Compliance Requirements</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {/* Required Disclosures */}
+                      <div className="p-4 bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg">
+                        <h3 className={`font-semibold ${themeClasses.textPrimary} mb-3`}>Required Disclosures</h3>
+                        <div className="space-y-3">
+                          <div className="flex items-center">
+                            <input type="checkbox" className="h-4 w-4 mr-3 border-2 border-[var(--card-border)]" />
+                            <div>
+                              <p className={themeClasses.textPrimary}>Mini-Miranda Warning</p>
+                              <p className={`text-sm ${themeClasses.textSecondary}`}>Must be stated at the beginning of each call</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center">
+                            <input type="checkbox" className="h-4 w-4 mr-3 border-2 border-[var(--card-border)]" />
+                            <div>
+                              <p className={themeClasses.textPrimary}>FDCPA Disclosure</p>
+                              <p className={`text-sm ${themeClasses.textSecondary}`}>Consumer rights and dispute process</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center">
+                            <input type="checkbox" className="h-4 w-4 mr-3 border-2 border-[var(--card-border)]" />
+                            <div>
+                              <p className={themeClasses.textPrimary}>Call Recording Notice</p>
+                              <p className={`text-sm ${themeClasses.textSecondary}`}>Inform about call recording and monitoring</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Communication Restrictions */}
+                      <div className="p-4 bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg">
+                        <h3 className={`font-semibold ${themeClasses.textPrimary} mb-3`}>Communication Restrictions</h3>
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between p-2 bg-yellow-50 rounded-lg">
+                            <div className="flex items-center">
+                              <AlertTriangle className="h-5 w-5 text-yellow-600 mr-2" />
+                              <span className="text-yellow-700">Preferred Contact Time: 2PM - 6PM</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between p-2 bg-red-50 rounded-lg">
+                            <div className="flex items-center">
+                              <AlertTriangle className="h-5 w-5 text-red-600 mr-2" />
+                              <span className="text-red-700">Do Not Call Work Number</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Documentation Requirements */}
+                      <div className="p-4 bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg">
+                        <h3 className={`font-semibold ${themeClasses.textPrimary} mb-3`}>Documentation Requirements</h3>
+                        <div className="space-y-3">
+                          <div className="flex items-center">
+                            <input type="checkbox" className="h-4 w-4 mr-3 border-2 border-[var(--card-border)]" />
+                            <div>
+                              <p className={themeClasses.textPrimary}>Payment Authorization</p>
+                              <p className={`text-sm ${themeClasses.textSecondary}`}>Verbal consent for payment processing</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center">
+                            <input type="checkbox" className="h-4 w-4 mr-3 border-2 border-[var(--card-border)]" />
+                            <div>
+                              <p className={themeClasses.textPrimary}>Settlement Terms</p>
+                              <p className={`text-sm ${themeClasses.textSecondary}`}>Document all settlement agreements</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center">
+                            <input type="checkbox" className="h-4 w-4 mr-3 border-2 border-[var(--card-border)]" />
+                            <div>
+                              <p className={themeClasses.textPrimary}>Dispute Documentation</p>
+                              <p className={`text-sm ${themeClasses.textSecondary}`}>Record any disputes or complaints</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
             </Tabs>
           </div>
 

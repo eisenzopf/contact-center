@@ -110,6 +110,196 @@ export default function ServiceAgentPage() {
                   </CardContent>
                 </Card>
               </TabsContent>
+
+              <TabsContent value="cases">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Recent Cases</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {/* Search and Filter */}
+                      <div className="flex gap-4">
+                        <input
+                          type="text"
+                          placeholder="Search cases..."
+                          className="flex-1 p-2 border rounded-lg"
+                        />
+                        <select className="border rounded-lg px-4 py-2 bg-white">
+                          <option value="all">All Status</option>
+                          <option value="open">Open</option>
+                          <option value="closed">Closed</option>
+                          <option value="pending">Pending</option>
+                        </select>
+                      </div>
+
+                      {/* Case List */}
+                      <div className="space-y-3">
+                        {[
+                          {
+                            id: 'CS-789',
+                            title: 'Account Access Issue',
+                            customer: 'Michael Brown',
+                            status: 'Open',
+                            priority: 'High',
+                            updated: '2 hours ago'
+                          },
+                          {
+                            id: 'CS-788',
+                            title: 'Billing Dispute',
+                            customer: 'Sarah Wilson',
+                            status: 'Pending',
+                            priority: 'Medium',
+                            updated: '3 hours ago'
+                          },
+                          {
+                            id: 'CS-787',
+                            title: 'Product Information Request',
+                            customer: 'James Lee',
+                            status: 'Closed',
+                            priority: 'Low',
+                            updated: '5 hours ago'
+                          }
+                        ].map((caseItem, index) => (
+                          <div key={index} className="p-4 border rounded-lg hover:bg-gray-50">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <div className="flex items-center space-x-2">
+                                  <span className="text-sm font-medium text-gray-500">{caseItem.id}</span>
+                                  <span className={`px-2 py-1 text-xs rounded-full ${
+                                    caseItem.priority === 'High' ? 'bg-red-100 text-red-700' :
+                                    caseItem.priority === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
+                                    'bg-green-100 text-green-700'
+                                  }`}>
+                                    {caseItem.priority}
+                                  </span>
+                                </div>
+                                <p className="font-medium mt-1">{caseItem.title}</p>
+                                <p className="text-sm text-gray-500 mt-1">{caseItem.customer}</p>
+                              </div>
+                              <div className="text-right">
+                                <span className={`px-2 py-1 text-xs rounded-full ${
+                                  caseItem.status === 'Open' ? 'bg-blue-100 text-blue-700' :
+                                  caseItem.status === 'Pending' ? 'bg-yellow-100 text-yellow-700' :
+                                  'bg-gray-100 text-gray-700'
+                                }`}>
+                                  {caseItem.status}
+                                </span>
+                                <p className="text-sm text-gray-500 mt-2">Updated {caseItem.updated}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="email">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Email Management</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {/* Email Stats */}
+                      <div className="grid grid-cols-3 gap-4">
+                        <div className="p-4 bg-gray-50 rounded-lg">
+                          <p className="text-sm text-gray-500">Unread Emails</p>
+                          <p className="text-2xl font-semibold">12</p>
+                        </div>
+                        <div className="p-4 bg-gray-50 rounded-lg">
+                          <p className="text-sm text-gray-500">Average Response Time</p>
+                          <p className="text-2xl font-semibold">1.5h</p>
+                        </div>
+                        <div className="p-4 bg-gray-50 rounded-lg">
+                          <p className="text-sm text-gray-500">Daily Responses</p>
+                          <p className="text-2xl font-semibold">45</p>
+                        </div>
+                      </div>
+
+                      {/* Email List */}
+                      <div className="space-y-3">
+                        {[
+                          {
+                            subject: 'Account Verification Request',
+                            customer: 'Jennifer Smith',
+                            preview: 'I need help verifying my account...',
+                            time: '15 mins ago',
+                            priority: 'High',
+                            status: 'Unread'
+                          },
+                          {
+                            subject: 'Payment Confirmation',
+                            customer: 'Robert Johnson',
+                            preview: 'Could you confirm if my payment...',
+                            time: '1 hour ago',
+                            priority: 'Medium',
+                            status: 'Read'
+                          },
+                          {
+                            subject: 'Product Return Query',
+                            customer: 'Emily Chen',
+                            preview: 'I would like to return my recent purchase...',
+                            time: '2 hours ago',
+                            priority: 'Low',
+                            status: 'Replied'
+                          }
+                        ].map((email, index) => (
+                          <div key={index} className="p-4 border rounded-lg hover:bg-gray-50">
+                            <div className="flex justify-between">
+                              <div className="space-y-1">
+                                <div className="flex items-center space-x-2">
+                                  <h3 className="font-medium">{email.subject}</h3>
+                                  <span className={`px-2 py-1 text-xs rounded-full ${
+                                    email.status === 'Unread' ? 'bg-blue-100 text-blue-700' :
+                                    email.status === 'Replied' ? 'bg-green-100 text-green-700' :
+                                    'bg-gray-100 text-gray-700'
+                                  }`}>
+                                    {email.status}
+                                  </span>
+                                </div>
+                                <p className="text-sm text-gray-500">{email.customer}</p>
+                                <p className="text-sm text-gray-600">{email.preview}</p>
+                              </div>
+                              <div className="text-right">
+                                <p className="text-sm text-gray-500">{email.time}</p>
+                                <span className={`inline-block mt-2 px-2 py-1 text-xs rounded-full ${
+                                  email.priority === 'High' ? 'bg-red-100 text-red-700' :
+                                  email.priority === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
+                                  'bg-green-100 text-green-700'
+                                }`}>
+                                  {email.priority}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Quick Reply Templates */}
+                      <div>
+                        <h3 className="font-medium mb-2">Quick Reply Templates</h3>
+                        <div className="grid grid-cols-2 gap-2">
+                          <button className="p-2 text-left border rounded hover:bg-gray-50 text-sm">
+                            Account Verification Steps
+                          </button>
+                          <button className="p-2 text-left border rounded hover:bg-gray-50 text-sm">
+                            Payment Confirmation
+                          </button>
+                          <button className="p-2 text-left border rounded hover:bg-gray-50 text-sm">
+                            Return Process
+                          </button>
+                          <button className="p-2 text-left border rounded hover:bg-gray-50 text-sm">
+                            General Support
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
             </Tabs>
           </div>
 

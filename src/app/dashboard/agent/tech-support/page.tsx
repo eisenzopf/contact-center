@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Phone, Mail, MessageSquare, Clock, User, Wrench, BookOpen, AlertCircle } from 'lucide-react';
+import { Phone, Mail, MessageSquare, Clock, User, Wrench, BookOpen, AlertCircle, CheckCircle } from 'lucide-react';
 import { useState } from 'react';
 import { themeClasses } from '@/lib/theme';
 
@@ -106,6 +106,126 @@ export default function TechSupportAgentPage() {
                           className="w-full h-32 p-3 border border-[var(--card-border)] rounded-lg bg-[var(--card-background)] text-[var(--foreground)]"
                           placeholder="Enter technical details and troubleshooting steps..."
                         />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="tickets">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className={themeClasses.textPrimary}>Support Tickets</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {/* Ticket Search */}
+                      <div className="relative">
+                        <input
+                          type="text"
+                          placeholder="Search tickets..."
+                          className="w-full p-3 border border-[var(--card-border)] rounded-lg bg-[var(--card-background)] text-[var(--foreground)]"
+                        />
+                      </div>
+
+                      {/* Ticket List */}
+                      <div className="space-y-3">
+                        {[
+                          { id: 'TK-1234', title: 'Database Connection Error', priority: 'High', status: 'Open', updated: '2 hours ago' },
+                          { id: 'TK-1235', title: 'API Integration Issue', priority: 'Medium', status: 'In Progress', updated: '4 hours ago' },
+                          { id: 'TK-1236', title: 'Performance Optimization', priority: 'Low', status: 'Open', updated: '1 day ago' },
+                        ].map((ticket, index) => (
+                          <div key={index} className="p-4 bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <div className="flex items-center space-x-2">
+                                  <span className={`text-sm font-medium ${themeClasses.textSecondary}`}>{ticket.id}</span>
+                                  <span className={`px-2 py-1 text-xs rounded-full ${
+                                    ticket.priority === 'High' ? 'bg-red-100 text-red-700' :
+                                    ticket.priority === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
+                                    'bg-green-100 text-green-700'
+                                  }`}>
+                                    {ticket.priority}
+                                  </span>
+                                </div>
+                                <p className={`font-medium mt-1 ${themeClasses.textPrimary}`}>{ticket.title}</p>
+                                <p className={`text-sm mt-1 ${themeClasses.textSecondary}`}>Updated {ticket.updated}</p>
+                              </div>
+                              <span className={`px-2 py-1 text-xs rounded-full ${
+                                ticket.status === 'Open' ? 'bg-blue-100 text-blue-700' :
+                                'bg-purple-100 text-purple-700'
+                              }`}>
+                                {ticket.status}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="knowledge">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className={themeClasses.textPrimary}>Knowledge Base</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {/* Search */}
+                      <div className="relative">
+                        <input
+                          type="text"
+                          placeholder="Search knowledge base..."
+                          className="w-full p-3 border border-[var(--card-border)] rounded-lg bg-[var(--card-background)] text-[var(--foreground)]"
+                        />
+                      </div>
+
+                      {/* Categories */}
+                      <div className="grid grid-cols-2 gap-4">
+                        {[
+                          { title: 'Common Issues', count: 45, icon: AlertCircle },
+                          { title: 'Configuration', count: 32, icon: Wrench },
+                          { title: 'Troubleshooting', count: 28, icon: BookOpen },
+                          { title: 'Best Practices', count: 15, icon: CheckCircle }
+                        ].map((category, index) => (
+                          <div
+                            key={index}
+                            className="p-4 bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg hover:bg-[var(--card-background-hover)] cursor-pointer"
+                          >
+                            <div className="flex items-center space-x-3">
+                              <category.icon className="h-5 w-5 text-blue-600" />
+                              <div>
+                                <p className={`font-medium ${themeClasses.textPrimary}`}>{category.title}</p>
+                                <p className={`text-sm ${themeClasses.textSecondary}`}>{category.count} articles</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Recent Articles */}
+                      <div>
+                        <h3 className={`font-medium ${themeClasses.textPrimary} mb-3`}>Recent Articles</h3>
+                        <div className="space-y-3">
+                          {[
+                            { title: 'Database Connection Troubleshooting Guide', views: 1234, updated: '2 days ago' },
+                            { title: 'API Integration Best Practices', views: 856, updated: '1 week ago' },
+                            { title: 'Performance Optimization Tips', views: 645, updated: '2 weeks ago' },
+                          ].map((article, index) => (
+                            <div
+                              key={index}
+                              className="p-4 bg-[var(--card-background)] border border-[var(--card-border)] rounded-lg hover:bg-[var(--card-background-hover)] cursor-pointer"
+                            >
+                              <p className={`font-medium ${themeClasses.textPrimary}`}>{article.title}</p>
+                              <div className="flex items-center space-x-4 mt-2">
+                                <span className={`text-sm ${themeClasses.textSecondary}`}>{article.views} views</span>
+                                <span className={`text-sm ${themeClasses.textSecondary}`}>Updated {article.updated}</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </CardContent>

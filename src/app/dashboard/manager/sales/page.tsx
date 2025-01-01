@@ -125,7 +125,7 @@ export default function SalesManagerDashboard() {
                       </div>
                       <div className="text-right">
                         <p className={`font-medium ${themeClasses.textPrimary}`}>{agent.revenue}</p>
-                        <p className={parseInt(agent.quota) >= 100 ? themeClasses.success : themeClasses.warning}>
+                        <p className={parseInt(agent.quota) >= 100 ? themeClasses.success : themeClasses.error}>
                           {agent.quota} of Quota
                         </p>
                       </div>

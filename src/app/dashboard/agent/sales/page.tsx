@@ -99,6 +99,101 @@ export default function SalesAgentPage() {
                   </CardContent>
                 </Card>
               </TabsContent>
+
+              <TabsContent value="leads">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Lead Queue</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {/* Lead Cards */}
+                      {[
+                        { name: 'Michael Johnson', company: 'Tech Solutions Inc.', interest: 'Enterprise Package', score: 85 },
+                        { name: 'Sarah Williams', company: 'Growth Corp', interest: 'Professional Suite', score: 78 },
+                        { name: 'David Chen', company: 'Innovate Labs', interest: 'Basic Package', score: 72 },
+                      ].map((lead, index) => (
+                        <div key={index} className="p-4 border rounded-lg hover:bg-gray-50">
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <h3 className="font-semibold">{lead.name}</h3>
+                              <p className="text-sm text-gray-500">{lead.company}</p>
+                              <p className="text-sm text-gray-600 mt-1">Interested in: {lead.interest}</p>
+                            </div>
+                            <div className="text-right">
+                              <div className="bg-blue-50 text-blue-700 px-2 py-1 rounded text-sm">
+                                Score: {lead.score}
+                              </div>
+                              <button className="mt-2 text-sm text-blue-600 hover:text-blue-800">
+                                Start Call
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="email">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Email Communications</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {/* Email Templates */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <button className="p-3 border rounded-lg text-center hover:bg-gray-50">
+                          Follow-up Template
+                        </button>
+                        <button className="p-3 border rounded-lg text-center hover:bg-gray-50">
+                          Quote Template
+                        </button>
+                        <button className="p-3 border rounded-lg text-center hover:bg-gray-50">
+                          Meeting Request
+                        </button>
+                        <button className="p-3 border rounded-lg text-center hover:bg-gray-50">
+                          Thank You Note
+                        </button>
+                      </div>
+
+                      {/* Email Composer */}
+                      <div className="space-y-3 mt-6">
+                        <div>
+                          <label className="text-sm text-gray-500">To:</label>
+                          <input 
+                            type="text" 
+                            className="w-full border rounded-lg p-2 mt-1"
+                            placeholder="Recipient email"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-sm text-gray-500">Subject:</label>
+                          <input 
+                            type="text" 
+                            className="w-full border rounded-lg p-2 mt-1"
+                            placeholder="Email subject"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-sm text-gray-500">Message:</label>
+                          <textarea 
+                            className="w-full h-32 border rounded-lg p-2 mt-1"
+                            placeholder="Type your message here..."
+                          />
+                        </div>
+                        <div className="flex justify-end">
+                          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                            Send Email
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
             </Tabs>
           </div>
 

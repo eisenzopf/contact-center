@@ -98,7 +98,7 @@ export default function ServiceManagerDashboard() {
                 <div>
                   <p className={`text-sm ${themeClasses.textSecondary}`}>Open Cases</p>
                   <p className={`text-2xl font-bold ${themeClasses.textPrimary}`}>127</p>
-                  <p className={themeClasses.warning}>↑ 5 vs average</p>
+                  <p className={themeClasses.error}>↑ 5 vs average</p>
                 </div>
                 <MessageSquare className="h-8 w-8 text-blue-600" />
               </div>
