@@ -203,6 +203,7 @@ export default function OntologyManagerPage() {
                       name: type.name,
                       order: type.order
                     }))}
+                    lifecycleStages={lifecycleStages}
                     transactionTypeOptions={transactionTypes.map(type => ({
                       id: type,
                       name: type

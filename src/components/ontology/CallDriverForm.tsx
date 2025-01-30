@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { CallDriver } from '@/types/ontology';
+import { CallDriver, LifecycleStage } from '@/types/ontology';
 import { MultiSelect } from './MultiSelect';
 import { AttributeList } from './AttributeList';
 import { Save, X } from 'lucide-react';
@@ -27,6 +27,7 @@ type CallDriverFormProps = {
       default_attributes: any;
     }[];
   }>;
+  lifecycleStages: LifecycleStage[];
 }
 
 export function CallDriverForm({ 
@@ -37,7 +38,8 @@ export function CallDriverForm({
   departmentOptions,
   accountTypeOptions,
   transactionTypeOptions,
-  customerPersonas
+  customerPersonas,
+  lifecycleStages
 }: CallDriverFormProps) {
   const [formData, setFormData] = useState({
     id: callDriver?.id || `cd_${Date.now()}`,
@@ -57,14 +59,14 @@ export function CallDriverForm({
 
   // Group lifecycle stages by account type
   const lifecyclesByAccountType = useMemo(() => {
-    const grouped = new Map<string, any[]>();
-    accountTypeOptions.forEach(at => {
-      const stages = grouped.get(at.id) || [];
-      stages.push(at);
-      grouped.set(at.id, stages.sort((a, b) => a.order - b.order));
+    const grouped = new Map<string, LifecycleStage[]>();
+    lifecycleStages.forEach(stage => {
+      const stages = grouped.get(stage.accountTypeId) || [];
+      stages.push(stage);
+      grouped.set(stage.accountTypeId, stages.sort((a, b) => a.order - b.order));
     });
     return grouped;
-  }, [accountTypeOptions]);
+  }, [lifecycleStages]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
