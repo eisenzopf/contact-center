@@ -22,7 +22,7 @@ export default function OntologyManagerPage() {
   const [activeTab, setActiveTab] = useState<'callDrivers' | 'scenarios' | 'accountTypes' | 'departments' | 'lifecycles'>('callDrivers');
   const [callDrivers, setCallDrivers] = useState<CallDriver[]>([]);
   const [scenarios, setScenarios] = useState<Scenario[]>([]);
-  const [editingItem, setEditingItem] = useState<CallDriver | Scenario | AccountType | null>(null);
+  const [editingItem, setEditingItem] = useState<CallDriver | Scenario | AccountType | Department | Lifecycle | null>(null);
   const [showCallDriverForm, setShowCallDriverForm] = useState(false);
   const [showScenarioForm, setShowScenarioForm] = useState(false);
   const [accountTypes, setAccountTypes] = useState<AccountType[]>(mockAccountTypes);
@@ -388,7 +388,9 @@ export default function OntologyManagerPage() {
                 <button 
                   className="bg-[var(--primary)] text-[var(--primary-foreground)] px-4 py-2 rounded-lg flex items-center hover:bg-[var(--primary-hover)]"
                   onClick={() => {
-                    setDepartmentList([...departmentList, 'New Department' as Department]);
+                    const newDepartment = 'New Department' as Department;
+                    setDepartmentList([...departmentList, newDepartment]);
+                    setEditingItem(newDepartment);
                   }}
                 >
                   <Plus className="h-4 w-4 mr-2" />
@@ -399,28 +401,60 @@ export default function OntologyManagerPage() {
                 <div className="space-y-4">
                   {departmentList.map((dept, index) => (
                     <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                      <select
-                        value={dept}
-                        onChange={(e) => {
-                          const newDepts = [...departmentList];
-                          newDepts[index] = e.target.value as Department;
-                          setDepartmentList(newDepts);
-                        }}
-                        className="font-medium bg-transparent border-none focus:outline-none"
-                      >
-                        <option value="Personal">Personal</option>
-                        <option value="Business">Business</option>
-                        <option value="Loans">Loans</option>
-                        <option value="Fraud">Fraud</option>
-                        <option value="Wealth">Wealth</option>
-                        <option value="Collections">Collections</option>
-                      </select>
-                      <button
-                        onClick={() => setDepartmentList(departmentList.filter((_, i) => i !== index))}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
+                      {editingItem === dept ? (
+                        <div className="w-full space-y-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Department Name</label>
+                            <input
+                              type="text"
+                              value={dept}
+                              onChange={(e) => {
+                                const newDepts = [...departmentList];
+                                newDepts[index] = e.target.value as Department;
+                                setDepartmentList(newDepts);
+                              }}
+                              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              placeholder="Enter department name..."
+                            />
+                          </div>
+
+                          <div className="flex justify-end space-x-2 mt-4">
+                            <button
+                              onClick={() => setEditingItem(null)}
+                              className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              onClick={() => setEditingItem(null)}
+                              className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg flex items-center"
+                            >
+                              <Save className="h-4 w-4 mr-2" />
+                              Save
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div>
+                            <h3 className="font-medium">{dept}</h3>
+                          </div>
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={() => setEditingItem(dept)}
+                              className="p-2 text-blue-500 hover:bg-blue-50 rounded"
+                            >
+                              <Edit className="h-4 w-4" />
+                            </button>
+                            <button
+                              onClick={() => setDepartmentList(departmentList.filter((_, i) => i !== index))}
+                              className="p-2 text-red-500 hover:bg-red-50 rounded"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -435,7 +469,9 @@ export default function OntologyManagerPage() {
                 <button 
                   className="bg-[var(--primary)] text-[var(--primary-foreground)] px-4 py-2 rounded-lg flex items-center hover:bg-[var(--primary-hover)]"
                   onClick={() => {
-                    setLifecycleList([...lifecycleList, 'Opening' as Lifecycle]);
+                    const newLifecycle = 'Opening' as Lifecycle;
+                    setLifecycleList([...lifecycleList, newLifecycle]);
+                    setEditingItem(newLifecycle);
                   }}
                 >
                   <Plus className="h-4 w-4 mr-2" />
@@ -446,25 +482,60 @@ export default function OntologyManagerPage() {
                 <div className="space-y-4">
                   {lifecycleList.map((lifecycle, index) => (
                     <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                      <select
-                        value={lifecycle}
-                        onChange={(e) => {
-                          const newLifecycles = [...lifecycleList];
-                          newLifecycles[index] = e.target.value as Lifecycle;
-                          setLifecycleList(newLifecycles);
-                        }}
-                        className="font-medium bg-transparent border-none focus:outline-none"
-                      >
-                        <option value="Opening">Opening</option>
-                        <option value="Servicing">Servicing</option>
-                        <option value="Closing">Closing</option>
-                      </select>
-                      <button
-                        onClick={() => setLifecycleList(lifecycleList.filter((_, i) => i !== index))}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
+                      {editingItem === lifecycle ? (
+                        <div className="w-full space-y-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Lifecycle Stage Name</label>
+                            <input
+                              type="text"
+                              value={lifecycle}
+                              onChange={(e) => {
+                                const newLifecycles = [...lifecycleList];
+                                newLifecycles[index] = e.target.value as Lifecycle;
+                                setLifecycleList(newLifecycles);
+                              }}
+                              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              placeholder="Enter lifecycle stage name..."
+                            />
+                          </div>
+
+                          <div className="flex justify-end space-x-2 mt-4">
+                            <button
+                              onClick={() => setEditingItem(null)}
+                              className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              onClick={() => setEditingItem(null)}
+                              className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg flex items-center"
+                            >
+                              <Save className="h-4 w-4 mr-2" />
+                              Save
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div>
+                            <h3 className="font-medium">{lifecycle}</h3>
+                          </div>
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={() => setEditingItem(lifecycle)}
+                              className="p-2 text-blue-500 hover:bg-blue-50 rounded"
+                            >
+                              <Edit className="h-4 w-4" />
+                            </button>
+                            <button
+                              onClick={() => setLifecycleList(lifecycleList.filter((_, i) => i !== index))}
+                              className="p-2 text-red-500 hover:bg-red-50 rounded"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </>
+                      )}
                     </div>
                   ))}
                 </div>
