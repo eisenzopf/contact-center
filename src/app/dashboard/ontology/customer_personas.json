@@ -1,0 +1,1177 @@
+[
+    {
+      "family_name": "Affluent / High Net Worth",
+      "family_coverage": 5.0,
+      "overview_age_range": [35, 65],
+      "sub_personas": [
+        {
+          "sub_persona_name": "Philanthropist",
+          "sub_persona_coverage": 1.0,
+          "description": "Actively donates to charities, organizes fundraisers.",
+          "notes": [
+            "Generous giving patterns, might use donor-advised funds.",
+            "Values prestige banking services and discreet philanthropic management."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "High": 1.0
+            },
+            "net_worth_range": [500000, 5000000],
+            "credit_score_options": ["800+"],
+            "preferred_payment_methods": ["Credit card"],
+            "spending_habits_weights": {
+              "Luxury-oriented": 0.7,
+              "Impulsive": 0.3
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Private Investor",
+          "sub_persona_coverage": 1.0,
+          "description": "Focuses on wealth management and real estate.",
+          "notes": [
+            "Has a relationship manager at a private bank.",
+            "Needs reliable international roaming and travel perks."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "High": 1.0
+            },
+            "net_worth_range": [200000, 5000000],
+            "credit_score_options": ["751-800", "800+"],
+            "preferred_payment_methods": ["Credit card"],
+            "spending_habits_weights": {
+              "Luxury-oriented": 0.7,
+              "Moderate": 0.3
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Retired Executive",
+          "sub_persona_coverage": 1.0,
+          "description": "Recently left C-level position, focuses on portfolio management.",
+          "notes": [
+            "Significant assets, may consider trust funds, estate planning.",
+            "Prefers a dedicated private banker, minimal branch visits."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "High": 1.0
+            },
+            "net_worth_range": [200000, 4000000],
+            "credit_score_options": ["751-800", "800+"],
+            "preferred_payment_methods": ["Credit card"],
+            "spending_habits_weights": {
+              "Luxury-oriented": 0.6,
+              "Moderate": 0.4
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Serial Entrepreneur",
+          "sub_persona_coverage": 1.0,
+          "description": "Multiple business accounts, demands sophisticated tools.",
+          "notes": [
+            "Wants top-tier mobile/data coverage.",
+            "Values rapid, VIP-level customer support."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "High": 1.0
+            },
+            "net_worth_range": [100000, 2000000],
+            "credit_score_options": ["751-800", "800+"],
+            "preferred_payment_methods": ["Credit card"],
+            "spending_habits_weights": {
+              "Luxury-oriented": 0.6,
+              "Moderate": 0.4
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Tech Executive",
+          "sub_persona_coverage": 1.0,
+          "description": "High-paying tech leadership role, invests in cutting-edge tools.",
+          "notes": [
+            "Frequent business travel, needs premium coverage everywhere.",
+            "Likely has advanced investment portfolio (stocks, startups)."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "High": 1.0
+            },
+            "net_worth_range": [300000, 3000000],
+            "credit_score_options": ["800+"],
+            "preferred_payment_methods": ["Credit card"],
+            "spending_habits_weights": {
+              "Luxury-oriented": 0.8,
+              "Moderate": 0.2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "family_name": "College-Age / Student Cluster",
+      "family_coverage": 7.0,
+      "overview_age_range": [18, 24],
+      "sub_personas": [
+        {
+          "sub_persona_name": "Campus Resident",
+          "sub_persona_coverage": 2.0,
+          "description": "Lives on-campus, minimal savings, heavily reliant on mobile usage.",
+          "notes": [
+            "Relies on part-time income or parental support.",
+            "Prefers mobile wallet and no-fee accounts."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.8,
+              "Moderate": 0.2
+            },
+            "net_worth_range": [0, 1500],
+            "credit_score_options": ["<550", "No credit / Thin file"],
+            "preferred_payment_methods": ["Debit card", "Mobile wallet"],
+            "spending_habits_weights": {
+              "Impulsive": 0.7,
+              "Moderate": 0.3
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Greek Life Enthusiast",
+          "sub_persona_coverage": 1.0,
+          "description": "Active in fraternity/sorority life, frequent social events.",
+          "notes": [
+            "Spends on social fees, merchandise.",
+            "May rely on family or personal loans for additional support."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.6,
+              "Moderate": 0.4
+            },
+            "net_worth_range": [0, 2000],
+            "credit_score_options": ["<550", "550-600"],
+            "preferred_payment_methods": ["Debit card", "Mobile wallet"],
+            "spending_habits_weights": {
+              "Impulsive": 0.6,
+              "Moderate": 0.4
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Online Course Taker",
+          "sub_persona_coverage": 1.0,
+          "description": "Primarily enrolled in online/hybrid classes, flexible schedule.",
+          "notes": [
+            "May live at home or in shared apartment.",
+            "Budget-sensitive, invests in good internet plan."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.7,
+              "Moderate": 0.3
+            },
+            "net_worth_range": [0, 2500],
+            "credit_score_options": ["<550", "No credit / Thin file"],
+            "preferred_payment_methods": ["Debit card"],
+            "spending_habits_weights": {
+              "Frugal": 0.5,
+              "Moderate": 0.5
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Part-Time Intern",
+          "sub_persona_coverage": 2.0,
+          "description": "Splits time between classes and internship, building resume.",
+          "notes": [
+            "Receives small stipend or hourly wage from internship.",
+            "Aspires to improve credit score before graduation."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.3,
+              "Moderate": 0.7
+            },
+            "net_worth_range": [0, 5000],
+            "credit_score_options": ["550-600", "601-650"],
+            "preferred_payment_methods": ["Debit card", "Credit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.7,
+              "Frugal": 0.3
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Working Student",
+          "sub_persona_coverage": 1.0,
+          "description": "Commutes off-campus, juggling part-time job(s).",
+          "notes": [
+            "Cost-conscious, often has low-balance credit card.",
+            "Worries about tuition and student loan debt."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.5,
+              "Moderate": 0.5
+            },
+            "net_worth_range": [0, 3000],
+            "credit_score_options": ["<550", "550-600"],
+            "preferred_payment_methods": ["Debit card", "Credit card"],
+            "spending_habits_weights": {
+              "Frugal": 0.4,
+              "Moderate": 0.4,
+              "Impulsive": 0.2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "family_name": "Early-Career Urban Professionals",
+      "family_coverage": 10.0,
+      "overview_age_range": [25, 34],
+      "sub_personas": [
+        {
+          "sub_persona_name": "Ambitious Tech Adopter",
+          "sub_persona_coverage": 2.0,
+          "description": "Works in tech/pro services, invests in latest gadgets.",
+          "notes": [
+            "Comfortable with mobile-only banking.",
+            "Explores emerging investments (crypto, etc.)."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.3,
+              "High": 0.7
+            },
+            "net_worth_range": [1000, 50000],
+            "credit_score_options": ["651-700", "701-750", "751-800"],
+            "preferred_payment_methods": ["Credit card", "Mobile wallet"],
+            "spending_habits_weights": {
+              "Moderate": 0.3,
+              "Impulsive": 0.3,
+              "Luxury-oriented": 0.4
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Budget-Conscious City Dweller",
+          "sub_persona_coverage": 2.0,
+          "description": "Entry-level salary, possibly paying off student loans.",
+          "notes": [
+            "Uses discount mobile plans or MVNOs.",
+            "Values affordability and transparency in fees."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.2,
+              "Moderate": 0.7,
+              "High": 0.1
+            },
+            "net_worth_range": [0, 10000],
+            "credit_score_options": ["550-600", "601-650", "651-700"],
+            "preferred_payment_methods": ["Debit card", "Credit card"],
+            "spending_habits_weights": {
+              "Frugal": 0.5,
+              "Moderate": 0.5
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Frequent Job Hopper",
+          "sub_persona_coverage": 2.0,
+          "description": "Switches jobs every 1-2 years, seeking better opportunities.",
+          "notes": [
+            "High digital adoption, tests many financial apps.",
+            "Open to gig/contract roles."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.6,
+              "High": 0.4
+            },
+            "net_worth_range": [500, 20000],
+            "credit_score_options": ["601-650", "651-700"],
+            "preferred_payment_methods": ["Credit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.8,
+              "Impulsive": 0.2
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Roommate Sharer",
+          "sub_persona_coverage": 2.0,
+          "description": "Splits rent in city apartment with friends/roommates.",
+          "notes": [
+            "Tries to minimize expenses, shares subscriptions.",
+            "Likely has moderate credit history."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.3,
+              "Moderate": 0.7
+            },
+            "net_worth_range": [0, 8000],
+            "credit_score_options": ["550-600", "601-650"],
+            "preferred_payment_methods": ["Debit card", "Credit card"],
+            "spending_habits_weights": {
+              "Frugal": 0.5,
+              "Moderate": 0.5
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Social Media Influencer",
+          "sub_persona_coverage": 2.0,
+          "description": "Relies on brand deals and online engagement for income.",
+          "notes": [
+            "Income can be volatile based on sponsorships.",
+            "Heavy use of premium phone data/plans."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.5,
+              "High": 0.5
+            },
+            "net_worth_range": [1000, 40000],
+            "credit_score_options": ["601-650", "651-700"],
+            "preferred_payment_methods": ["Credit card", "Mobile wallet"],
+            "spending_habits_weights": {
+              "Moderate": 0.4,
+              "Impulsive": 0.3,
+              "Luxury-oriented": 0.3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "family_name": "Gig Economy / Flexible Workforce",
+      "family_coverage": 6.0,
+      "overview_age_range": [18, 65],
+      "sub_personas": [
+        {
+          "sub_persona_name": "Freelancer",
+          "sub_persona_coverage": 1.0,
+          "description": "Contract-based income, uses PayPal/Venmo, short-term credit solutions.",
+          "notes": [
+            "Needs budgeting tools, real-time payments.",
+            "Works from multiple locations, values robust mobile and internet."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.3,
+              "Moderate": 0.5,
+              "High": 0.2
+            },
+            "net_worth_range": [0, 50000],
+            "credit_score_options": ["550-600", "601-650", "651-700", "701-750"],
+            "preferred_payment_methods": ["Debit card", "Credit card", "PayPal"],
+            "spending_habits_weights": {
+              "Moderate": 0.5,
+              "Frugal": 0.3,
+              "Impulsive": 0.2
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Gig-Economy Veteran",
+          "sub_persona_coverage": 1.0,
+          "description": "Long-time gig worker with stable routine across multiple apps.",
+          "notes": [
+            "Knows how to optimize earnings and manage taxes.",
+            "Might seek better credit or small business loans for expansions."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.8,
+              "High": 0.2
+            },
+            "net_worth_range": [0, 30000],
+            "credit_score_options": ["601-650", "651-700"],
+            "preferred_payment_methods": ["Debit card", "Credit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.7,
+              "Impulsive": 0.3
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Multiple Platform Worker",
+          "sub_persona_coverage": 2.0,
+          "description": "Balances multiple gig platforms (food delivery, ride-hailing, tasks).",
+          "notes": [
+            "Volatile earnings, might use advanced budgeting apps.",
+            "Prefers cheap phone plans with large data packages."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.6,
+              "Moderate": 0.4
+            },
+            "net_worth_range": [0, 20000],
+            "credit_score_options": ["<550", "550-600", "601-650"],
+            "preferred_payment_methods": ["Debit card"],
+            "spending_habits_weights": {
+              "Frugal": 0.5,
+              "Moderate": 0.5
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Part-Time Creative",
+          "sub_persona_coverage": 1.0,
+          "description": "Has a creative freelance gig alongside a part-time job.",
+          "notes": [
+            "Income mix from small arts commissions or Etsy shop.",
+            "Limited credit history, prefers minimal fees or free checking."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.5,
+              "Moderate": 0.5
+            },
+            "net_worth_range": [0, 10000],
+            "credit_score_options": ["<550", "550-600", "601-650"],
+            "preferred_payment_methods": ["Debit card", "PayPal"],
+            "spending_habits_weights": {
+              "Frugal": 0.6,
+              "Moderate": 0.4
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Rideshare / Delivery Driver",
+          "sub_persona_coverage": 1.0,
+          "description": "Relies on apps, consistent coverage, invests in car maintenance.",
+          "notes": [
+            "Seeks flexible financial services with minimal fees and quick support.",
+            "Heavy mobile data usage."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.4,
+              "Moderate": 0.6
+            },
+            "net_worth_range": [0, 30000],
+            "credit_score_options": ["550-600", "601-650"],
+            "preferred_payment_methods": ["Debit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.5,
+              "Frugal": 0.3,
+              "Impulsive": 0.2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "family_name": "Immigrant / Multilingual Urban Cluster",
+      "family_coverage": 8.0,
+      "overview_age_range": [25, 50],
+      "sub_personas": [
+        {
+          "sub_persona_name": "Bilingual Professional",
+          "sub_persona_coverage": 2.0,
+          "description": "Fluent in English + another language, stable mid-level career.",
+          "notes": [
+            "May support extended family abroad.",
+            "Comfortable with digital banking if offered in multiple languages."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.8,
+              "High": 0.2
+            },
+            "net_worth_range": [1000, 15000],
+            "credit_score_options": ["601-650", "651-700"],
+            "preferred_payment_methods": ["Debit card", "Credit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.7,
+              "Impulsive": 0.3
+            }
+          }
+        },
+        {
+          "sub_persona_name": "First-Generation Striver",
+          "sub_persona_coverage": 1.0,
+          "description": "Established job, mixes cultural values with modern tools.",
+          "notes": [
+            "Prefers bilingual service and transparent fees.",
+            "Supports family members abroad or locally."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.6,
+              "High": 0.4
+            },
+            "net_worth_range": [1000, 25000],
+            "credit_score_options": ["550-600", "601-650", "651-700"],
+            "preferred_payment_methods": ["Debit card", "Credit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.6,
+              "Frugal": 0.3,
+              "Impulsive": 0.1
+            }
+          }
+        },
+        {
+          "sub_persona_name": "International Student Worker",
+          "sub_persona_coverage": 2.0,
+          "description": "On a student visa, balancing part-time job & course load.",
+          "notes": [
+            "Often needs to send/receive international funds.",
+            "Limited U.S. credit history, reliant on campus resources."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.7,
+              "Moderate": 0.3
+            },
+            "net_worth_range": [0, 4000],
+            "credit_score_options": ["No credit / Thin file", "<550"],
+            "preferred_payment_methods": ["Debit card"],
+            "spending_habits_weights": {
+              "Frugal": 0.6,
+              "Moderate": 0.4
+            }
+          }
+        },
+        {
+          "sub_persona_name": "New Arrival",
+          "sub_persona_coverage": 2.0,
+          "description": "Building credit history, may rely on cash/prepaid services.",
+          "notes": [
+            "Needs multilingual support.",
+            "International money transfer is a priority."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.8,
+              "Moderate": 0.2
+            },
+            "net_worth_range": [0, 5000],
+            "credit_score_options": ["No credit / Thin file", "<550", "550-600"],
+            "preferred_payment_methods": ["Debit card", "Prepaid card"],
+            "spending_habits_weights": {
+              "Frugal": 0.7,
+              "Moderate": 0.3
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Sponsored Worker",
+          "sub_persona_coverage": 1.0,
+          "description": "Work visa tied to a specific employer, moderate-to-high skill.",
+          "notes": [
+            "Focuses on job security to maintain visa status.",
+            "Likely invests in upskilling, open to advanced financial products."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.5,
+              "High": 0.5
+            },
+            "net_worth_range": [5000, 30000],
+            "credit_score_options": ["601-650", "651-700"],
+            "preferred_payment_methods": ["Credit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.8,
+              "Luxury-oriented": 0.2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "family_name": "Mid-Career Rural / Small-Town",
+      "family_coverage": 10.0,
+      "overview_age_range": [30, 50],
+      "sub_personas": [
+        {
+          "sub_persona_name": "Family-Centric Settler",
+          "sub_persona_coverage": 2.0,
+          "description": "Multigenerational household, often offline habits.",
+          "notes": [
+            "Prefers paper statements, in-person service.",
+            "Moderate digital savviness; escalates to phone support."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.3,
+              "Moderate": 0.7
+            },
+            "net_worth_range": [0, 20000],
+            "credit_score_options": ["<550", "550-600", "601-650"],
+            "preferred_payment_methods": ["Debit card"],
+            "spending_habits_weights": {
+              "Frugal": 0.6,
+              "Moderate": 0.4
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Local Artisan",
+          "sub_persona_coverage": 2.0,
+          "description": "Creates handmade goods for local markets/festivals.",
+          "notes": [
+            "Income can be variable, reliant on tourist/seasonal events.",
+            "Often uses cash for daily transactions, not fully digitized."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.5,
+              "Moderate": 0.5
+            },
+            "net_worth_range": [0, 15000],
+            "credit_score_options": ["<550", "550-600"],
+            "preferred_payment_methods": ["Cash", "Check"],
+            "spending_habits_weights": {
+              "Frugal": 0.7,
+              "Moderate": 0.3
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Local Government Employee",
+          "sub_persona_coverage": 2.0,
+          "description": "Works in public service, stable though modest income.",
+          "notes": [
+            "Values local community relationships.",
+            "Likely invests in a state pension or retirement plan."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.2,
+              "Moderate": 0.8
+            },
+            "net_worth_range": [2000, 25000],
+            "credit_score_options": ["601-650", "651-700"],
+            "preferred_payment_methods": ["Debit card", "Check"],
+            "spending_habits_weights": {
+              "Frugal": 0.4,
+              "Moderate": 0.6
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Part-Time Farmer",
+          "sub_persona_coverage": 2.0,
+          "description": "Maintains small-scale farming alongside another job.",
+          "notes": [
+            "Seasonal income variations, invests in equipment.",
+            "More cautious about online banking; prefers local branch."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Low": 0.4,
+              "Moderate": 0.6
+            },
+            "net_worth_range": [1000, 30000],
+            "credit_score_options": ["550-600", "601-650"],
+            "preferred_payment_methods": ["Debit card", "Check"],
+            "spending_habits_weights": {
+              "Frugal": 0.5,
+              "Moderate": 0.5
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Small Business Owner",
+          "sub_persona_coverage": 2.0,
+          "description": "Runs a local business, needs flexible financial tools.",
+          "notes": [
+            "Relies on local bank for personalized service.",
+            "Coverage quality is a major telecom factor."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.5,
+              "High": 0.5
+            },
+            "net_worth_range": [5000, 100000],
+            "credit_score_options": ["601-650", "651-700", "701-750", "751-800"],
+            "preferred_payment_methods": ["Debit card", "Check"],
+            "spending_habits_weights": {
+              "Moderate": 0.5,
+              "Frugal": 0.3,
+              "Impulsive": 0.2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "family_name": "Mid-Career Suburban Families",
+      "family_coverage": 15.0,
+      "overview_age_range": [30, 45],
+      "sub_personas": [
+        {
+          "sub_persona_name": "Aspiring Homeowner",
+          "sub_persona_coverage": 3.0,
+          "description": "Saving aggressively for a down payment.",
+          "notes": [
+            "Conservative spender, prefers safe investments (CDs, savings).",
+            "Mix of in-person banking for major decisions and digital for routine tasks."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.7,
+              "High": 0.3
+            },
+            "net_worth_range": [1000, 30000],
+            "credit_score_options": ["550-600", "601-650", "651-700"],
+            "preferred_payment_methods": ["Debit card", "Credit card"],
+            "spending_habits_weights": {
+              "Frugal": 0.5,
+              "Moderate": 0.4,
+              "Impulsive": 0.1
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Busy Young Family",
+          "sub_persona_coverage": 3.0,
+          "description": "1–2 children, tight schedule, values convenience.",
+          "notes": [
+            "Uses online banking, mobile apps.",
+            "Bundled family cellphone plans, invests in college funds."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.6,
+              "High": 0.4
+            },
+            "net_worth_range": [5000, 50000],
+            "credit_score_options": ["601-650", "651-700", "701-750"],
+            "preferred_payment_methods": ["Credit card", "Debit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.6,
+              "Impulsive": 0.3,
+              "Frugal": 0.1
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Eco-Conscious Commuter",
+          "sub_persona_coverage": 3.0,
+          "description": "Suburban resident using hybrid/electric car, works at mid-level position.",
+          "notes": [
+            "Prioritizes environmental or socially conscious brands.",
+            "Frequent user of digital statements over paper."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.5,
+              "High": 0.5
+            },
+            "net_worth_range": [5000, 40000],
+            "credit_score_options": ["651-700", "701-750"],
+            "preferred_payment_methods": ["Debit card", "Credit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.7,
+              "Frugal": 0.3
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Frequent Upgrader",
+          "sub_persona_coverage": 3.0,
+          "description": "Always looking to upgrade home appliances, electronics.",
+          "notes": [
+            "Seeks extended warranties and deals on large purchases.",
+            "Might use store credit or buy-now-pay-later services."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.4,
+              "High": 0.6
+            },
+            "net_worth_range": [10000, 60000],
+            "credit_score_options": ["651-700", "701-750"],
+            "preferred_payment_methods": ["Credit card"],
+            "spending_habits_weights": {
+              "Impulsive": 0.3,
+              "Luxury-oriented": 0.2,
+              "Moderate": 0.5
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Stay-at-Home Parent",
+          "sub_persona_coverage": 3.0,
+          "description": "One parent handles home responsibilities full-time.",
+          "notes": [
+            "Family may rely on a single income source.",
+            "Looks for savings on groceries, household items."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.8,
+              "High": 0.2
+            },
+            "net_worth_range": [3000, 25000],
+            "credit_score_options": ["601-650", "651-700"],
+            "preferred_payment_methods": ["Debit card"],
+            "spending_habits_weights": {
+              "Frugal": 0.5,
+              "Moderate": 0.5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "family_name": "Mid/Late-Career, Established Families",
+      "family_coverage": 10.0,
+      "overview_age_range": [40, 55],
+      "sub_personas": [
+        {
+          "sub_persona_name": "Career Changer",
+          "sub_persona_coverage": 2.0,
+          "description": "Pivoting industries in mid-career, seeking new growth.",
+          "notes": [
+            "May have temporary income dip or upskilling costs.",
+            "Open to flexible payment plans, loan refinancing."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.8,
+              "High": 0.2
+            },
+            "net_worth_range": [20000, 100000],
+            "credit_score_options": ["601-650", "651-700"],
+            "preferred_payment_methods": ["Credit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.9,
+              "Frugal": 0.1
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Comfort Seeker",
+          "sub_persona_coverage": 2.0,
+          "description": "One-stop-shop for mortgage, checking, credit.",
+          "notes": [
+            "Loyal to a telecom provider with good reputation.",
+            "Open to digital but also values 24/7 phone support."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.4,
+              "High": 0.6
+            },
+            "net_worth_range": [20000, 100000],
+            "credit_score_options": ["651-700", "701-750", "751-800"],
+            "preferred_payment_methods": ["Credit card", "Debit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.5,
+              "Luxury-oriented": 0.5
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Dual-Income Household",
+          "sub_persona_coverage": 2.0,
+          "description": "Both partners working full-time, stable mid-to-high income.",
+          "notes": [
+            "May have children approaching college age.",
+            "Likely invests in retirement accounts, possibly real estate."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.4,
+              "High": 0.6
+            },
+            "net_worth_range": [30000, 150000],
+            "credit_score_options": ["651-700", "701-750"],
+            "preferred_payment_methods": ["Credit card", "Debit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.7,
+              "Luxury-oriented": 0.3
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Health-Focused Parent",
+          "sub_persona_coverage": 2.0,
+          "description": "Emphasizes healthy living, invests in wellness programs.",
+          "notes": [
+            "Potentially invests in gym memberships, organic groceries.",
+            "Likely to value health insurance coverage and flexible spending accounts."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.5,
+              "High": 0.5
+            },
+            "net_worth_range": [10000, 80000],
+            "credit_score_options": ["651-700", "701-750"],
+            "preferred_payment_methods": ["Debit card", "Credit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.6,
+              "Impulsive": 0.4
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Upgrader",
+          "sub_persona_coverage": 2.0,
+          "description": "Seeks better rewards, premium data plans.",
+          "notes": [
+            "Does extensive research on products/services.",
+            "High expectations for customer support response."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "High": 1.0
+            },
+            "net_worth_range": [50000, 200000],
+            "credit_score_options": ["701-750", "751-800", "800+"],
+            "preferred_payment_methods": ["Credit card", "Mobile wallet"],
+            "spending_habits_weights": {
+              "Moderate": 0.3,
+              "Luxury-oriented": 0.7
+            }
+          }
+        }
+      ]
+    },
+    {
+      "family_name": "Older / Pre-Retirement",
+      "family_coverage": 12.0,
+      "overview_age_range": [55, 64],
+      "sub_personas": [
+        {
+          "sub_persona_name": "Career Extension Worker",
+          "sub_persona_coverage": 2.0,
+          "description": "Part-time or freelance near retirement.",
+          "notes": [
+            "Multiple income sources, flexible benefits needs.",
+            "Prefers mid-range phone plans, balancing cost and reliability."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.7,
+              "High": 0.3
+            },
+            "net_worth_range": [30000, 200000],
+            "credit_score_options": ["601-650", "651-700", "701-750"],
+            "preferred_payment_methods": ["Debit card", "Check"],
+            "spending_habits_weights": {
+              "Moderate": 0.7,
+              "Frugal": 0.3
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Cautious Planner",
+          "sub_persona_coverage": 3.0,
+          "description": "High emphasis on stable savings, risk-averse.",
+          "notes": [
+            "Open to digital but wants phone/in-person for big decisions.",
+            "Shops for senior discounts and lower phone bills."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.4,
+              "High": 0.6
+            },
+            "net_worth_range": [50000, 300000],
+            "credit_score_options": ["651-700", "701-750", "751-800", "800+"],
+            "preferred_payment_methods": ["Debit card", "Credit card"],
+            "spending_habits_weights": {
+              "Frugal": 0.5,
+              "Moderate": 0.5
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Entrepreneurial Late Bloomer",
+          "sub_persona_coverage": 2.0,
+          "description": "Launching a new venture in late career, bridging retirement funds.",
+          "notes": [
+            "Might tap into retirement savings to fund business.",
+            "Concerned about healthcare and retirement planning overlap."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.6,
+              "High": 0.4
+            },
+            "net_worth_range": [40000, 250000],
+            "credit_score_options": ["651-700", "701-750"],
+            "preferred_payment_methods": ["Credit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.6,
+              "Impulsive": 0.4
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Pre-Retirement Investor",
+          "sub_persona_coverage": 3.0,
+          "description": "Actively diversifying portfolio for retirement income.",
+          "notes": [
+            "Open to moderate risk, seeks stable returns.",
+            "May have significant 401(k) or IRA holdings."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "High": 1.0
+            },
+            "net_worth_range": [100000, 400000],
+            "credit_score_options": ["701-750", "751-800", "800+"],
+            "preferred_payment_methods": ["Credit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.8,
+              "Luxury-oriented": 0.2
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Returning to Education",
+          "sub_persona_coverage": 2.0,
+          "description": "Going back to college or pursuing advanced certifications mid-life.",
+          "notes": [
+            "Balances tuition with existing financial obligations.",
+            "Likely to look for student-friendly loan or financing options."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.8,
+              "High": 0.2
+            },
+            "net_worth_range": [20000, 200000],
+            "credit_score_options": ["601-650", "651-700"],
+            "preferred_payment_methods": ["Debit card", "Credit card"],
+            "spending_habits_weights": {
+              "Frugal": 0.5,
+              "Moderate": 0.5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "family_name": "Retirees",
+      "family_coverage": 17.0,
+      "overview_age_range": [65, 90],
+      "sub_personas": [
+        {
+          "sub_persona_name": "Global Traveler Retiree",
+          "sub_persona_coverage": 3.0,
+          "description": "Spends retirement visiting international destinations frequently.",
+          "notes": [
+            "Needs robust travel insurance, possibly timeshare usage.",
+            "Likely to value strong foreign transaction options, travel rewards."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.3,
+              "High": 0.7
+            },
+            "net_worth_range": [50000, 300000],
+            "credit_score_options": ["651-700", "701-750", "751-800"],
+            "preferred_payment_methods": ["Credit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.5,
+              "Luxury-oriented": 0.5
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Legacy Planner",
+          "sub_persona_coverage": 4.0,
+          "description": "Focused on estate planning, generational wealth transfer.",
+          "notes": [
+            "Works closely with estate lawyers and tax advisors.",
+            "Seeks stable investments, philanthropic opportunities."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "High": 1.0
+            },
+            "net_worth_range": [200000, 1000000],
+            "credit_score_options": ["751-800", "800+"],
+            "preferred_payment_methods": ["Credit card"],
+            "spending_habits_weights": {
+              "Luxury-oriented": 0.5,
+              "Frugal": 0.5
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Semi-Retired Consultant",
+          "sub_persona_coverage": 4.0,
+          "description": "Still consults part-time, flexible schedule, extra income.",
+          "notes": [
+            "Often invests consultancy profits in safer funds.",
+            "May rely on supplemental Medicare or private insurance."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "High": 1.0
+            },
+            "net_worth_range": [100000, 500000],
+            "credit_score_options": ["701-750", "751-800", "800+"],
+            "preferred_payment_methods": ["Credit card", "Debit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.7,
+              "Luxury-oriented": 0.3
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Tech-Savvy Retiree",
+          "sub_persona_coverage": 3.0,
+          "description": "Enjoys social media, video calls, invests online.",
+          "notes": [
+            "Comfortable with e-banking and simplified UIs.",
+            "Looks for senior perks with telecom coverage."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.4,
+              "High": 0.6
+            },
+            "net_worth_range": [50000, 500000],
+            "credit_score_options": ["651-700", "701-750", "751-800", "800+"],
+            "preferred_payment_methods": ["Credit card", "Debit card"],
+            "spending_habits_weights": {
+              "Moderate": 0.6,
+              "Impulsive": 0.2,
+              "Frugal": 0.2
+            }
+          }
+        },
+        {
+          "sub_persona_name": "Traditionalist",
+          "sub_persona_coverage": 3.0,
+          "description": "Prefers in-person banking, paper statements.",
+          "notes": [
+            "Longstanding loyalty to known brands.",
+            "May need assistance navigating advanced digital features."
+          ],
+          "default_attributes": {
+            "income_level_weights": {
+              "Moderate": 0.8,
+              "High": 0.2
+            },
+            "net_worth_range": [30000, 300000],
+            "credit_score_options": ["550-600", "601-650", "651-700"],
+            "preferred_payment_methods": ["Check", "Debit card"],
+            "spending_habits_weights": {
+              "Frugal": 0.7,
+              "Moderate": 0.3
+            }
+          }
+        }
+      ]
+    }
+  ]
+  

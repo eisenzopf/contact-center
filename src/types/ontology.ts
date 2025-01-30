@@ -62,6 +62,12 @@ export interface CallDriver {
   transactionTypes: string[];
   attributes: Attribute[];
   selectedPersonas: string[];
+  customerFamily?: string | null;
+  customerSubPersonas?: string[];
+  employeePersonaIds?: string[];
+  departmentId?: string;
+  accountTypeId?: string;
+  transactionTypeId?: string;
 }
 
 export type Scenario = {

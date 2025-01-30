@@ -24,6 +24,22 @@ interface EmployeePersona {
   // ... other fields not needed for this use case
 }
 
+interface CustomerPersona {
+  family_name: string;
+  sub_personas: {
+    sub_persona_name: string;
+    sub_persona_coverage: number;
+    description: string;
+    notes: string[];
+    default_attributes: any;
+  }[];
+}
+
+interface CustomerPersonaSelections {
+  selectedFamily: string | null;
+  selectedSubPersonas: string[];
+}
+
 export default function OntologyManagerPage() {
   const [activeTab, setActiveTab] = useState<'callDrivers' | 'scenarios' | 'accountTypes' | 'departments' | 'lifecycles'>('callDrivers');
   const [callDrivers, setCallDrivers] = useState<CallDriver[]>([]);
@@ -36,6 +52,11 @@ export default function OntologyManagerPage() {
   const [lifecycleList, setLifecycleList] = useState<Lifecycle[]>(lifecycles);
   const [lifecycleStages, setLifecycleStages] = useState<LifecycleStage[]>([]);
   const [employeePersonas, setEmployeePersonas] = useState<{employee_personas: EmployeePersona[]}>({ employee_personas: [] });
+  const [customerPersonas, setCustomerPersonas] = useState<CustomerPersona[]>([]);
+  const [customerPersonaSelections, setCustomerPersonaSelections] = useState<CustomerPersonaSelections>({
+    selectedFamily: null,
+    selectedSubPersonas: []
+  });
 
   useEffect(() => {
     const loadPersonas = async () => {
@@ -43,6 +64,14 @@ export default function OntologyManagerPage() {
       setEmployeePersonas(personas);
     };
     loadPersonas();
+  }, []);
+
+  useEffect(() => {
+    const loadCustomerPersonas = async () => {
+      const personas = await import('./customer_personas.json');
+      setCustomerPersonas(personas.default);
+    };
+    loadCustomerPersonas();
   }, []);
 
   const personaOptions = employeePersonas.employee_personas.map(persona => ({
@@ -69,12 +98,18 @@ export default function OntologyManagerPage() {
   };
 
   const handleSaveCallDriver = (callDriver: CallDriver) => {
+    const callDriverWithPersonas = {
+      ...callDriver,
+      customerFamily: customerPersonaSelections.selectedFamily,
+      customerSubPersonas: customerPersonaSelections.selectedSubPersonas
+    };
+
     if (editingItem) {
       setCallDrivers(callDrivers.map(cd => 
-        cd.id === callDriver.id ? callDriver : cd
+        cd.id === callDriver.id ? callDriverWithPersonas : cd
       ));
     } else {
-      setCallDrivers([...callDrivers, callDriver]);
+      setCallDrivers([...callDrivers, callDriverWithPersonas]);
     }
     setEditingItem(null);
     setShowCallDriverForm(false);
@@ -156,21 +191,76 @@ export default function OntologyManagerPage() {
               </CardHeader>
               <CardContent>
                 {showCallDriverForm && (
-                  <CallDriverForm
-                    callDriver={editingItem as CallDriver}
-                    onSave={handleSaveCallDriver}
-                    onCancel={() => {
-                      setShowCallDriverForm(false);
-                      setEditingItem(null);
-                    }}
-                    accountTypes={accountTypes}
-                    accounts={mockAccounts}
-                    customers={mockCustomers}
-                    employees={mockEmployees}
-                    departments={departmentList}
-                    lifecycleStages={lifecycleStages}
-                    employeePersonas={personaOptions}
-                  />
+                  <div className="space-y-4 mb-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Customer Family Type
+                      </label>
+                      <select
+                        value={customerPersonaSelections.selectedFamily || ''}
+                        onChange={(e) => {
+                          const newFamily = e.target.value || null;
+                          setCustomerPersonaSelections({
+                            selectedFamily: newFamily,
+                            selectedSubPersonas: [] // Reset sub-personas when family changes
+                          });
+                        }}
+                        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="">Select a family type...</option>
+                        {customerPersonas.map((family) => (
+                          <option key={family.family_name} value={family.family_name}>
+                            {family.family_name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {customerPersonaSelections.selectedFamily && (
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Sub-Personas
+                        </label>
+                        <select
+                          multiple
+                          value={customerPersonaSelections.selectedSubPersonas}
+                          onChange={(e) => {
+                            const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
+                            setCustomerPersonaSelections(prev => ({
+                              ...prev,
+                              selectedSubPersonas: selectedOptions
+                            }));
+                          }}
+                          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          size={5}
+                        >
+                          {customerPersonas
+                            .find(f => f.family_name === customerPersonaSelections.selectedFamily)
+                            ?.sub_personas.map((subPersona) => (
+                              <option key={subPersona.sub_persona_name} value={subPersona.sub_persona_name}>
+                                {subPersona.sub_persona_name}
+                              </option>
+                            ))}
+                        </select>
+                        <p className="text-sm text-gray-500 mt-1">
+                          Hold Ctrl/Cmd to select multiple sub-personas
+                        </p>
+                      </div>
+                    )}
+
+                    <CallDriverForm
+                      callDriver={editingItem as CallDriver}
+                      onSave={handleSaveCallDriver}
+                      onCancel={() => {
+                        setShowCallDriverForm(false);
+                        setEditingItem(null);
+                      }}
+                      personaOptions={personaOptions}
+                      departmentOptions={departmentList}
+                      accountTypeOptions={accountTypes}
+                      transactionTypeOptions={transactionTypes}
+                    />
+                  </div>
                 )}
                 
                 {!showCallDriverForm && (

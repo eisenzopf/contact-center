@@ -8,26 +8,20 @@ type CallDriverFormProps = {
   callDriver?: CallDriver;
   onSave: (callDriver: CallDriver) => void;
   onCancel: () => void;
-  accountTypes: any[];
-  accounts: any[];
-  customers: any[];
-  employees: any[];
-  departments: any[];
-  lifecycleStages: any[];
-  employeePersonas: { value: string; label: string; }[];
+  personaOptions: { value: string; label: string; }[];
+  departmentOptions: Department[];
+  accountTypeOptions: AccountType[];
+  transactionTypeOptions: TransactionType[];
 }
 
 export function CallDriverForm({ 
   callDriver, 
   onSave, 
   onCancel,
-  accountTypes,
-  accounts,
-  customers,
-  employees,
-  departments,
-  lifecycleStages,
-  employeePersonas
+  personaOptions,
+  departmentOptions,
+  accountTypeOptions,
+  transactionTypeOptions
 }: CallDriverFormProps) {
   const [formData, setFormData] = useState({
     id: callDriver?.id || `cd_${Date.now()}`,
@@ -47,13 +41,13 @@ export function CallDriverForm({
   // Group lifecycle stages by account type
   const lifecyclesByAccountType = useMemo(() => {
     const grouped = new Map<string, any[]>();
-    lifecycleStages.forEach(stage => {
-      const stages = grouped.get(stage.accountTypeId) || [];
-      stages.push(stage);
-      grouped.set(stage.accountTypeId, stages.sort((a, b) => a.order - b.order));
+    accountTypeOptions.forEach(at => {
+      const stages = grouped.get(at.id) || [];
+      stages.push(at);
+      grouped.set(at.id, stages.sort((a, b) => a.order - b.order));
     });
     return grouped;
-  }, [lifecycleStages]);
+  }, [accountTypeOptions]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,7 +86,7 @@ export function CallDriverForm({
           Departments
         </label>
         <div className="space-y-2">
-          {departments.map((dept) => (
+          {departmentOptions.map((dept) => (
             <label key={dept.name} className="flex items-center space-x-2">
               <input
                 type="checkbox"
@@ -123,7 +117,7 @@ export function CallDriverForm({
           Account Types and Lifecycles
         </label>
         <div className="space-y-4">
-          {accountTypes.map((at) => (
+          {accountTypeOptions.map((at) => (
             <div key={at.id} className="border rounded-lg p-3">
               <label className="flex items-center space-x-2 mb-2">
                 <input
@@ -184,7 +178,7 @@ export function CallDriverForm({
 
       <div>
         <MultiSelect
-          options={employeePersonas.map(p => ({ id: p.value, name: p.label }))}
+          options={personaOptions.map(p => ({ id: p.value, name: p.label }))}
           selectedIds={formData.selectedPersonas}
           onChange={(selected) => {
             setFormData({
