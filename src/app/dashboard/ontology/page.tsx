@@ -263,19 +263,23 @@ export default function OntologyManagerPage() {
                 {showScenarioForm && (
                   <ScenarioForm
                     scenario={editingItem as Scenario}
-                    onSave={(s) => {
-                      handleSaveScenario(s);
-                      setShowScenarioForm(false);
-                    }}
+                    onSave={handleSaveScenario}
                     onCancel={() => {
                       setShowScenarioForm(false);
                       setEditingItem(null);
                     }}
-                    accountTypes={mockAccountTypes}
-                    accounts={mockAccounts}
-                    customers={mockCustomers}
-                    employees={mockEmployees}
-                    callDrivers={callDrivers}
+                    departmentOptions={departmentList.map(dept => ({
+                      id: dept.id,
+                      name: dept.name
+                    }))}
+                    accountTypeOptions={accountTypes.map(type => ({
+                      id: type.id,
+                      name: type.name,
+                      order: type.order
+                    }))}
+                    personaOptions={personaOptions}
+                    customerPersonas={customerPersonas}
+                    lifecycleStages={lifecycleStages}
                   />
                 )}
                 

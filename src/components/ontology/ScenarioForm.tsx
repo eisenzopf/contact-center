@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Scenario } from '@/types/ontology';
+import { Scenario, LifecycleStage } from '@/types/ontology';
 import { MultiSelect } from './MultiSelect';
 import { AttributeList } from './AttributeList';
 import { Save, X } from 'lucide-react';
@@ -8,36 +8,44 @@ type ScenarioFormProps = {
   scenario?: Scenario;
   onSave: (scenario: Scenario) => void;
   onCancel: () => void;
-  accountTypes: any[];
-  accounts: any[];
-  customers: any[];
-  employees: any[];
-  callDrivers: any[];
+  departmentOptions: Array<{ id: string; name: string; }>;
+  accountTypeOptions: Array<{ id: string; name: string; order: number; }>;
+  personaOptions: { value: string; label: string; }[];
+  customerPersonas: Array<{
+    family_name: string;
+    sub_personas: {
+      sub_persona_name: string;
+      sub_persona_coverage: number;
+      description: string;
+      notes: string[];
+      default_attributes: any;
+    }[];
+  }>;
+  lifecycleStages: LifecycleStage[];
 }
 
 export function ScenarioForm({ 
   scenario, 
   onSave, 
   onCancel,
-  accountTypes,
-  accounts,
-  customers,
-  employees,
-  callDrivers
+  departmentOptions,
+  accountTypeOptions,
+  personaOptions,
+  customerPersonas,
+  lifecycleStages
 }: ScenarioFormProps) {
   const [formData, setFormData] = useState<Scenario>(scenario || {
     id: `sc_${Date.now()}`,
     name: '',
     outline: '',
-    duration: '',
-    accountTypes: [],
-    accounts: [],
-    customers: [],
-    employees: [],
+    numberOfCalls: 0,
+    startDate: '',
+    endDate: '',
     departments: [],
-    lifecycles: [],
-    transactionTypes: [],
-    callDrivers: [],
+    accountTypes: [],
+    lifecycleStages: [],
+    selectedPersonas: [],
+    customerFamilies: [],
     attributes: []
   });
 
@@ -76,39 +84,225 @@ export function ScenarioForm({
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Duration
+          Number of Calls
         </label>
         <input
-          type="text"
-          value={formData.duration}
-          onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
+          type="number"
+          min="0"
+          value={formData.numberOfCalls}
+          onChange={(e) => setFormData({ ...formData, numberOfCalls: parseInt(e.target.value) })}
           className="w-full border rounded-md px-3 py-2"
-          placeholder="e.g., 5 minutes"
           required
         />
       </div>
 
-      <MultiSelect
-        options={callDrivers}
-        selectedIds={formData.callDrivers.map(cd => cd.id)}
-        onChange={(ids) => setFormData({
-          ...formData,
-          callDrivers: callDrivers.filter(cd => ids.includes(cd.id))
-        })}
-        label="Call Drivers"
-      />
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Start Date
+          </label>
+          <input
+            type="date"
+            value={formData.startDate}
+            onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+            className="w-full border rounded-md px-3 py-2"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            End Date
+          </label>
+          <input
+            type="date"
+            value={formData.endDate}
+            onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+            className="w-full border rounded-md px-3 py-2"
+            required
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-1">
+          Departments
+        </label>
+        <div className="space-y-2">
+          {departmentOptions.map((dept) => (
+            <label key={dept.name} className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={formData.departments.includes(dept.name)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setFormData({
+                      ...formData,
+                      departments: [...formData.departments, dept.name]
+                    });
+                  } else {
+                    setFormData({
+                      ...formData,
+                      departments: formData.departments.filter(d => d !== dept.name)
+                    });
+                  }
+                }}
+                className="rounded border-gray-300"
+              />
+              <span>{dept.name}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-1">
+          Account Types and Lifecycles
+        </label>
+        <div className="space-y-4">
+          {accountTypeOptions.map((at) => (
+            <div key={at.id} className="border rounded-lg p-3">
+              <label className="flex items-center space-x-2 mb-2">
+                <input
+                  type="checkbox"
+                  checked={formData.accountTypes.some(t => t.id === at.id)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setFormData({
+                        ...formData,
+                        accountTypes: [...formData.accountTypes, at]
+                      });
+                    } else {
+                      setFormData({
+                        ...formData,
+                        accountTypes: formData.accountTypes.filter(t => t.id !== at.id),
+                        lifecycleStages: formData.lifecycleStages.filter(l => 
+                          !lifecycleStages.find(stage => stage.accountTypeId === at.id && stage.id === l)
+                        )
+                      });
+                    }
+                  }}
+                  className="rounded border-gray-300"
+                />
+                <span className="font-medium">{at.name}</span>
+              </label>
+
+              {formData.accountTypes.some(t => t.id === at.id) && (
+                <div className="ml-6 space-y-2">
+                  {lifecycleStages
+                    .filter(stage => stage.accountTypeId === at.id)
+                    .sort((a, b) => a.order - b.order)
+                    .map((stage) => (
+                      <label key={stage.id} className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          checked={formData.lifecycleStages.includes(stage.id)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setFormData({
+                                ...formData,
+                                lifecycleStages: [...formData.lifecycleStages, stage.id]
+                              });
+                            } else {
+                              setFormData({
+                                ...formData,
+                                lifecycleStages: formData.lifecycleStages.filter(l => l !== stage.id)
+                              });
+                            }
+                          }}
+                          className="rounded border-gray-300"
+                        />
+                        <span>{stage.name}</span>
+                      </label>
+                    ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
 
       <MultiSelect
-        options={accountTypes}
-        selectedIds={formData.accountTypes.map(at => at.id)}
-        onChange={(ids) => setFormData({
-          ...formData,
-          accountTypes: accountTypes.filter(at => ids.includes(at.id))
-        })}
-        label="Account Types"
+        options={personaOptions.map(p => ({ id: p.value, name: p.label }))}
+        selectedIds={formData.selectedPersonas}
+        onChange={(selected) => {
+          setFormData({
+            ...formData,
+            selectedPersonas: selected
+          });
+        }}
+        label="Employee Personas"
       />
 
-      {/* Similar MultiSelect components for other relationships */}
+      <div>
+        <label className="block text-sm font-medium mb-1">
+          Customer Personas
+        </label>
+        <div className="space-y-4">
+          {customerPersonas.map((family) => (
+            <div key={family.family_name} className="border rounded-lg p-3">
+              <label className="flex items-center space-x-2 mb-2">
+                <input
+                  type="checkbox"
+                  checked={formData.customerFamilies.some(f => f.familyName === family.family_name)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setFormData({
+                        ...formData,
+                        customerFamilies: [...formData.customerFamilies, {
+                          familyName: family.family_name,
+                          subPersonas: []
+                        }]
+                      });
+                    } else {
+                      setFormData({
+                        ...formData,
+                        customerFamilies: formData.customerFamilies.filter(f => 
+                          f.familyName !== family.family_name
+                        )
+                      });
+                    }
+                  }}
+                  className="rounded border-gray-300"
+                />
+                <span className="font-medium">{family.family_name}</span>
+              </label>
+
+              {formData.customerFamilies.some(f => f.familyName === family.family_name) && (
+                <div className="ml-6 space-y-2">
+                  {family.sub_personas.map((subPersona) => (
+                    <label key={subPersona.sub_persona_name} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={formData.customerFamilies
+                          .find(f => f.familyName === family.family_name)
+                          ?.subPersonas.includes(subPersona.sub_persona_name)}
+                        onChange={(e) => {
+                          setFormData({
+                            ...formData,
+                            customerFamilies: formData.customerFamilies.map(f => {
+                              if (f.familyName === family.family_name) {
+                                return {
+                                  ...f,
+                                  subPersonas: e.target.checked
+                                    ? [...f.subPersonas, subPersona.sub_persona_name]
+                                    : f.subPersonas.filter(sp => sp !== subPersona.sub_persona_name)
+                                };
+                              }
+                              return f;
+                            })
+                          });
+                        }}
+                        className="rounded border-gray-300"
+                      />
+                      <span>{subPersona.sub_persona_name}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
 
       <AttributeList
         attributes={formData.attributes}

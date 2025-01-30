@@ -75,15 +75,17 @@ export type Scenario = {
   id: string;
   name: string;
   outline: string;
-  duration: string;
-  accountTypes: AccountType[];
-  accounts: Account[];
-  customers: Customer[];
-  employees: Employee[];
+  numberOfCalls: number;
+  startDate: string;
+  endDate: string;
   departments: Department[];
-  lifecycles: Lifecycle[];
-  transactionTypes: TransactionType[];
-  callDrivers: CallDriver[];
+  accountTypes: AccountType[];
+  lifecycleStages: LifecycleStage[];
+  selectedPersonas: string[];
+  customerFamilies: {
+    familyName: string;
+    subPersonas: string[];
+  }[];
   attributes: Attribute[];
 }
 
