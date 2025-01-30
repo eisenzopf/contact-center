@@ -301,9 +301,9 @@ export default function OntologyManagerPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {accountTypes.map((at) => (
+                  {accountTypes.map((at: AccountType) => (
                     <div key={at.id} className="flex items-center justify-between p-4 border rounded-lg">
-                      {editingItem?.id === at.id ? (
+                      {editingItem && editingItem.id === at.id ? (
                         <div className="w-full space-y-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>

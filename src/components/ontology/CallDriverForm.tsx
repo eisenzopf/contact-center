@@ -187,15 +187,15 @@ export function CallDriverForm({
           Employee Personas
         </label>
         <MultiSelect
-          options={employeePersonas}
-          value={employeePersonas.filter(p => formData.selectedPersonas.includes(p.value))}
+          options={employeePersonas.map(p => ({ id: p.value, name: p.label }))}
+          selectedIds={formData.selectedPersonas}
           onChange={(selected) => {
             setFormData({
               ...formData,
-              selectedPersonas: selected.map(s => s.value)
+              selectedPersonas: selected
             });
           }}
-          placeholder="Select employee personas..."
+          label="Employee Personas"
         />
       </div>
 
