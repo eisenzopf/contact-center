@@ -31,9 +31,15 @@ export type Employee = {
   profile?: string;
 }
 
-export type Department = 'Personal' | 'Business' | 'Loans' | 'Fraud' | 'Wealth' | 'Collections';
+export type Department = {
+  id: string;
+  name: 'Personal' | 'Business' | 'Loans' | 'Fraud' | 'Wealth' | 'Collections';
+};
 
-export type Lifecycle = 'Opening' | 'Servicing' | 'Closing';
+export type Lifecycle = {
+  id: string;
+  name: 'Opening' | 'Servicing' | 'Closing';
+};
 
 export type TransactionType = 'Payment' | 'Withdrawal' | 'Deposit';
 

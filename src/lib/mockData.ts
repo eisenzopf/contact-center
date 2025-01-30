@@ -50,18 +50,18 @@ export const mockEmployees: Employee[] = [
 ];
 
 export const departments: Department[] = [
-  'Personal',
-  'Business',
-  'Loans',
-  'Fraud',
-  'Wealth',
-  'Collections',
+  { id: 'dept_1', name: 'Personal' },
+  { id: 'dept_2', name: 'Business' },
+  { id: 'dept_3', name: 'Loans' },
+  { id: 'dept_4', name: 'Fraud' },
+  { id: 'dept_5', name: 'Wealth' },
+  { id: 'dept_6', name: 'Collections' }
 ];
 
 export const lifecycles: Lifecycle[] = [
-  'Opening',
-  'Servicing',
-  'Closing',
+  { id: 'lc1', name: 'Opening' },
+  { id: 'lc2', name: 'Servicing' },
+  { id: 'lc3', name: 'Closing' },
 ];
 
 export const transactionTypes: TransactionType[] = [

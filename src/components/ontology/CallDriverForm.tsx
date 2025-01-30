@@ -93,26 +93,26 @@ export function CallDriverForm({
         </label>
         <div className="space-y-2">
           {departments.map((dept) => (
-            <label key={dept} className="flex items-center space-x-2">
+            <label key={dept.name} className="flex items-center space-x-2">
               <input
                 type="checkbox"
-                checked={formData.departments.includes(dept)}
+                checked={formData.departments.includes(dept.name)}
                 onChange={(e) => {
                   if (e.target.checked) {
                     setFormData({
                       ...formData,
-                      departments: [...formData.departments, dept]
+                      departments: [...formData.departments, dept.name]
                     });
                   } else {
                     setFormData({
                       ...formData,
-                      departments: formData.departments.filter(d => d !== dept)
+                      departments: formData.departments.filter(d => d !== dept.name)
                     });
                   }
                 }}
                 className="rounded border-gray-300"
               />
-              <span>{dept}</span>
+              <span>{dept.name}</span>
             </label>
           ))}
         </div>
@@ -183,9 +183,6 @@ export function CallDriverForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">
-          Employee Personas
-        </label>
         <MultiSelect
           options={employeePersonas.map(p => ({ id: p.value, name: p.label }))}
           selectedIds={formData.selectedPersonas}
