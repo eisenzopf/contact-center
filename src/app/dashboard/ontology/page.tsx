@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus, Edit, Trash2, Save } from 'lucide-react';
-import { CallDriver, Scenario, Attribute, AccountType, Department, Lifecycle } from '@/types/ontology';
+import { CallDriver, Scenario, Attribute, AccountType, Department, Lifecycle, LifecycleStage } from '@/types/ontology';
 import { themeClasses } from '@/lib/theme';
 import { CallDriverForm } from '@/components/ontology/CallDriverForm';
 import { ScenarioForm } from '@/components/ontology/ScenarioForm';
@@ -22,12 +22,13 @@ export default function OntologyManagerPage() {
   const [activeTab, setActiveTab] = useState<'callDrivers' | 'scenarios' | 'accountTypes' | 'departments' | 'lifecycles'>('callDrivers');
   const [callDrivers, setCallDrivers] = useState<CallDriver[]>([]);
   const [scenarios, setScenarios] = useState<Scenario[]>([]);
-  const [editingItem, setEditingItem] = useState<CallDriver | Scenario | AccountType | Department | Lifecycle | null>(null);
+  const [editingItem, setEditingItem] = useState<CallDriver | Scenario | AccountType | Department | Lifecycle | LifecycleStage | null>(null);
   const [showCallDriverForm, setShowCallDriverForm] = useState(false);
   const [showScenarioForm, setShowScenarioForm] = useState(false);
   const [accountTypes, setAccountTypes] = useState<AccountType[]>(mockAccountTypes);
   const [departmentList, setDepartmentList] = useState<Department[]>(departments);
   const [lifecycleList, setLifecycleList] = useState<Lifecycle[]>(lifecycles);
+  const [lifecycleStages, setLifecycleStages] = useState<LifecycleStage[]>([]);
 
   const handleAddAttribute = (item: CallDriver | Scenario) => {
     const newAttribute: Attribute = {
@@ -77,6 +78,29 @@ export default function OntologyManagerPage() {
     } else {
       setCallDrivers(callDrivers.filter(cd => cd.id !== item.id));
     }
+  };
+
+  const reorderLifecycle = (accountTypeId: string, stageId: string, direction: 'up' | 'down') => {
+    setLifecycleStages(prevStages => {
+      const stages = [...prevStages];
+      const accountTypeStages = stages.filter(s => s.accountTypeId === accountTypeId);
+      const currentIndex = accountTypeStages.findIndex(s => s.id === stageId);
+      
+      if (direction === 'up' && currentIndex > 0) {
+        const temp = accountTypeStages[currentIndex].order;
+        accountTypeStages[currentIndex].order = accountTypeStages[currentIndex - 1].order;
+        accountTypeStages[currentIndex - 1].order = temp;
+      } else if (direction === 'down' && currentIndex < accountTypeStages.length - 1) {
+        const temp = accountTypeStages[currentIndex].order;
+        accountTypeStages[currentIndex].order = accountTypeStages[currentIndex + 1].order;
+        accountTypeStages[currentIndex + 1].order = temp;
+      }
+      
+      return stages.map(s => {
+        const updatedStage = accountTypeStages.find(as => as.id === s.id);
+        return updatedStage || s;
+      });
+    });
   };
 
   return (
@@ -464,78 +488,110 @@ export default function OntologyManagerPage() {
 
           <TabsContent value="lifecycles">
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>Lifecycles</CardTitle>
-                <button 
-                  className="bg-[var(--primary)] text-[var(--primary-foreground)] px-4 py-2 rounded-lg flex items-center hover:bg-[var(--primary-hover)]"
-                  onClick={() => {
-                    const newLifecycle = 'Opening' as Lifecycle;
-                    setLifecycleList([...lifecycleList, newLifecycle]);
-                    setEditingItem(newLifecycle);
-                  }}
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Lifecycle Stage
-                </button>
+              <CardHeader>
+                <CardTitle>Lifecycle Stages by Account Type</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {lifecycleList.map((lifecycle, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                      {editingItem === lifecycle ? (
-                        <div className="w-full space-y-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Lifecycle Stage Name</label>
-                            <input
-                              type="text"
-                              value={lifecycle}
-                              onChange={(e) => {
-                                const newLifecycles = [...lifecycleList];
-                                newLifecycles[index] = e.target.value as Lifecycle;
-                                setLifecycleList(newLifecycles);
-                              }}
-                              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                              placeholder="Enter lifecycle stage name..."
-                            />
-                          </div>
-
-                          <div className="flex justify-end space-x-2 mt-4">
-                            <button
-                              onClick={() => setEditingItem(null)}
-                              className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              onClick={() => setEditingItem(null)}
-                              className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg flex items-center"
-                            >
-                              <Save className="h-4 w-4 mr-2" />
-                              Save
-                            </button>
-                          </div>
-                        </div>
-                      ) : (
-                        <>
-                          <div>
-                            <h3 className="font-medium">{lifecycle}</h3>
-                          </div>
-                          <div className="flex space-x-2">
-                            <button
-                              onClick={() => setEditingItem(lifecycle)}
-                              className="p-2 text-blue-500 hover:bg-blue-50 rounded"
-                            >
-                              <Edit className="h-4 w-4" />
-                            </button>
-                            <button
-                              onClick={() => setLifecycleList(lifecycleList.filter((_, i) => i !== index))}
-                              className="p-2 text-red-500 hover:bg-red-50 rounded"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </button>
-                          </div>
-                        </>
-                      )}
+                <div className="space-y-8">
+                  {accountTypes.map((accountType) => (
+                    <div key={accountType.id} className="border rounded-lg p-4">
+                      <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-lg font-medium">{accountType.name}</h3>
+                        <button 
+                          className="bg-[var(--primary)] text-[var(--primary-foreground)] px-3 py-1.5 rounded-lg flex items-center hover:bg-[var(--primary-hover)] text-sm"
+                          onClick={() => {
+                            const newStage: LifecycleStage = {
+                              id: `ls_${Date.now()}`,
+                              name: 'New Stage',
+                              order: lifecycleStages.filter(s => s.accountTypeId === accountType.id).length,
+                              accountTypeId: accountType.id
+                            };
+                            setLifecycleStages([...lifecycleStages, newStage]);
+                            setEditingItem(newStage);
+                          }}
+                        >
+                          <Plus className="h-4 w-4 mr-1" />
+                          Add Stage
+                        </button>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        {lifecycleStages
+                          .filter(stage => stage.accountTypeId === accountType.id)
+                          .sort((a, b) => a.order - b.order)
+                          .map((stage, index, filteredStages) => (
+                            <div key={stage.id} className="flex items-center justify-between p-3 border rounded-lg bg-white">
+                              {editingItem?.id === stage.id ? (
+                                <div className="flex-1 mr-4">
+                                  <input
+                                    type="text"
+                                    value={stage.name}
+                                    onChange={(e) => {
+                                      setLifecycleStages(stages => 
+                                        stages.map(s => 
+                                          s.id === stage.id ? {...s, name: e.target.value} : s
+                                        )
+                                      );
+                                    }}
+                                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Enter stage name..."
+                                  />
+                                  <div className="flex justify-end space-x-2 mt-2">
+                                    <button
+                                      onClick={() => setEditingItem(null)}
+                                      className="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg"
+                                    >
+                                      Cancel
+                                    </button>
+                                    <button
+                                      onClick={() => setEditingItem(null)}
+                                      className="px-3 py-1.5 text-sm bg-blue-500 text-white hover:bg-blue-600 rounded-lg flex items-center"
+                                    >
+                                      <Save className="h-4 w-4 mr-1" />
+                                      Save
+                                    </button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <>
+                                  <span className="font-medium">{stage.name}</span>
+                                  <div className="flex items-center space-x-2">
+                                    <div className="flex space-x-1">
+                                      <button
+                                        onClick={() => reorderLifecycle(accountType.id, stage.id, 'up')}
+                                        disabled={index === 0}
+                                        className="p-1 text-gray-500 hover:bg-gray-100 rounded disabled:opacity-30"
+                                      >
+                                        ↑
+                                      </button>
+                                      <button
+                                        onClick={() => reorderLifecycle(accountType.id, stage.id, 'down')}
+                                        disabled={index === filteredStages.length - 1}
+                                        className="p-1 text-gray-500 hover:bg-gray-100 rounded disabled:opacity-30"
+                                      >
+                                        ↓
+                                      </button>
+                                    </div>
+                                    <button
+                                      onClick={() => setEditingItem(stage)}
+                                      className="p-1.5 text-blue-500 hover:bg-blue-50 rounded"
+                                    >
+                                      <Edit className="h-4 w-4" />
+                                    </button>
+                                    <button
+                                      onClick={() => setLifecycleStages(stages => 
+                                        stages.filter(s => s.id !== stage.id)
+                                      )}
+                                      className="p-1.5 text-red-500 hover:bg-red-50 rounded"
+                                    >
+                                      <Trash2 className="h-4 w-4" />
+                                    </button>
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          ))}
+                      </div>
                     </div>
                   ))}
                 </div>

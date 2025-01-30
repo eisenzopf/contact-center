@@ -71,4 +71,11 @@ export type Scenario = {
   transactionTypes: TransactionType[];
   callDrivers: CallDriver[];
   attributes: Attribute[];
+}
+
+export type LifecycleStage = {
+  id: string;
+  name: string;
+  order: number;
+  accountTypeId: string;
 } 
