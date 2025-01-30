@@ -194,13 +194,7 @@ CREATE TABLE call_driver_account_type_lifecycles (
     PRIMARY KEY (call_driver_id, account_type_id, lifecycle_id),
     FOREIGN KEY (call_driver_id) REFERENCES call_drivers(id) ON DELETE CASCADE,
     FOREIGN KEY (account_type_id) REFERENCES account_types(id) ON DELETE CASCADE,
-    FOREIGN KEY (lifecycle_id) REFERENCES lifecycles(id) ON DELETE CASCADE,
-    CONSTRAINT valid_account_type_lifecycle 
-        CHECK (EXISTS (
-            SELECT 1 FROM account_type_lifecycles 
-            WHERE account_type_id = call_driver_account_type_lifecycles.account_type_id 
-            AND lifecycle_id = call_driver_account_type_lifecycles.lifecycle_id
-        ))
+    FOREIGN KEY (lifecycle_id) REFERENCES lifecycles(id) ON DELETE CASCADE
 );
 
 CREATE TABLE scenario_call_drivers (
@@ -343,6 +337,18 @@ CREATE TRIGGER update_attribute_timestamp
     AFTER UPDATE ON attributes
 BEGIN
     UPDATE attributes SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
+END;
+
+-- Account Type Lifecycle Validation Trigger
+CREATE TRIGGER check_valid_account_type_lifecycle
+BEFORE INSERT ON call_driver_account_type_lifecycles
+BEGIN
+    SELECT RAISE(ROLLBACK, 'Invalid account_type and lifecycle combination')
+    WHERE NOT EXISTS (
+        SELECT 1 FROM account_type_lifecycles 
+        WHERE account_type_id = NEW.account_type_id 
+        AND lifecycle_id = NEW.lifecycle_id
+    );
 END;
 
 -- Default Data
