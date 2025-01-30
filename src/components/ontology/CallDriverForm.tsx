@@ -4,14 +4,29 @@ import { MultiSelect } from './MultiSelect';
 import { AttributeList } from './AttributeList';
 import { Save, X } from 'lucide-react';
 
+interface CustomerFamily {
+  familyName: string;
+  subPersonas: string[];
+}
+
 type CallDriverFormProps = {
   callDriver?: CallDriver;
   onSave: (callDriver: CallDriver) => void;
   onCancel: () => void;
   personaOptions: { value: string; label: string; }[];
-  departmentOptions: Department[];
-  accountTypeOptions: AccountType[];
-  transactionTypeOptions: TransactionType[];
+  departmentOptions: Array<{ id: string; name: string; }>;
+  accountTypeOptions: Array<{ id: string; name: string; order: number; }>;
+  transactionTypeOptions: Array<{ id: string; name: string; }>;
+  customerPersonas: Array<{
+    family_name: string;
+    sub_personas: {
+      sub_persona_name: string;
+      sub_persona_coverage: number;
+      description: string;
+      notes: string[];
+      default_attributes: any;
+    }[];
+  }>;
 }
 
 export function CallDriverForm({ 
@@ -21,7 +36,8 @@ export function CallDriverForm({
   personaOptions,
   departmentOptions,
   accountTypeOptions,
-  transactionTypeOptions
+  transactionTypeOptions,
+  customerPersonas
 }: CallDriverFormProps) {
   const [formData, setFormData] = useState({
     id: callDriver?.id || `cd_${Date.now()}`,
@@ -35,7 +51,8 @@ export function CallDriverForm({
     lifecycles: callDriver?.lifecycles || [],
     transactionTypes: callDriver?.transactionTypes || [],
     attributes: callDriver?.attributes || [],
-    selectedPersonas: callDriver?.selectedPersonas || []
+    selectedPersonas: callDriver?.selectedPersonas || [],
+    customerFamilies: callDriver?.customerFamilies || []
   });
 
   // Group lifecycle stages by account type
@@ -188,6 +205,77 @@ export function CallDriverForm({
           }}
           label="Employee Personas"
         />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-1">
+          Customer Personas
+        </label>
+        <div className="space-y-4">
+          {customerPersonas.map((family) => (
+            <div key={family.family_name} className="border rounded-lg p-3">
+              <label className="flex items-center space-x-2 mb-2">
+                <input
+                  type="checkbox"
+                  checked={formData.customerFamilies.some(f => f.familyName === family.family_name)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setFormData({
+                        ...formData,
+                        customerFamilies: [...formData.customerFamilies, {
+                          familyName: family.family_name,
+                          subPersonas: []
+                        }]
+                      });
+                    } else {
+                      setFormData({
+                        ...formData,
+                        customerFamilies: formData.customerFamilies.filter(f => 
+                          f.familyName !== family.family_name
+                        )
+                      });
+                    }
+                  }}
+                  className="rounded border-gray-300"
+                />
+                <span className="font-medium">{family.family_name}</span>
+              </label>
+
+              {formData.customerFamilies.some(f => f.familyName === family.family_name) && (
+                <div className="ml-6 space-y-2">
+                  {family.sub_personas.map((subPersona) => (
+                    <label key={subPersona.sub_persona_name} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={formData.customerFamilies
+                          .find(f => f.familyName === family.family_name)
+                          ?.subPersonas.includes(subPersona.sub_persona_name)}
+                        onChange={(e) => {
+                          setFormData({
+                            ...formData,
+                            customerFamilies: formData.customerFamilies.map(f => {
+                              if (f.familyName === family.family_name) {
+                                return {
+                                  ...f,
+                                  subPersonas: e.target.checked
+                                    ? [...f.subPersonas, subPersona.sub_persona_name]
+                                    : f.subPersonas.filter(sp => sp !== subPersona.sub_persona_name)
+                                };
+                              }
+                              return f;
+                            })
+                          });
+                        }}
+                        className="rounded border-gray-300"
+                      />
+                      <span>{subPersona.sub_persona_name}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       <AttributeList
