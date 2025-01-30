@@ -53,6 +53,7 @@ export interface CallDriver {
   id: string;
   name: string;
   description: string;
+  chanceOfCallPerMonth: string;
   accountTypes: AccountType[];
   accounts: string[];
   customers: string[];
