@@ -43,18 +43,19 @@ export type Attribute = {
   value: string;
 }
 
-export type CallDriver = {
+export interface CallDriver {
   id: string;
   name: string;
-  description?: string;
+  description: string;
   accountTypes: AccountType[];
-  accounts: Account[];
-  customers: Customer[];
-  employees: Employee[];
-  departments: Department[];
-  lifecycles: Lifecycle[];
-  transactionTypes: TransactionType[];
+  accounts: string[];
+  customers: string[];
+  employees: string[];
+  departments: string[];
+  lifecycles: string[];
+  transactionTypes: string[];
   attributes: Attribute[];
+  selectedPersonas: string[];
 }
 
 export type Scenario = {

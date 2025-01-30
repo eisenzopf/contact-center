@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { CallDriver } from '@/types/ontology';
 import { MultiSelect } from './MultiSelect';
 import { AttributeList } from './AttributeList';
@@ -12,6 +12,9 @@ type CallDriverFormProps = {
   accounts: any[];
   customers: any[];
   employees: any[];
+  departments: any[];
+  lifecycleStages: any[];
+  employeePersonas: { value: string; label: string; }[];
 }
 
 export function CallDriverForm({ 
@@ -21,21 +24,36 @@ export function CallDriverForm({
   accountTypes,
   accounts,
   customers,
-  employees
+  employees,
+  departments,
+  lifecycleStages,
+  employeePersonas
 }: CallDriverFormProps) {
-  const [formData, setFormData] = useState<CallDriver>(callDriver || {
-    id: `cd_${Date.now()}`,
-    name: '',
-    description: '',
-    accountTypes: [],
-    accounts: [],
-    customers: [],
-    employees: [],
-    departments: [],
-    lifecycles: [],
-    transactionTypes: [],
-    attributes: []
+  const [formData, setFormData] = useState({
+    id: callDriver?.id || `cd_${Date.now()}`,
+    name: callDriver?.name || '',
+    description: callDriver?.description || '',
+    accountTypes: callDriver?.accountTypes || [],
+    accounts: callDriver?.accounts || [],
+    customers: callDriver?.customers || [],
+    employees: callDriver?.employees || [],
+    departments: callDriver?.departments || [],
+    lifecycles: callDriver?.lifecycles || [],
+    transactionTypes: callDriver?.transactionTypes || [],
+    attributes: callDriver?.attributes || [],
+    selectedPersonas: callDriver?.selectedPersonas || []
   });
+
+  // Group lifecycle stages by account type
+  const lifecyclesByAccountType = useMemo(() => {
+    const grouped = new Map<string, any[]>();
+    lifecycleStages.forEach(stage => {
+      const stages = grouped.get(stage.accountTypeId) || [];
+      stages.push(stage);
+      grouped.set(stage.accountTypeId, stages.sort((a, b) => a.order - b.order));
+    });
+    return grouped;
+  }, [lifecycleStages]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,17 +87,117 @@ export function CallDriverForm({
         />
       </div>
 
-      <MultiSelect
-        options={accountTypes}
-        selectedIds={formData.accountTypes.map(at => at.id)}
-        onChange={(ids) => setFormData({
-          ...formData,
-          accountTypes: accountTypes.filter(at => ids.includes(at.id))
-        })}
-        label="Account Types"
-      />
+      <div>
+        <label className="block text-sm font-medium mb-1">
+          Departments
+        </label>
+        <div className="space-y-2">
+          {departments.map((dept) => (
+            <label key={dept} className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={formData.departments.includes(dept)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setFormData({
+                      ...formData,
+                      departments: [...formData.departments, dept]
+                    });
+                  } else {
+                    setFormData({
+                      ...formData,
+                      departments: formData.departments.filter(d => d !== dept)
+                    });
+                  }
+                }}
+                className="rounded border-gray-300"
+              />
+              <span>{dept}</span>
+            </label>
+          ))}
+        </div>
+      </div>
 
-      {/* Similar MultiSelect components for other relationships */}
+      <div>
+        <label className="block text-sm font-medium mb-1">
+          Account Types and Lifecycles
+        </label>
+        <div className="space-y-4">
+          {accountTypes.map((at) => (
+            <div key={at.id} className="border rounded-lg p-3">
+              <label className="flex items-center space-x-2 mb-2">
+                <input
+                  type="checkbox"
+                  checked={formData.accountTypes.some(t => t.id === at.id)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setFormData({
+                        ...formData,
+                        accountTypes: [...formData.accountTypes, at]
+                      });
+                    } else {
+                      setFormData({
+                        ...formData,
+                        accountTypes: formData.accountTypes.filter(t => t.id !== at.id),
+                        lifecycles: formData.lifecycles.filter(l => 
+                          !lifecyclesByAccountType.get(at.id)?.some(stage => stage.id === l)
+                        )
+                      });
+                    }
+                  }}
+                  className="rounded border-gray-300"
+                />
+                <span className="font-medium">{at.name}</span>
+              </label>
+
+              {formData.accountTypes.some(t => t.id === at.id) && (
+                <div className="ml-6 space-y-2">
+                  {(lifecyclesByAccountType.get(at.id) || []).map((stage) => (
+                    <label key={stage.id} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={formData.lifecycles.includes(stage.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setFormData({
+                              ...formData,
+                              lifecycles: [...formData.lifecycles, stage.id]
+                            });
+                          } else {
+                            setFormData({
+                              ...formData,
+                              lifecycles: formData.lifecycles.filter(l => l !== stage.id)
+                            });
+                          }
+                        }}
+                        className="rounded border-gray-300"
+                      />
+                      <span>{stage.name}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-1">
+          Employee Personas
+        </label>
+        <MultiSelect
+          options={employeePersonas}
+          value={employeePersonas.filter(p => formData.selectedPersonas.includes(p.value))}
+          onChange={(selected) => {
+            setFormData({
+              ...formData,
+              selectedPersonas: selected.map(s => s.value)
+            });
+          }}
+          placeholder="Select employee personas..."
+        />
+      </div>
 
       <AttributeList
         attributes={formData.attributes}

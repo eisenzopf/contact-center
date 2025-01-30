@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus, Edit, Trash2, Save } from 'lucide-react';
@@ -18,6 +18,12 @@ import {
   transactionTypes
 } from '@/lib/mockData';
 
+interface EmployeePersona {
+  persona_id: number;
+  name: string;
+  // ... other fields not needed for this use case
+}
+
 export default function OntologyManagerPage() {
   const [activeTab, setActiveTab] = useState<'callDrivers' | 'scenarios' | 'accountTypes' | 'departments' | 'lifecycles'>('callDrivers');
   const [callDrivers, setCallDrivers] = useState<CallDriver[]>([]);
@@ -29,6 +35,20 @@ export default function OntologyManagerPage() {
   const [departmentList, setDepartmentList] = useState<Department[]>(departments);
   const [lifecycleList, setLifecycleList] = useState<Lifecycle[]>(lifecycles);
   const [lifecycleStages, setLifecycleStages] = useState<LifecycleStage[]>([]);
+  const [employeePersonas, setEmployeePersonas] = useState<{employee_personas: EmployeePersona[]}>({ employee_personas: [] });
+
+  useEffect(() => {
+    const loadPersonas = async () => {
+      const personas = await import('./employee_personas.json');
+      setEmployeePersonas(personas);
+    };
+    loadPersonas();
+  }, []);
+
+  const personaOptions = employeePersonas.employee_personas.map(persona => ({
+    value: persona.persona_id.toString(),
+    label: `${persona.persona_id} - ${persona.name}`
+  }));
 
   const handleAddAttribute = (item: CallDriver | Scenario) => {
     const newAttribute: Attribute = {
@@ -138,18 +158,18 @@ export default function OntologyManagerPage() {
                 {showCallDriverForm && (
                   <CallDriverForm
                     callDriver={editingItem as CallDriver}
-                    onSave={(cd) => {
-                      handleSaveCallDriver(cd);
-                      setShowCallDriverForm(false);
-                    }}
+                    onSave={handleSaveCallDriver}
                     onCancel={() => {
                       setShowCallDriverForm(false);
                       setEditingItem(null);
                     }}
-                    accountTypes={mockAccountTypes}
+                    accountTypes={accountTypes}
                     accounts={mockAccounts}
                     customers={mockCustomers}
                     employees={mockEmployees}
+                    departments={departmentList}
+                    lifecycleStages={lifecycleStages}
+                    employeePersonas={personaOptions}
                   />
                 )}
                 
