@@ -1,6 +1,7 @@
 import { Send } from 'lucide-react';
 import { ChatMessage as ChatMessageType } from '../types';
 import { ChatMessage } from './ChatMessage';
+import { useEffect, useRef } from 'react';
 
 interface ChatInterfaceProps {
   chat: ChatMessageType[];
@@ -19,6 +20,16 @@ export const ChatInterface = ({
   onSendMessage,
   isLoading 
 }: ChatInterfaceProps) => {
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chat, isLoading]); // Scroll when messages change or loading state changes
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (message.trim() && !isLoading) {
@@ -48,6 +59,7 @@ export const ChatInterface = ({
               </div>
             </div>
           )}
+          <div ref={messagesEndRef} /> {/* Invisible element to scroll to */}
         </div>
       </div>
 
