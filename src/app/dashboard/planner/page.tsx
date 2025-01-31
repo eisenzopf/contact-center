@@ -13,28 +13,32 @@ const PlannerDashboard = () => {
   ]);
 
   return (
-    <div className="min-h-screen bg-[var(--background)]">
+    <div className="min-h-screen h-screen bg-[var(--background)] flex flex-col overflow-hidden">
       {/* Top Dashboard */}
-      <div className="bg-[var(--card-background)] border-b border-[var(--card-border)]">
-        <div className="max-w-screen-xl mx-auto p-6">
+      <div className="bg-[var(--card-background)] border-b border-[var(--card-border)] w-full">
+        <div className="max-w-screen-xl mx-auto px-4 md:px-6 py-4 md:py-6">
           <MetricCards />
         </div>
       </div>
 
-      <div className="max-w-screen-xl mx-auto p-6 flex min-h-0 flex-1">
+      <div className="flex-1 flex flex-col lg:flex-row max-w-screen-xl mx-auto w-full px-4 md:px-6 py-4 md:py-6 min-h-0 gap-6 overflow-hidden">
         {/* Left Panel - Hierarchy */}
-        <PlanningHierarchy 
-          hierarchy={hierarchy} 
-          setHierarchy={setHierarchy} 
-        />
+        <div className="w-full lg:w-[400px] xl:w-[450px] flex-shrink-0 overflow-hidden">
+          <PlanningHierarchy 
+            hierarchy={hierarchy} 
+            setHierarchy={setHierarchy} 
+          />
+        </div>
 
         {/* Right Panel - Chat */}
-        <ChatInterface
-          chat={chat}
-          setChat={setChat}
-          message={message}
-          setMessage={setMessage}
-        />
+        <div className="flex-1 min-w-0 overflow-hidden">
+          <ChatInterface
+            chat={chat}
+            setChat={setChat}
+            message={message}
+            setMessage={setMessage}
+          />
+        </div>
       </div>
     </div>
   );

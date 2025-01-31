@@ -11,23 +11,34 @@ export const ChatInterface = ({ chat, setChat, message, setMessage }) => {
   };
 
   return (
-    <div className="flex-1 flex flex-col pl-6">
-      <ChatMessages messages={chat} />
-      <ChatInput 
-        message={message}
-        setMessage={setMessage}
-        onSubmit={handleSubmit}
-      />
-    </div>
-  );
-};
+    <div className="h-full flex flex-col overflow-hidden">
+      {/* Chat Messages - Scrollable Area */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="space-y-4 p-4">
+          {chat.map((msg, i) => (
+            <ChatMessage key={i} message={msg} />
+          ))}
+        </div>
+      </div>
 
-const ChatMessages = ({ messages }) => {
-  return (
-    <div className="flex-1 overflow-y-auto">
-      {messages.map((msg, i) => (
-        <ChatMessage key={i} message={msg} />
-      ))}
+      {/* Chat Input - Fixed at Bottom */}
+      <div className="flex-shrink-0 border-t border-[var(--card-border)] bg-[var(--background)] p-4">
+        <form onSubmit={handleSubmit} className="flex gap-2">
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Type your message..."
+            className="flex-1 min-w-0 px-4 py-2 rounded-lg border border-[var(--card-border)] bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button 
+            type="submit"
+            className="flex-shrink-0 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center"
+          >
+            <Send className="h-5 w-5" />
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
@@ -47,28 +58,6 @@ const ChatMessage = ({ message }: { message: ChatMessageType }) => {
       }`}>
         {message.content}
       </div>
-    </div>
-  );
-};
-
-const ChatInput = ({ message, setMessage, onSubmit }) => {
-  return (
-    <div className="mt-4 border-t border-[var(--card-border)] pt-4">
-      <form onSubmit={onSubmit} className="flex gap-2">
-        <input
-          type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type your message..."
-          className="flex-1 px-4 py-2 rounded-lg border border-[var(--card-border)] bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button 
-          type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center"
-        >
-          <Send className="h-5 w-5" />
-        </button>
-      </form>
     </div>
   );
 }; 

@@ -18,14 +18,16 @@ export const PlanningHierarchy = ({ hierarchy, setHierarchy }) => {
   };
 
   return (
-    <div className="w-96 border-r border-[var(--card-border)] pr-6 overflow-y-auto">
-      {hierarchy.sections.map(section => (
-        <Section 
-          key={section.id} 
-          section={section} 
-          onToggle={toggleExpand}
-        />
-      ))}
+    <div className="w-full h-full border-b lg:border-b-0 lg:border-r border-[var(--card-border)] pb-6 lg:pb-0 lg:pr-6 overflow-y-auto">
+      <div className="space-y-6">
+        {hierarchy.sections.map(section => (
+          <Section 
+            key={section.id} 
+            section={section} 
+            onToggle={toggleExpand}
+          />
+        ))}
+      </div>
     </div>
   );
 };
