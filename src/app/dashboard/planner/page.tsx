@@ -11,13 +11,6 @@ const PlannerDashboard = () => {
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState<ChatMessage[]>([
     { 
-      role: 'system', 
-      content: `You are an AI assistant helping with strategic planning. 
-      Focus on providing actionable insights and clear next steps.
-      You have access to a planning hierarchy with goals, insights, actions, and progress tracking.
-      Help the user develop and refine their strategic plan.`
-    },
-    { 
       role: 'assistant', 
       content: "I'm here to help with your strategic planning. We can work on setting goals, finding insights, planning actions, or tracking progress. Where would you like to start?" 
     }

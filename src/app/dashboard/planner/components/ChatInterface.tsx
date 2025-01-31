@@ -37,10 +37,13 @@ export const ChatInterface = ({
           {isLoading && (
             <div className="flex justify-start">
               <div className="inline-block max-w-[80%] p-3 rounded-lg bg-[var(--card-background)] border border-[var(--card-border)]">
-                <div className="flex space-x-2">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]" />
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]" />
+                <div className="flex items-center space-x-3">
+                  <span className={`text-gray-500`}>Thinking</span>
+                  <div className="flex space-x-2">
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]" />
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]" />
+                  </div>
                 </div>
               </div>
             </div>
