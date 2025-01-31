@@ -1,6 +1,6 @@
-import { Plus, ChevronDown, ChevronRight } from 'lucide-react';
+import { Plus, ChevronDown, ChevronRight, Activity, MessageSquare } from 'lucide-react';
 import { themeClasses } from '@/lib/theme';
-import { Section as SectionType, HierarchyItem as HierarchyItemType } from '../types';
+import { Section as SectionType, HierarchyItem as HierarchyItemType, Tool, ChatHistory } from '../types';
 
 export const PlanningHierarchy = ({ hierarchy, setHierarchy }) => {
   const toggleExpand = (sectionId, itemId) => {
@@ -27,6 +27,46 @@ export const PlanningHierarchy = ({ hierarchy, setHierarchy }) => {
             onToggle={toggleExpand}
           />
         ))}
+
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-2">
+            <Activity className="h-4 w-4 text-gray-500" />
+            <h3 className={`font-medium ${themeClasses.textPrimary}`}>Tools</h3>
+          </div>
+          <div className="space-y-2">
+            {hierarchy.tools.map(tool => (
+              <div
+                key={tool.id}
+                className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer"
+              >
+                <div className={`w-2 h-2 rounded-full ${
+                  tool.status === 'active' ? 'bg-green-500' : 'bg-gray-300'
+                }`} />
+                <span className={themeClasses.textPrimary}>{tool.title}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-2">
+            <MessageSquare className="h-4 w-4 text-gray-500" />
+            <h3 className={`font-medium ${themeClasses.textPrimary}`}>Chats</h3>
+          </div>
+          <div className="space-y-2">
+            {hierarchy.chatHistory.map(chat => (
+              <div
+                key={chat.id}
+                className="flex flex-col p-2 hover:bg-gray-50 rounded cursor-pointer"
+              >
+                <span className={themeClasses.textPrimary}>{chat.title}</span>
+                <span className={`text-xs ${themeClasses.textSecondary}`}>
+                  {chat.timestamp}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

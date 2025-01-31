@@ -2,6 +2,8 @@ import { Send } from 'lucide-react';
 import { ChatMessage as ChatMessageType } from '../types';
 import { ChatMessage } from './ChatMessage';
 import { useEffect, useRef } from 'react';
+import { NewChatButton } from './NewChatButton';
+import { themeClasses } from '@/lib/theme';
 
 interface ChatInterfaceProps {
   chat: ChatMessageType[];
@@ -10,6 +12,7 @@ interface ChatInterfaceProps {
   setMessage: (message: string) => void;
   onSendMessage: (message: string) => void;
   isLoading: boolean;
+  onNewChat: () => void;
 }
 
 export const ChatInterface = ({ 
@@ -18,7 +21,8 @@ export const ChatInterface = ({
   message, 
   setMessage, 
   onSendMessage,
-  isLoading 
+  isLoading,
+  onNewChat
 }: ChatInterfaceProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -39,6 +43,14 @@ export const ChatInterface = ({
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
+      {/* Add header with new chat button */}
+      <div className="flex-shrink-0 border-b border-[var(--card-border)] bg-[var(--background)] p-4">
+        <div className="flex justify-between items-center">
+          <h2 className={`font-medium ${themeClasses.textPrimary}`}>Chat</h2>
+          <NewChatButton onClick={onNewChat} />
+        </div>
+      </div>
+
       {/* Chat Messages - Scrollable Area */}
       <div className="flex-1 overflow-y-auto">
         <div className="space-y-4 p-4">

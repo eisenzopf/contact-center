@@ -40,3 +40,23 @@ datasets: {
     backgroundColor?: string;
 }[];
 }
+
+export interface Tool {
+  id: number;
+  title: string;
+  type: 'scorecard' | 'monitoring' | 'practice';
+  status?: 'active' | 'inactive';
+}
+
+export interface ChatHistory {
+  id: number;
+  title: string;
+  timestamp: string;
+  messages: ChatMessage[];
+}
+
+export interface Hierarchy {
+  sections: Section[];
+  tools: Tool[];
+  chatHistory: ChatHistory[];
+}

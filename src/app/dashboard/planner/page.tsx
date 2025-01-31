@@ -4,7 +4,7 @@ import { MetricCards } from './components/MetricCards';
 import { PlanningHierarchy } from './components/PlanningHierarchy';
 import { ChatInterface } from './components/ChatInterface';
 import { initialHierarchy } from './data/initialData';
-import { ChatMessage } from './types';
+import { ChatMessage, ChatHistory } from './types';
 
 const PlannerDashboard = () => {
   const [hierarchy, setHierarchy] = useState(initialHierarchy);
@@ -68,6 +68,9 @@ const PlannerDashboard = () => {
 
       // Add assistant's response to chat
       setChat(prev => [...prev, assistantMessage]);
+
+      // Save chat
+      saveChat([...chat, assistantMessage]);
     } catch (error) {
       console.error('Error sending message:', error);
       setChat(prev => [...prev, {
@@ -77,6 +80,36 @@ const PlannerDashboard = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleNewChat = () => {
+    setHierarchy(prev => ({
+      ...prev,
+      chatHistory: []
+    }));
+    setChat([{
+      role: 'assistant',
+      content: "I'm here to help with your strategic planning. We can work on setting goals, finding insights, planning actions, or tracking progress. Where would you like to start?"
+    }]);
+  };
+
+  const saveChat = (messages: ChatMessage[]) => {
+    if (messages.length < 2) return; // Don't save empty chats
+    
+    const userMessage = messages.find(m => m.role === 'user');
+    if (!userMessage) return;
+
+    const newChat: ChatHistory = {
+      id: Date.now(),
+      title: userMessage.content.slice(0, 50) + (userMessage.content.length > 50 ? '...' : ''),
+      timestamp: new Date().toLocaleString(),
+      messages
+    };
+
+    setHierarchy(prev => ({
+      ...prev,
+      chatHistory: [newChat, ...prev.chatHistory]
+    }));
   };
 
   return (
@@ -106,6 +139,7 @@ const PlannerDashboard = () => {
             setMessage={setMessage}
             onSendMessage={sendMessage}
             isLoading={isLoading}
+            onNewChat={handleNewChat}
           />
         </div>
       </div>

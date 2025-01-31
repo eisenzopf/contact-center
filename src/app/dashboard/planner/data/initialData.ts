@@ -72,5 +72,26 @@ export const initialHierarchy = {
         }
       ]
     }
-  ]
+  ],
+  tools: [
+    {
+      id: 1,
+      title: 'Scorecard',
+      type: 'scorecard',
+      status: 'active'
+    },
+    {
+      id: 2,
+      title: 'Monitoring',
+      type: 'monitoring',
+      status: 'inactive'
+    },
+    {
+      id: 3,
+      title: 'Practice',
+      type: 'practice',
+      status: 'inactive'
+    }
+  ],
+  chatHistory: []
 }; 
