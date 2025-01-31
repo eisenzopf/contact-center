@@ -1,12 +1,27 @@
 import { Send } from 'lucide-react';
 import { ChatMessage as ChatMessageType } from '../types';
 
-export const ChatInterface = ({ chat, setChat, message, setMessage }) => {
+interface ChatInterfaceProps {
+  chat: ChatMessageType[];
+  setChat: (chat: ChatMessageType[]) => void;
+  message: string;
+  setMessage: (message: string) => void;
+  onSendMessage: (message: string) => void;
+  isLoading: boolean;
+}
+
+export const ChatInterface = ({ 
+  chat, 
+  setChat, 
+  message, 
+  setMessage, 
+  onSendMessage,
+  isLoading 
+}: ChatInterfaceProps) => {
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (message.trim()) {
-      setChat(prev => [...prev, { role: 'user', content: message }]);
-      setMessage('');
+    if (message.trim() && !isLoading) {
+      onSendMessage(message);
     }
   };
 
@@ -18,6 +33,17 @@ export const ChatInterface = ({ chat, setChat, message, setMessage }) => {
           {chat.map((msg, i) => (
             <ChatMessage key={i} message={msg} />
           ))}
+          {isLoading && (
+            <div className="flex justify-start">
+              <div className="inline-block max-w-[80%] p-3 rounded-lg bg-[var(--card-background)] border border-[var(--card-border)]">
+                <div className="flex space-x-2">
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]" />
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]" />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -29,11 +55,13 @@ export const ChatInterface = ({ chat, setChat, message, setMessage }) => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Type your message..."
-            className="flex-1 min-w-0 px-4 py-2 rounded-lg border border-[var(--card-border)] bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={isLoading}
+            className="flex-1 min-w-0 px-4 py-2 rounded-lg border border-[var(--card-border)] bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
           />
           <button 
             type="submit"
-            className="flex-shrink-0 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center"
+            disabled={isLoading || !message.trim()}
+            className="flex-shrink-0 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center disabled:opacity-50 disabled:hover:bg-blue-500"
           >
             <Send className="h-5 w-5" />
           </button>
