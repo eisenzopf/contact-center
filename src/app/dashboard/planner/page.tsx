@@ -34,27 +34,30 @@ const PlannerDashboard = () => {
       setChat(updatedChat);
       setMessage('');
 
+      // Format messages array explicitly
+      const messages = updatedChat.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }));
+
       // Prepare the API request
-      const response = await fetch('http://localhost:1234/v1/chat/completions', {
+      const response = await fetch('/api/proxy', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'deepseek-r1-distill-qwen-14b', // Replace with your loaded model name
-          messages: updatedChat,
-          /*"messages": [
-            { "role": "system", "content": "Always answer in rhymes. Today is Thursday" },
-            { "role": "user", "content": "What day is it today?" }
-          ],*/
+          model: 'deepseek-r1-distill-qwen-14b',
+          messages: messages,
           temperature: 0.7,
           max_tokens: -1,
-          stream: true
+          stream: false
         }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to get response from AI');
+        const errorData = await response.json();
+        throw new Error(`Failed to get response from AI: ${JSON.stringify(errorData)}`);
       }
 
       const data = await response.json();
