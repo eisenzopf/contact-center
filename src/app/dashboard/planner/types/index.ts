@@ -31,3 +31,12 @@ export interface ChatMessage {
   role: 'system' | 'user' | 'assistant';
   content: string;
 } 
+  
+export interface ChartData {
+labels: string[];
+datasets: {
+    label: string;
+    data: number[];
+    backgroundColor?: string;
+}[];
+}

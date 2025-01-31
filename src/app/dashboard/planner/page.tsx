@@ -21,16 +21,21 @@ const PlannerDashboard = () => {
     try {
       setIsLoading(true);
       
+      // Prepare message content - check for "chart" keyword
+      const messageContent = newMessage.toLowerCase().includes('chart') 
+        ? `if the user uses the word chart, then return this:\nCHART_DATA:{"labels":["Cancel Service","Other"],"datasets":[{"label":"Service Calls","data":[30,70],"backgroundColor":"rgba(53, 162, 235, 0.5)"}]}\n\n${newMessage}`
+        : newMessage;
+
       // Add user message to chat
       const userMessage: ChatMessage = { role: 'user', content: newMessage };
       const updatedChat = [...chat, userMessage];
       setChat(updatedChat);
       setMessage('');
 
-      // Format messages array explicitly
-      const messages = updatedChat.map(msg => ({
+      // Format messages array explicitly with modified content for API
+      const messages = updatedChat.map((msg, index) => ({
         role: msg.role,
-        content: msg.content
+        content: index === updatedChat.length - 1 ? messageContent : msg.content
       }));
 
       // Prepare the API request
@@ -83,7 +88,7 @@ const PlannerDashboard = () => {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col lg:flex-row max-w-screen-xl mx-auto w-full px-4 md:px-6 py-4 md:py-6 min-h-0 gap-6 overflow-hidden">
+      <div className="flex-1 flex flex-col lg:flex-row w-full px-4 md:px-6 py-4 md:py-6 min-h-0 gap-6 overflow-hidden">
         {/* Left Panel - Hierarchy */}
         <div className="w-full lg:w-[400px] xl:w-[450px] flex-shrink-0 overflow-hidden">
           <PlanningHierarchy 
@@ -93,7 +98,7 @@ const PlannerDashboard = () => {
         </div>
 
         {/* Right Panel - Chat */}
-        <div className="flex-1 min-w-0 overflow-hidden">
+        <div className="flex-1 w-full min-w-0 overflow-hidden">
           <ChatInterface
             chat={chat}
             setChat={setChat}
