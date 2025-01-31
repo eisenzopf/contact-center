@@ -42,11 +42,11 @@ const PlannerDashboard = () => {
         },
         body: JSON.stringify({
           model: 'deepseek-r1-distill-qwen-14b', // Replace with your loaded model name
-          //messages: updatedChat,
-          "messages": [
+          messages: updatedChat,
+          /*"messages": [
             { "role": "system", "content": "Always answer in rhymes. Today is Thursday" },
             { "role": "user", "content": "What day is it today?" }
-          ],
+          ],*/
           temperature: 0.7,
           max_tokens: -1,
           stream: true
