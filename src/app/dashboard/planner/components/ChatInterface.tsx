@@ -1,0 +1,74 @@
+import { Send } from 'lucide-react';
+import { ChatMessage as ChatMessageType } from '../types';
+
+export const ChatInterface = ({ chat, setChat, message, setMessage }) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (message.trim()) {
+      setChat(prev => [...prev, { role: 'user', content: message }]);
+      setMessage('');
+    }
+  };
+
+  return (
+    <div className="flex-1 flex flex-col pl-6">
+      <ChatMessages messages={chat} />
+      <ChatInput 
+        message={message}
+        setMessage={setMessage}
+        onSubmit={handleSubmit}
+      />
+    </div>
+  );
+};
+
+const ChatMessages = ({ messages }) => {
+  return (
+    <div className="flex-1 overflow-y-auto">
+      {messages.map((msg, i) => (
+        <ChatMessage key={i} message={msg} />
+      ))}
+    </div>
+  );
+};
+
+const ChatMessage = ({ message }: { message: ChatMessageType }) => {
+  return (
+    <div 
+      className={`mb-4 ${
+        message.role === 'system' ? '' :
+        message.role === 'user' ? 'flex justify-end' : ''
+      }`}
+    >
+      <div className={`inline-block max-w-[80%] p-3 rounded-lg ${
+        message.role === 'system' ? 'bg-[var(--card-background)] border border-[var(--card-border)]' :
+        message.role === 'user' ? 'bg-blue-500 text-white' :
+        'bg-[var(--background)] border border-[var(--card-border)]'
+      }`}>
+        {message.content}
+      </div>
+    </div>
+  );
+};
+
+const ChatInput = ({ message, setMessage, onSubmit }) => {
+  return (
+    <div className="mt-4 border-t border-[var(--card-border)] pt-4">
+      <form onSubmit={onSubmit} className="flex gap-2">
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Type your message..."
+          className="flex-1 px-4 py-2 rounded-lg border border-[var(--card-border)] bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button 
+          type="submit"
+          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center"
+        >
+          <Send className="h-5 w-5" />
+        </button>
+      </form>
+    </div>
+  );
+}; 
