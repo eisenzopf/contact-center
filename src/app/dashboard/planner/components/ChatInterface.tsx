@@ -1,5 +1,6 @@
 import { Send } from 'lucide-react';
 import { ChatMessage as ChatMessageType } from '../types';
+import { ChatMessage } from './ChatMessage';
 
 interface ChatInterfaceProps {
   chat: ChatMessageType[];
@@ -70,22 +71,3 @@ export const ChatInterface = ({
     </div>
   );
 };
-
-const ChatMessage = ({ message }: { message: ChatMessageType }) => {
-  return (
-    <div 
-      className={`mb-4 ${
-        message.role === 'system' ? '' :
-        message.role === 'user' ? 'flex justify-end' : ''
-      }`}
-    >
-      <div className={`inline-block max-w-[80%] p-3 rounded-lg ${
-        message.role === 'system' ? 'bg-[var(--card-background)] border border-[var(--card-border)]' :
-        message.role === 'user' ? 'bg-blue-500 text-white' :
-        'bg-[var(--background)] border border-[var(--card-border)]'
-      }`}>
-        {message.content}
-      </div>
-    </div>
-  );
-}; 
