@@ -124,9 +124,17 @@ const PlannerDashboard = () => {
   const renderRightPane = () => {
     switch (activeView) {
       case '/dashboard/tools/scorecard':
-        return <QADashboard />;
+        return (
+          <div className="h-full overflow-y-auto">
+            <QADashboard />
+          </div>
+        );
       case '/dashboard/tools/observation':
-        return <CallObservationReport />;
+        return (
+          <div className="h-full overflow-y-auto">
+            <CallObservationReport />
+          </div>
+        );
       case 'chat':
       default:
         return (
@@ -164,8 +172,10 @@ const PlannerDashboard = () => {
         </div>
 
         {/* Right Panel - Chat */}
-        <div className="flex-1 w-full min-w-0 overflow-hidden">
-          {renderRightPane()}
+        <div className="flex-1 w-full min-w-0 overflow-y-auto">
+          <div className="h-full">
+            {renderRightPane()}
+          </div>
         </div>
       </div>
     </div>
