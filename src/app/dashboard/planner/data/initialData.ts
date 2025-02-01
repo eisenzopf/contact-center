@@ -1,4 +1,4 @@
-export const initialHierarchy = {
+export const initialHierarchy: Hierarchy = {
   sections: [
     {
       id: 'goals',
@@ -78,19 +78,15 @@ export const initialHierarchy = {
       id: 1,
       title: 'Scorecard',
       type: 'scorecard',
+      path: '/dashboard/tools/scorecard',
       status: 'active'
     },
     {
       id: 2,
-      title: 'Monitoring',
-      type: 'monitoring',
-      status: 'inactive'
-    },
-    {
-      id: 3,
-      title: 'Practice',
-      type: 'practice',
-      status: 'inactive'
+      title: 'Call Observation',
+      type: 'observation',
+      path: '/dashboard/tools/observation',
+      status: 'active'
     }
   ],
   chatHistory: []

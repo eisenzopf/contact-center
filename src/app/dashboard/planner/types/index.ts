@@ -44,7 +44,8 @@ datasets: {
 export interface Tool {
   id: number;
   title: string;
-  type: 'scorecard' | 'monitoring' | 'practice';
+  type: string;
+  path: string;
   status?: 'active' | 'inactive';
 }
 

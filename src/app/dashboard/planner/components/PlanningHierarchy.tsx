@@ -2,7 +2,7 @@ import { Plus, ChevronDown, ChevronRight, Activity, MessageSquare } from 'lucide
 import { themeClasses } from '@/lib/theme';
 import { Section as SectionType, HierarchyItem as HierarchyItemType, Tool, ChatHistory } from '../types';
 
-export const PlanningHierarchy = ({ hierarchy, setHierarchy }) => {
+export const PlanningHierarchy = ({ hierarchy, setHierarchy, onToolClick, activeView }) => {
   const toggleExpand = (sectionId, itemId) => {
     setHierarchy(prev => {
       const newHierarchy = { ...prev };
@@ -37,7 +37,10 @@ export const PlanningHierarchy = ({ hierarchy, setHierarchy }) => {
             {hierarchy.tools.map(tool => (
               <div
                 key={tool.id}
-                className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer"
+                onClick={() => onToolClick(tool)}
+                className={`flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer ${
+                  activeView === tool.path ? 'bg-gray-50' : ''
+                }`}
               >
                 <div className={`w-2 h-2 rounded-full ${
                   tool.status === 'active' ? 'bg-green-500' : 'bg-gray-300'
@@ -52,6 +55,14 @@ export const PlanningHierarchy = ({ hierarchy, setHierarchy }) => {
           <div className="flex items-center gap-2 mb-2">
             <MessageSquare className="h-4 w-4 text-gray-500" />
             <h3 className={`font-medium ${themeClasses.textPrimary}`}>Chats</h3>
+          </div>
+          <div 
+            className={`p-2 hover:bg-gray-50 rounded cursor-pointer ${
+              activeView === 'chat' ? 'bg-gray-50' : ''
+            }`}
+            onClick={() => onToolClick({ path: 'chat' })}
+          >
+            <span className={themeClasses.textPrimary}>Chat Interface</span>
           </div>
           <div className="space-y-2">
             {hierarchy.chatHistory.map(chat => (

@@ -1,13 +1,18 @@
 'use client';
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { MetricCards } from './components/MetricCards';
 import { PlanningHierarchy } from './components/PlanningHierarchy';
 import { ChatInterface } from './components/ChatInterface';
 import { initialHierarchy } from './data/initialData';
 import { ChatMessage, ChatHistory } from './types';
 
+const QADashboard = dynamic(() => import('../tools/scorecard/page'));
+const CallObservationReport = dynamic(() => import('../tools/observation/page'));
+
 const PlannerDashboard = () => {
   const [hierarchy, setHierarchy] = useState(initialHierarchy);
+  const [activeView, setActiveView] = useState('chat');
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState<ChatMessage[]>([
     { 
@@ -112,6 +117,32 @@ const PlannerDashboard = () => {
     }));
   };
 
+  const handleToolClick = (tool) => {
+    setActiveView(tool.path || 'chat');
+  };
+
+  const renderRightPane = () => {
+    switch (activeView) {
+      case '/dashboard/tools/scorecard':
+        return <QADashboard />;
+      case '/dashboard/tools/observation':
+        return <CallObservationReport />;
+      case 'chat':
+      default:
+        return (
+          <ChatInterface
+            chat={chat}
+            setChat={setChat}
+            message={message}
+            setMessage={setMessage}
+            onSendMessage={sendMessage}
+            isLoading={isLoading}
+            onNewChat={handleNewChat}
+          />
+        );
+    }
+  };
+
   return (
     <div className="min-h-screen h-screen bg-[var(--background)] flex flex-col overflow-hidden">
       {/* Top Dashboard */}
@@ -126,21 +157,15 @@ const PlannerDashboard = () => {
         <div className="w-full lg:w-[400px] xl:w-[450px] flex-shrink-0 overflow-hidden">
           <PlanningHierarchy 
             hierarchy={hierarchy} 
-            setHierarchy={setHierarchy} 
+            setHierarchy={setHierarchy}
+            onToolClick={handleToolClick}
+            activeView={activeView}
           />
         </div>
 
         {/* Right Panel - Chat */}
         <div className="flex-1 w-full min-w-0 overflow-hidden">
-          <ChatInterface
-            chat={chat}
-            setChat={setChat}
-            message={message}
-            setMessage={setMessage}
-            onSendMessage={sendMessage}
-            isLoading={isLoading}
-            onNewChat={handleNewChat}
-          />
+          {renderRightPane()}
         </div>
       </div>
     </div>
