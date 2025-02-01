@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock, User, MessageSquare, ThumbsUp, HeartHandshake } from 'lucide-react';
+import { themeClasses } from '@/lib/theme';
 
 const mockReport = {
   metadata: {
@@ -36,99 +37,101 @@ const mockReport = {
 
 const CallObservationReport = () => {
   const getScoreColor = (score: number) => {
-    return score >= 4.5 ? 'text-green-500' : 
+    return score >= 4.5 ? themeClasses.success : 
            score >= 4.0 ? 'text-blue-500' : 
-           score >= 3.0 ? 'text-yellow-500' : 'text-red-500';
+           score >= 3.0 ? 'text-yellow-500' : themeClasses.error;
   };
 
   return (
     <div className="p-6 space-y-6 max-w-6xl mx-auto">
-      <div className="text-3xl font-bold mb-8">Call Observation Report</div>
+      <div className={`text-3xl font-bold mb-8 ${themeClasses.textPrimary}`}>
+        Call Observation Report
+      </div>
       
       {/* Metadata Section */}
-      <Card className="bg-white">
+      <Card className="bg-[var(--card-background)]">
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Clock className="h-5 w-5" />
+          <CardTitle className={`text-lg flex items-center gap-2 ${themeClasses.textPrimary}`}>
+            <Clock className="h-5 w-5 text-blue-600" />
             Call Information
           </CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <p className="text-sm font-semibold text-gray-600">Date & Time</p>
-            <p className="text-base">{mockReport.metadata.callDateTime}</p>
+            <p className={`text-sm font-semibold ${themeClasses.textSecondary}`}>Date & Time</p>
+            <p className={themeClasses.textPrimary}>{mockReport.metadata.callDateTime}</p>
           </div>
           <div>
-            <p className="text-sm font-semibold text-gray-600">Agent Name</p>
-            <p className="text-base">{mockReport.metadata.agentName}</p>
+            <p className={`text-sm font-semibold ${themeClasses.textSecondary}`}>Agent Name</p>
+            <p className={themeClasses.textPrimary}>{mockReport.metadata.agentName}</p>
           </div>
           <div className="md:col-span-2">
-            <p className="text-sm font-semibold text-gray-600">Customer Intent</p>
-            <p className="text-base">{mockReport.metadata.customerIntent}</p>
+            <p className={`text-sm font-semibold ${themeClasses.textSecondary}`}>Customer Intent</p>
+            <p className={themeClasses.textPrimary}>{mockReport.metadata.customerIntent}</p>
           </div>
           <div className="md:col-span-2">
-            <p className="text-sm font-semibold text-gray-600">Call Outline</p>
-            <p className="text-base">{mockReport.metadata.callOutline}</p>
+            <p className={`text-sm font-semibold ${themeClasses.textSecondary}`}>Call Outline</p>
+            <p className={themeClasses.textPrimary}>{mockReport.metadata.callOutline}</p>
           </div>
           <div>
-            <p className="text-sm font-semibold text-gray-600">Call Outcome</p>
-            <p className="text-base">{mockReport.metadata.callOutcome}</p>
+            <p className={`text-sm font-semibold ${themeClasses.textSecondary}`}>Call Outcome</p>
+            <p className={themeClasses.textPrimary}>{mockReport.metadata.callOutcome}</p>
           </div>
           <div>
-            <p className="text-sm font-semibold text-gray-600">Customer Sentiment</p>
-            <p className="text-base">{mockReport.metadata.customerSentiment}</p>
+            <p className={`text-sm font-semibold ${themeClasses.textSecondary}`}>Customer Sentiment</p>
+            <p className={themeClasses.textPrimary}>{mockReport.metadata.customerSentiment}</p>
           </div>
         </CardContent>
       </Card>
 
       {/* Evaluation Scores */}
-      <Card className="bg-white">
+      <Card className="bg-[var(--card-background)]">
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <ThumbsUp className="h-5 w-5" />
+          <CardTitle className={`text-lg flex items-center gap-2 ${themeClasses.textPrimary}`}>
+            <ThumbsUp className="h-5 w-5 text-blue-600" />
             Performance Evaluation
           </CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {Object.entries(mockReport.scores).map(([category, data]) => (
-            <div key={category} className="border-b pb-4">
+            <div key={category} className="border-b border-[var(--card-border)] pb-4">
               <div className="flex justify-between items-center mb-2">
-                <span className="font-semibold capitalize">
+                <span className={`font-semibold capitalize ${themeClasses.textPrimary}`}>
                   {category.replace(/([A-Z])/g, ' $1').trim()}
                 </span>
                 <span className={`font-bold ${getScoreColor(data.score)}`}>
                   {data.score}/5
                 </span>
               </div>
-              <p className="text-sm text-gray-600">{data.feedback}</p>
+              <p className={`text-sm ${themeClasses.textSecondary}`}>{data.feedback}</p>
             </div>
           ))}
         </CardContent>
       </Card>
 
       {/* Coaching Section */}
-      <Card className="bg-white">
+      <Card className="bg-[var(--card-background)]">
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <HeartHandshake className="h-5 w-5" />
+          <CardTitle className={`text-lg flex items-center gap-2 ${themeClasses.textPrimary}`}>
+            <HeartHandshake className="h-5 w-5 text-blue-600" />
             Coaching Summary
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
             <div>
-              <h3 className="font-semibold text-green-600 mb-2">Strengths</h3>
+              <h3 className={`font-semibold ${themeClasses.success} mb-2`}>Strengths</h3>
               <ul className="list-disc pl-5 space-y-2">
                 {mockReport.coaching.strengths.map((strength, index) => (
-                  <li key={index} className="text-sm">{strength}</li>
+                  <li key={index} className={`text-sm ${themeClasses.textPrimary}`}>{strength}</li>
                 ))}
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold text-blue-600 mb-2">Areas for Improvement</h3>
+              <h3 className={`font-semibold text-blue-600 mb-2`}>Areas for Improvement</h3>
               <ul className="list-disc pl-5 space-y-2">
                 {mockReport.coaching.improvements.map((improvement, index) => (
-                  <li key={index} className="text-sm">{improvement}</li>
+                  <li key={index} className={`text-sm ${themeClasses.textPrimary}`}>{improvement}</li>
                 ))}
               </ul>
             </div>
