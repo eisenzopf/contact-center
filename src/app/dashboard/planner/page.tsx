@@ -1,14 +1,12 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { MetricCards } from './components/MetricCards';
 import { PlanningHierarchy } from './components/PlanningHierarchy';
 import { ChatInterface } from './components/ChatInterface';
 import { initialHierarchy } from './data/initialData';
-import { ChatMessage, ChatHistory } from './types';
-
-const QADashboard = dynamic(() => import('../tools/scorecard/page'));
-const CallObservationReport = dynamic(() => import('../tools/observation/page'));
+import { ChatMessage, ChatHistory, Tool } from './types';
+import { getTools } from './utils/getTools';
 
 const PlannerDashboard = () => {
   const [hierarchy, setHierarchy] = useState(initialHierarchy);
@@ -21,6 +19,43 @@ const PlannerDashboard = () => {
     }
   ]);
   const [isLoading, setIsLoading] = useState(false);
+  const [tools, setTools] = useState<{ [key: string]: any }>({});
+
+  useEffect(() => {
+    const loadTools = async () => {
+      try {
+        const response = await fetch('/api/tools');
+        const availableTools = await response.json();
+        
+        // Dynamically import tool components
+        const toolComponents = await Promise.all(
+          availableTools.map(async (tool) => {
+            try {
+              const component = await dynamic(() => import(`../tools/${tool.type}/page`));
+              return [tool.path, component];
+            } catch (error) {
+              console.error(`Error loading tool ${tool.type}:`, error);
+              return [tool.path, null];
+            }
+          })
+        );
+
+        // Update hierarchy with available tools
+        setHierarchy(prev => ({
+          ...prev,
+          tools: availableTools
+        }));
+
+        // Create tools object for dynamic rendering
+        const toolsObj = Object.fromEntries(toolComponents);
+        setTools(toolsObj);
+      } catch (error) {
+        console.error('Error loading tools:', error);
+      }
+    };
+
+    loadTools();
+  }, []);
 
   const sendMessage = async (newMessage: string) => {
     try {
@@ -122,33 +157,28 @@ const PlannerDashboard = () => {
   };
 
   const renderRightPane = () => {
-    switch (activeView) {
-      case '/dashboard/tools/scorecard':
-        return (
-          <div className="h-full overflow-y-auto">
-            <QADashboard />
-          </div>
-        );
-      case '/dashboard/tools/observation':
-        return (
-          <div className="h-full overflow-y-auto">
-            <CallObservationReport />
-          </div>
-        );
-      case 'chat':
-      default:
-        return (
-          <ChatInterface
-            chat={chat}
-            setChat={setChat}
-            message={message}
-            setMessage={setMessage}
-            onSendMessage={sendMessage}
-            isLoading={isLoading}
-            onNewChat={handleNewChat}
-          />
-        );
+    // If it's a tool and we have the component loaded
+    if (activeView.startsWith('/dashboard/tools/') && tools[activeView]) {
+      const ToolComponent = tools[activeView];
+      return (
+        <div className="h-full overflow-y-auto">
+          <ToolComponent />
+        </div>
+      );
     }
+
+    // Default to chat interface
+    return (
+      <ChatInterface
+        chat={chat}
+        setChat={setChat}
+        message={message}
+        setMessage={setMessage}
+        onSendMessage={sendMessage}
+        isLoading={isLoading}
+        onNewChat={handleNewChat}
+      />
+    );
   };
 
   return (
