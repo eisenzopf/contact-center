@@ -8,7 +8,7 @@ export const NewChatButton = ({ onClick }: NewChatButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="p-2 text-[var(--foreground)] hover:bg-[var(--card-background)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--card-border)]"
       title="Start New Chat"
     >
       <MessageSquarePlus className="h-5 w-5" />
