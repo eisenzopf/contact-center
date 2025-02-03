@@ -36,5 +36,127 @@
             "description": "If the user uses the word tool, then return this:",
             "data": "TOOL_DATA:{\"title\":\"Call Observation Report\",\"data\":[{\"date\":\"2024-01-01\",\"callCount\":10,\"averageDuration\":5,\"resolutionRate\":0.8}]}\n\n"
         }
+    },
+    "functions": {
+        "create_chart": {
+            "description": "Create a visualization chart with the provided data",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "chart_type": {
+                        "type": "string",
+                        "enum": ["bar", "line", "pie"],
+                        "description": "Type of chart to create"
+                    },
+                    "labels": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Labels for the chart data points"
+                    },
+                    "datasets": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "label": {
+                                    "type": "string",
+                                    "description": "Label for the dataset"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    },
+                                    "description": "Numerical values for the dataset"
+                                },
+                                "backgroundColor": {
+                                    "type": "string",
+                                    "description": "Optional background color for the dataset"
+                                }
+                            },
+                            "required": ["label", "data"]
+                        }
+                    }
+                },
+                "required": ["chart_type", "labels", "datasets"]
+            }
+        },
+        "create_goal": {
+            "description": "Create a new goal with specific attributes",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Title of the goal"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Detailed description of the goal"
+                    },
+                    "deadline": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Deadline for the goal"
+                    },
+                    "priority": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 5,
+                        "description": "Priority level (1-5)"
+                    },
+                    "baseline": {
+                        "type": "number",
+                        "description": "Current metric value"
+                    },
+                    "target": {
+                        "type": "number",
+                        "description": "Target metric value"
+                    }
+                },
+                "required": ["title", "deadline", "priority", "baseline", "target"]
+            }
+        },
+        "generate_report": {
+            "description": "Generate a report with the provided data",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Title of the report"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "date": {
+                                    "type": "string",
+                                    "format": "date",
+                                    "description": "Date of the data point"
+                                },
+                                "callCount": {
+                                    "type": "number",
+                                    "description": "Number of calls"
+                                },
+                                "averageDuration": {
+                                    "type": "number",
+                                    "description": "Average call duration in minutes"
+                                },
+                                "resolutionRate": {
+                                    "type": "number",
+                                    "description": "Resolution rate as a decimal"
+                                }
+                            },
+                            "required": ["date", "callCount", "averageDuration", "resolutionRate"]
+                        }
+                    }
+                },
+                "required": ["title", "data"]
+            }
+        }
     }
 }

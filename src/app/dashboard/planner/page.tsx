@@ -18,7 +18,12 @@ const PlannerDashboard = () => {
   const [chat, setChat] = useState<MessageType[]>([
     { 
       role: 'assistant', 
-      content: "I'm here to help with your strategic planning. We can work on setting goals, finding insights, planning actions, or tracking progress. Where would you like to start?" 
+      content: "I'm here to help with your strategic planning. I can:\n\n" +
+        "- Create charts and visualizations of your data\n" +
+        "- Generate detailed reports and analysis\n" +
+        "- Set up goals with deadlines and metrics\n" +
+        "- Track progress and provide insights\n\n" +
+        "What would you like to work on?"
     }
   ]);
   const [isLoading, setIsLoading] = useState(false);
@@ -79,6 +84,12 @@ const PlannerDashboard = () => {
       // Prepare the LLM request using the message preparation service
       const llmRequest = messagePreparationService.prepareLLMRequest(chat, newMessage);
 
+      // Log the request
+      console.log('LLM Request:', {
+        messages: llmRequest.messages,
+        tools: llmRequest.tools.map(t => t.function.name)
+      });
+
       const response = await fetch('/api/proxy', {
         method: 'POST',
         headers: {
@@ -94,17 +105,37 @@ const PlannerDashboard = () => {
 
       const data = await response.json();
       
-      // Extract the assistant's message from the response
-      const assistantMessage: MessageType = {
-        role: 'assistant',
-        content: data.choices[0].message.content
-      };
+      // Log the response
+      console.log('LLM Response:', {
+        content: data.choices[0].message.content,
+        tool_calls: data.choices[0].message.tool_calls
+      });
+      
+      // Extract and handle the assistant's message from the response
+      const assistantMessage = data.choices[0].message;
+      let messageContent = assistantMessage.content || '';
+      let renderedContent = null;
+
+      // Handle tool calls if present
+      if (assistantMessage.tool_calls && assistantMessage.tool_calls.length > 0) {
+        const handlerResult = await responseHandlerService.handleResponse(assistantMessage);
+        messageContent = handlerResult.content;
+        renderedContent = handlerResult.render;
+      }
 
       // Add assistant's response to chat
-      setChat(prev => [...prev, assistantMessage]);
+      setChat(prev => [...prev, {
+        role: 'assistant',
+        content: messageContent,
+        render: renderedContent
+      }]);
 
       // Save chat history
-      saveChat([...updatedChat, assistantMessage]);
+      saveChat([...updatedChat, {
+        role: 'assistant',
+        content: messageContent,
+        render: renderedContent
+      }]);
     } catch (error) {
       console.error('Error sending message:', error);
       setChat(prev => [...prev, {
@@ -123,7 +154,12 @@ const PlannerDashboard = () => {
     }));
     setChat([{
       role: 'assistant',
-      content: "I'm here to help with your strategic planning. We can work on setting goals, finding insights, planning actions, or tracking progress. Where would you like to start?"
+      content: "I'm here to help with your strategic planning. I can:\n\n" +
+        "- Create charts and visualizations of your data\n" +
+        "- Generate detailed reports and analysis\n" +
+        "- Set up goals with deadlines and metrics\n" +
+        "- Track progress and provide insights\n\n" +
+        "What would you like to work on?"
     }]);
   };
 

@@ -2,62 +2,67 @@ import {
   MessageTransformation, 
   PreparedMessage, 
   ChatMessage, 
-  LLMRequest,
-  LLMRequestMessage 
+  LLMRequestWithFunctions,
+  LLMRequestMessage,
+  Tool
 } from '../types/messages';
-import { getTransformations } from './transformations';
+import semantics from '@/semantics.json';
+
+const SYSTEM_PROMPT = `You are an AI assistant that helps with planning and analysis. You can create charts, reports, and goals to help visualize and track progress. When appropriate, use the available functions to create visual representations of data or structured information.`;
 
 export class MessagePreparationService {
-  private transformations: MessageTransformation[];
+  private functions: Record<string, any>;
 
   constructor() {
-    this.transformations = getTransformations();
+    this.functions = semantics.functions;
   }
 
   prepareMessage(message: string): PreparedMessage {
-    const appliedTransformations: string[] = [];
-    let transformedContent = message;
-
-    for (const transformation of this.transformations) {
-      if (transformation.check(message)) {
-        transformedContent = transformation.transform(transformedContent);
-        appliedTransformations.push(transformation.keyword);
-      }
-    }
-
     return {
       originalContent: message,
-      transformedContent,
-      appliedTransformations
+      transformedContent: message,
+      appliedTransformations: []
     };
   }
 
   prepareLLMRequest(
     chat: ChatMessage[], 
     newMessage: string
-  ): LLMRequest {
-    const prepared = this.prepareMessage(newMessage);
-    
-    const messages: LLMRequestMessage[] = chat.map((msg, index) => ({
-      role: msg.role,
-      content: msg.content
-    }));
+  ): LLMRequestWithFunctions {
+    const messages: LLMRequestMessage[] = [
+      {
+        role: 'system',
+        content: SYSTEM_PROMPT
+      },
+      ...chat.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      })),
+      {
+        role: 'user',
+        content: newMessage
+      }
+    ];
 
-    // Add the new message with potentially transformed content
-    messages.push({
-      role: 'user',
-      content: prepared.transformedContent
-    });
+    const tools: Tool[] = Object.entries(this.functions).map(([name, func]) => ({
+      type: "function",
+      function: {
+        name,
+        description: func.description,
+        parameters: func.parameters
+      }
+    }));
 
     return {
       model: 'deepseek-r1-distill-qwen-14b',
       messages,
       temperature: 0.7,
       max_tokens: -1,
-      stream: false
+      stream: false,
+      tools
     };
   }
 }
 
-// Create a singleton instance
+// Create and export a singleton instance
 export const messagePreparationService = new MessagePreparationService(); 
