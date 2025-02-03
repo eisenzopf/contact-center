@@ -12,9 +12,14 @@ const SYSTEM_PROMPT = `You are an AI assistant that helps with planning and anal
 
 export class MessagePreparationService {
   private functions: Record<string, any>;
+  private chatHistory: ChatMessage[] = [];
 
   constructor() {
     this.functions = semantics.functions;
+  }
+
+  resetContext() {
+    this.chatHistory = [];
   }
 
   prepareMessage(message: string): PreparedMessage {
@@ -29,12 +34,15 @@ export class MessagePreparationService {
     chat: ChatMessage[], 
     newMessage: string
   ): LLMRequestWithFunctions {
+    // Update internal chat history
+    this.chatHistory = chat;
+
     const messages: LLMRequestMessage[] = [
       {
         role: 'system',
         content: SYSTEM_PROMPT
       },
-      ...chat.map(msg => ({
+      ...this.chatHistory.map(msg => ({
         role: msg.role,
         content: msg.content
       })),

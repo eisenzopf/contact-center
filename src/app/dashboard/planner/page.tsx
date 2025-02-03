@@ -202,11 +202,14 @@ const PlannerDashboard = () => {
   };
 
   const handleNewChat = () => {
+    // Clear chat history in hierarchy
     setHierarchy(prev => ({
       ...prev,
       chatHistory: []
     }));
-    setChat([{
+    
+    // Reset chat state with just the welcome message
+    const welcomeMessage = {
       role: 'assistant',
       content: "I'm here to help with your strategic planning. I can:\n\n" +
         "- Create charts and visualizations of your data\n" +
@@ -214,7 +217,15 @@ const PlannerDashboard = () => {
         "- Set up goals with deadlines and metrics\n" +
         "- Track progress and provide insights\n\n" +
         "What would you like to work on?"
-    }]);
+    };
+    
+    setChat([welcomeMessage]);
+    
+    // Clear any pending message
+    setMessage('');
+    
+    // Reset message preparation service context
+    messagePreparationService.resetContext();
   };
 
   const saveChat = (messages: MessageType[]) => {
