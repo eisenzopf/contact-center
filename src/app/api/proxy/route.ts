@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const TIMEOUT_MS = 30000; // 30 seconds timeout
+const TIMEOUT_MS = 60000; // 60 seconds timeout
 
 export async function POST(request: Request) {
   try {

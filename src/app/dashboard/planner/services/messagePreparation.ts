@@ -54,7 +54,7 @@ export class MessagePreparationService {
     }));
 
     return {
-      model: 'deepseek-r1-distill-qwen-14b',
+      model: 'deepseek-r1-distill-qwen-32b',
       messages,
       temperature: 0.7,
       max_tokens: -1,
