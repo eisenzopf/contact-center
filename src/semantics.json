@@ -25,8 +25,8 @@
             "data": "INSIGHT_DATA:{\"title\":\"Call Observation Report\",\"data\":[{\"date\":\"2024-01-01\",\"callCount\":10,\"averageDuration\":5,\"resolutionRate\":0.8}]}\n\n"
         },
         "goal": {
-            "description": "If the user uses the word goal, then return this:",
-            "data": "GOAL_DATA:{\"title\":\"Call Observation Report\",\"data\":[{\"date\":\"2024-01-01\",\"callCount\":10,\"averageDuration\":5,\"resolutionRate\":0.8}]}\n\n"
+            "description": "If the user indicates they they want to create a new goal, your goal is to collect the following information: title, description, deadline, priority, baseline metric (what the user thinks the current metric is), target metric for the goal (what the user wants the metric to be). Ask the user for each of these attributes until you have all of them. Don't suggest any ideas, just focus on collecting the information. Once you have collectioned the title, descripton,deadline, priority, baseline metric, and target metric, return that information in the following format:",
+            "data": "GOAL_DATA:{\"title\":\"{title}\",\"deadline\":\"{date}\",\"priority\":{priority},\"baseline\":{baseline},\"target\":{target}\n\n"
         },
         "research": {
             "description": "If the user uses the word research, then return this:",
