@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 import { HandlerResult } from '../types/handlers';
 import { AssistantMessage } from '../types/messages';
 import { ChartRenderer } from '../components/ChartRenderer';
@@ -11,11 +12,38 @@ export class ResponseHandlerService {
   }
 
   async handleResponse(message: AssistantMessage): Promise<HandlerResult> {
+    // Check if the content contains a TOOL_REQUEST
+    if (message.content && message.content.includes('[TOOL_REQUEST]')) {
+      try {
+        // Extract JSON between [TOOL_REQUEST] and [END_TOOL_REQUEST]
+        const match = message.content.match(/\[TOOL_REQUEST\]([\s\S]*?)\[END_TOOL_REQUEST\]/);
+        if (match) {
+          const jsonStr = match[1].trim();
+          const toolRequest = JSON.parse(jsonStr);
+          
+          // Create a tool_calls structure that matches our existing format
+          const toolCall = {
+            type: "function",
+            function: {
+              name: toolRequest.tool,
+              arguments: JSON.stringify(toolRequest.arguments)
+            }
+          };
+          
+          return await this.executeFunctionCall(toolCall);
+        }
+      } catch (error) {
+        console.error('Error parsing TOOL_REQUEST:', error);
+      }
+    }
+
+    // Handle regular tool_calls if present
     if (message.tool_calls && message.tool_calls.length > 0) {
       const toolCall = message.tool_calls[0];
       return await this.executeFunctionCall(toolCall);
     }
     
+    // Default to text rendering
     return {
       type: 'text',
       content: message.content,
@@ -96,6 +124,17 @@ export class ResponseHandlerService {
   }
 
   private renderTextContent(content: string) {
+    // Check if content contains markdown-like formatting
+    const hasMarkdown = /[*#\-\[\]`]/.test(content);
+    
+    if (hasMarkdown) {
+      return React.createElement(ReactMarkdown, {
+        children: content,
+        className: 'markdown-content'
+      });
+    }
+    
+    // Fallback to original line-by-line rendering if no markdown detected
     return React.createElement(React.Fragment, null,
       content.split('\n').map((line, i) => 
         React.createElement(React.Fragment, { key: i },
