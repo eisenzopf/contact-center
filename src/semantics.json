@@ -1,0 +1,36 @@
+{
+    "chat": {
+        "chart": {
+            "description": "If the user uses the word chart, then return this:",
+            "data": "CHART_DATA:{\"labels\":[\"Cancel Service\",\"Other\"],\"datasets\":[{\"label\":\"Service Calls\",\"data\":[30,70],\"backgroundColor\":\"rgba(53, 162, 235, 0.5)\"}]}\n\n"
+        },
+        "report": {
+            "description": "If the user uses the word report, then return this:",
+            "data": "REPORT_DATA:{\"title\":\"Call Observation Report\",\"data\":[{\"date\":\"2024-01-01\",\"callCount\":10,\"averageDuration\":5,\"resolutionRate\":0.8}]}\n\n"
+        },
+        "observe": {
+            "description": "If the user uses the word observation, then return this:",
+            "data": "OBSERVATION_DATA:{\"title\":\"Call Observation Report\",\"data\":[{\"date\":\"2024-01-01\",\"callCount\":10,\"averageDuration\":5,\"resolutionRate\":0.8}]}\n\n"
+        },
+        "plan": {
+            "description": "If the user uses the word plan, then return this:",
+            "data": "PLAN_DATA:{\"title\":\"Call Observation Report\",\"data\":[{\"date\":\"2024-01-01\",\"callCount\":10,\"averageDuration\":5,\"resolutionRate\":0.8}]}\n\n"
+        },
+        "action": {
+            "description": "If the user uses the word action, then return this:",
+            "data": "ACTION_DATA:{\"title\":\"Call Observation Report\",\"data\":[{\"date\":\"2024-01-01\",\"callCount\":10,\"averageDuration\":5,\"resolutionRate\":0.8}]}\n\n"
+        },
+        "insight": {
+            "description": "If the user uses the word insight, then return this:",
+            "data": "INSIGHT_DATA:{\"title\":\"Call Observation Report\",\"data\":[{\"date\":\"2024-01-01\",\"callCount\":10,\"averageDuration\":5,\"resolutionRate\":0.8}]}\n\n"
+        },
+        "goal": {
+            "description": "If the user uses the word goal, then return this:",
+            "data": "GOAL_DATA:{\"title\":\"Call Observation Report\",\"data\":[{\"date\":\"2024-01-01\",\"callCount\":10,\"averageDuration\":5,\"resolutionRate\":0.8}]}\n\n"
+        },
+        "tool": {
+            "description": "If the user uses the word tool, then return this:",
+            "data": "TOOL_DATA:{\"title\":\"Call Observation Report\",\"data\":[{\"date\":\"2024-01-01\",\"callCount\":10,\"averageDuration\":5,\"resolutionRate\":0.8}]}\n\n"
+        }
+    }
+}
