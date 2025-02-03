@@ -71,11 +71,34 @@ const PlannerDashboard = () => {
       // Check if the goal already exists to prevent duplicates
       const goalsSection = prev.sections.find(s => s.id === 'goals');
       if (goalsSection && !goalsSection.items.some(item => item.id === goalItem.id)) {
+        const standardizedGoalItem: HierarchyItem = {
+          id: goalItem.id,
+          title: goalItem.title,
+          description: goalItem.description || '',
+          deadline: goalItem.deadline || new Date().toISOString(),
+          priority: goalItem.priority || 1,
+          baseline: goalItem.baseline || 0,
+          target: goalItem.target || 0,
+          expanded: false,
+          subtasks: goalItem.subtasks || [
+            { 
+              id: Date.now() + 1, 
+              title: 'Initial Setup', 
+              status: 'completed' 
+            },
+            { 
+              id: Date.now() + 2, 
+              title: 'Progress Tracking', 
+              status: 'in-progress' 
+            }
+          ]
+        };
+
         return {
           ...prev,
           sections: prev.sections.map(section => 
             section.id === 'goals'
-              ? { ...section, items: [goalItem, ...section.items] }
+              ? { ...section, items: [standardizedGoalItem, ...section.items] }
               : section
           )
         };
@@ -155,11 +178,15 @@ const PlannerDashboard = () => {
         // If it's a goal creation, add it to the hierarchy
         if (handlerResult.type === 'goal' && handlerResult.data) {
           console.log('🎯 Creating new goal:', handlerResult.data);
-          const hierarchyItem = {
+          const hierarchyItem: HierarchyItem = {
             id: Date.now(),
             title: handlerResult.data.title,
+            description: handlerResult.data.description || '',
+            deadline: handlerResult.data.deadline,
+            priority: handlerResult.data.priority,
+            baseline: handlerResult.data.baseline,
+            target: handlerResult.data.target,
             expanded: false,
-            details: handlerResult.data.description,
             subtasks: [
               { 
                 id: Date.now() + 1, 

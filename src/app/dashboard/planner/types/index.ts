@@ -1,10 +1,13 @@
 export interface HierarchyItem {
   id: number;
   title: string;
+  description: string;
+  deadline: string;
+  priority: number;
+  baseline: number;
+  target: number;
   expanded: boolean;
-  details?: string;
   subtasks?: SubTask[];
-  metrics?: Metric[];
 }
 
 export interface Section {

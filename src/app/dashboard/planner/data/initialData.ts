@@ -7,13 +7,17 @@ export const initialHierarchy: Hierarchy = {
       items: [
         {
           id: 1,
-          title: 'Increase Market Share by 25%',
-          expanded: true,
-          details: 'Target emerging markets in Asia and South America',
+          title: 'Increase Accessory Sales',
+          description: 'Boost revenue through accessory attachments to main product sales',
+          deadline: '2024-12-31',
+          priority: 5,
+          baseline: 12,
+          target: 30,
+          expanded: false,
           subtasks: [
-            { id: 1, title: 'Market Analysis Complete', status: 'completed' },
-            { id: 2, title: 'Entry Strategy Development', status: 'in-progress' },
-            { id: 3, title: 'Partner Identification', status: 'pending' }
+            { id: 1, title: 'Current Attachment Rate Analysis', status: 'completed' },
+            { id: 2, title: 'Sales Team Training', status: 'in-progress' },
+            { id: 3, title: 'Bundle Strategy Development', status: 'pending' }
           ]
         }
       ]
