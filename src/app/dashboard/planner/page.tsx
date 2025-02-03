@@ -7,12 +7,15 @@ import { ChatInterface } from './components/ChatInterface';
 import { initialHierarchy } from './data/initialData';
 import { ChatMessage, ChatHistory, Tool } from './types';
 import { getTools } from './utils/getTools';
+import { messagePreparationService } from './services/messagePreparation';
+import { responseHandlerService } from './services/responseHandlers';
+import { ChatMessage as MessageType } from './types/messages';
 
 const PlannerDashboard = () => {
   const [hierarchy, setHierarchy] = useState(initialHierarchy);
   const [activeView, setActiveView] = useState('chat');
   const [message, setMessage] = useState('');
-  const [chat, setChat] = useState<ChatMessage[]>([
+  const [chat, setChat] = useState<MessageType[]>([
     { 
       role: 'assistant', 
       content: "I'm here to help with your strategic planning. We can work on setting goals, finding insights, planning actions, or tracking progress. Where would you like to start?" 
@@ -61,36 +64,27 @@ const PlannerDashboard = () => {
     try {
       setIsLoading(true);
       
-      // Prepare message content - check for "chart" keyword
-      const messageContent = newMessage.toLowerCase().includes('chart') 
-        ? `if the user uses the word chart, then return this:\nCHART_DATA:{"labels":["Cancel Service","Other"],"datasets":[{"label":"Service Calls","data":[30,70],"backgroundColor":"rgba(53, 162, 235, 0.5)"}]}\n\n${newMessage}`
-        : newMessage;
-
-      // Add user message to chat
-      const userMessage: ChatMessage = { role: 'user', content: newMessage };
+      // Prepare the message and get transformations
+      const prepared = messagePreparationService.prepareMessage(newMessage);
+      
+      // Set the transformations in the response handler
+      responseHandlerService.setAppliedTransformations(prepared.appliedTransformations);
+      
+      // Add user message to chat with original content
+      const userMessage: MessageType = { role: 'user', content: newMessage };
       const updatedChat = [...chat, userMessage];
       setChat(updatedChat);
       setMessage('');
 
-      // Format messages array explicitly with modified content for API
-      const messages = updatedChat.map((msg, index) => ({
-        role: msg.role,
-        content: index === updatedChat.length - 1 ? messageContent : msg.content
-      }));
+      // Prepare the LLM request using the message preparation service
+      const llmRequest = messagePreparationService.prepareLLMRequest(chat, newMessage);
 
-      // Prepare the API request
       const response = await fetch('/api/proxy', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          model: 'deepseek-r1-distill-qwen-14b',
-          messages: messages,
-          temperature: 0.7,
-          max_tokens: -1,
-          stream: false
-        }),
+        body: JSON.stringify(llmRequest),
       });
 
       if (!response.ok) {
@@ -101,7 +95,7 @@ const PlannerDashboard = () => {
       const data = await response.json();
       
       // Extract the assistant's message from the response
-      const assistantMessage: ChatMessage = {
+      const assistantMessage: MessageType = {
         role: 'assistant',
         content: data.choices[0].message.content
       };
@@ -109,8 +103,8 @@ const PlannerDashboard = () => {
       // Add assistant's response to chat
       setChat(prev => [...prev, assistantMessage]);
 
-      // Save chat
-      saveChat([...chat, assistantMessage]);
+      // Save chat history
+      saveChat([...updatedChat, assistantMessage]);
     } catch (error) {
       console.error('Error sending message:', error);
       setChat(prev => [...prev, {
@@ -133,7 +127,7 @@ const PlannerDashboard = () => {
     }]);
   };
 
-  const saveChat = (messages: ChatMessage[]) => {
+  const saveChat = (messages: MessageType[]) => {
     if (messages.length < 2) return; // Don't save empty chats
     
     const userMessage = messages.find(m => m.role === 'user');
