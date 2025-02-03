@@ -28,6 +28,10 @@
             "description": "If the user uses the word goal, then return this:",
             "data": "GOAL_DATA:{\"title\":\"Call Observation Report\",\"data\":[{\"date\":\"2024-01-01\",\"callCount\":10,\"averageDuration\":5,\"resolutionRate\":0.8}]}\n\n"
         },
+        "research": {
+            "description": "If the user uses the word research, then return this:",
+            "data": "RESEARCH_DATA:{\"title\":\"Call Observation Report\",\"data\":[{\"date\":\"2024-01-01\",\"callCount\":10,\"averageDuration\":5,\"resolutionRate\":0.8}]}\n\n"
+        },
         "tool": {
             "description": "If the user uses the word tool, then return this:",
             "data": "TOOL_DATA:{\"title\":\"Call Observation Report\",\"data\":[{\"date\":\"2024-01-01\",\"callCount\":10,\"averageDuration\":5,\"resolutionRate\":0.8}]}\n\n"
