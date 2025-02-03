@@ -53,9 +53,7 @@ export class ResponseHandlerService {
 
   private async executeFunctionCall(toolCall: any): Promise<HandlerResult> {
     const { name, arguments: args } = toolCall.function;
-    console.log('Raw arguments:', args);
     const parsedArgs = JSON.parse(args);
-    console.log('Parsed arguments:', parsedArgs);
 
     switch (name) {
       case 'create_chart':

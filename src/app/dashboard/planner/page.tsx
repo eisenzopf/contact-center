@@ -66,15 +66,21 @@ const PlannerDashboard = () => {
   }, []);
 
   const addGoalToHierarchy = (goalItem: HierarchyItem) => {
+    console.log('Adding goal to hierarchy:', goalItem);
     setHierarchy(prev => {
-      const newHierarchy = { ...prev };
-      const goalsSection = newHierarchy.sections.find(s => s.id === 'goals');
-      
-      if (goalsSection) {
-        goalsSection.items = [goalItem, ...goalsSection.items];
+      // Check if the goal already exists to prevent duplicates
+      const goalsSection = prev.sections.find(s => s.id === 'goals');
+      if (goalsSection && !goalsSection.items.some(item => item.id === goalItem.id)) {
+        return {
+          ...prev,
+          sections: prev.sections.map(section => 
+            section.id === 'goals'
+              ? { ...section, items: [goalItem, ...section.items] }
+              : section
+          )
+        };
       }
-      
-      return newHierarchy;
+      return prev;
     });
   };
 
@@ -97,10 +103,17 @@ const PlannerDashboard = () => {
       // Prepare the LLM request using the message preparation service
       const llmRequest = messagePreparationService.prepareLLMRequest(chat, newMessage);
 
-      // Log the request
-      console.log('LLM Request:', {
-        messages: llmRequest.messages,
-        tools: llmRequest.tools.map(t => t.function.name)
+      // Enhanced request logging
+      console.log('🚀 LLM Request:', {
+        messages: llmRequest.messages.map(m => ({
+          role: m.role,
+          content: m.content,
+        })),
+        tools: llmRequest.tools.map(t => ({
+          name: t.function.name,
+          description: t.function.description,
+          parameters: t.function.parameters
+        }))
       });
 
       const response = await fetch('/api/proxy', {
@@ -118,10 +131,13 @@ const PlannerDashboard = () => {
 
       const data = await response.json();
       
-      // Log the response
-      console.log('LLM Response:', {
+      // Enhanced response logging
+      console.log('📥 LLM Response:', {
         content: data.choices[0].message.content,
-        tool_calls: data.choices[0].message.tool_calls
+        tool_calls: data.choices[0].message.tool_calls ? data.choices[0].message.tool_calls.map(t => ({
+          name: t.function.name,
+          arguments: JSON.parse(t.function.arguments)
+        })) : 'No tool calls'
       });
       
       // Extract and handle the assistant's message from the response
@@ -131,12 +147,14 @@ const PlannerDashboard = () => {
 
       // Handle tool calls if present
       if (assistantMessage.tool_calls && assistantMessage.tool_calls.length > 0) {
+        console.log('🛠️ Processing tool calls:', assistantMessage.tool_calls);
         const handlerResult = await responseHandlerService.handleResponse(assistantMessage);
         messageContent = handlerResult.content;
         renderedContent = handlerResult.render;
 
         // If it's a goal creation, add it to the hierarchy
         if (handlerResult.type === 'goal' && handlerResult.data) {
+          console.log('🎯 Creating new goal:', handlerResult.data);
           const hierarchyItem = {
             id: Date.now(),
             title: handlerResult.data.title,
@@ -173,7 +191,7 @@ const PlannerDashboard = () => {
         render: renderedContent
       }]);
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error('❌ Error sending message:', error);
       setChat(prev => [...prev, {
         role: 'system',
         content: 'Sorry, I encountered an error. Please try again.'
