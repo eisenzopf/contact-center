@@ -65,6 +65,19 @@ const PlannerDashboard = () => {
     loadTools();
   }, []);
 
+  const addGoalToHierarchy = (goalItem: HierarchyItem) => {
+    setHierarchy(prev => {
+      const newHierarchy = { ...prev };
+      const goalsSection = newHierarchy.sections.find(s => s.id === 'goals');
+      
+      if (goalsSection) {
+        goalsSection.items = [goalItem, ...goalsSection.items];
+      }
+      
+      return newHierarchy;
+    });
+  };
+
   const sendMessage = async (newMessage: string) => {
     try {
       setIsLoading(true);
@@ -121,6 +134,29 @@ const PlannerDashboard = () => {
         const handlerResult = await responseHandlerService.handleResponse(assistantMessage);
         messageContent = handlerResult.content;
         renderedContent = handlerResult.render;
+
+        // If it's a goal creation, add it to the hierarchy
+        if (handlerResult.type === 'goal' && handlerResult.data) {
+          const hierarchyItem = {
+            id: Date.now(),
+            title: handlerResult.data.title,
+            expanded: false,
+            details: handlerResult.data.description,
+            subtasks: [
+              { 
+                id: Date.now() + 1, 
+                title: 'Initial Setup', 
+                status: 'completed' 
+              },
+              { 
+                id: Date.now() + 2, 
+                title: 'Progress Tracking', 
+                status: 'in-progress' 
+              }
+            ]
+          };
+          addGoalToHierarchy(hierarchyItem);
+        }
       }
 
       // Add assistant's response to chat
